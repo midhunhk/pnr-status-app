@@ -1,0 +1,33 @@
+<resources>
+
+    <string name="app_name">PNRStatusAppV3</string>
+    <string name="title_section3">About</string>
+    <string name="title_section2">PNR Status</string>
+    <string name="title_section1">Messages</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">PNRStatusAppV3</string>
+    <string name="empty_text"></string>
+
+    <!-- From v2 -->
+    <string name="version_name">Version </string>
+    <string name="version_number">3.0.24 (Sep 2012)</string>
+    <string name="app_desc">Check the status of a valid PNR Number.</string>
+    <string name="about_app_desc">Use this app to check the status of a valid train PNR Number.\n\n
+Disclaimer : No part of the PNR Status Data retrieved is persisted by this application.\n\n
+Designed &amp; developed by midhunhk@gmail.com at ae labs</string>
+    <string name="add_pnr_hint">Enter PNR Number</string>
+    <string name="search_text_hint">Search</string>
+    <string name="add_pnr">Add</string>
+    <string name="empty_set">Add a PNR Number to begin</string>
+    <string name="check_pnr">Check</string>
+    <string name="delete_pnr">Delete</string>
+    <string name="info_pnr">Info</string>
+
+    <!-- TicketInfo -->
+    <string name="ticket_info_title">Ticket Info</string>
+    <string name="passenger_info_title">Passenger Info</string>
+    <string name="fb_app_page">PNRStatusApp on Facebook</string>
+    <string name="fb_page_link">http://www.facebook.com/PNRStatusApp</string>
+
+    <bool name="debuggable">true</bool>
+</resources>

@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top" >
+
+    <LinearLayout
+        android:id="@+id/messagesSearchLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <StackView
+        android:id="@+id/stackView"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:layout_below="@+id/messagesSearchLayout"
+        android:layout_marginTop="5dip"
+        android:layout_alignParentLeft="true"
+        android:animateLayoutChanges="true"
+        android:loopViews="true" />
+    
+    <LinearLayout
+        android:id="@+id/messageDetailsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:padding="2dip"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/detailsPassengerName"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+       	<TextView
+            android:id="@+id/detailsCurrentStatus"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+       	<TextView
+            android:id="@+id/detailsBerthPosition"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

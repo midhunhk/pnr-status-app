@@ -1,0 +1,47 @@
+PNRStatusAppV3 3.0.0 [August 2012]
+ - [START] 		Rewrite app for ICS / JellyBean API
+ - [CHANGED]	Converted Activities to Fragments
+ 
+PNRStatusAppV3 3.0.6 [August 2012]
+ - [ADDED]		Read messages from SMS from POC
+ - [CHANGED]	minSdk is now 11 to use StackView 
+ 
+PNRStatusAppV3 3.0.10 [August 2012]
+ - [CHANGED]	Resources 
+ - [ADDED]		Managers for managing different data sets
+
+PNRStatusAppV3 3.0.11 [August 2012]
+ - [ADDED]		Parse MessageVo into PNRStatusVo
+ - [ADDED]		Display selected message details in the box 
+ - [CHANGED]	Styles
+ - [ADDED]		Sort PNRMessages based on journey date
+ - [OPTIMIZED]	Code Cleanup
+
+PNRStatusAppV3 3.0.12 [September 2012]
+ - [CHANGED]	Layout changes in PnrStatusView
+ - [FIXED]		Parsing Berth position correctly from messages
+ - [FIXED]		Set Train Current Status properly
+ - [ADDED]		Better Date display with month name
+ - [CHANGED]	Text Alignments in Messages View
+ 
+PNRStatusAppV3 3.0.14 [September 2012]
+ - [ADDED]		Remove a PNR Number
+ - [REWRITE]	Sending data from Custom Adapters to Activities
+ - [CHANGED]	Communication between activity and fragment
+ 
+PNRStatusAppV3 3.0.15 [September 2012]
+ - [CHANGED]	Layout for StackAdapter Item
+ - [ADDED]		Display a message count items in StackAdapter
+ - [ADDED]		Link for app's facebook page
+ - [ADDED]		Execute a service instance and show the result for Checking PNRStatus
+ - [FIXED]		Bug fix in parseResponse implementation
+ 
+PNRStatusAppV3 3.0.16 [September 2012]
+ - [ADDED]		Create Dialog for displaying the status details of a PNRStatus
+ 
+PNRStatusAppV3 3.0.20 [September 2012]
+ - [BUG]		An exception identified as NetworkOnMainThreadException encountered
+ - [FIXED]		Use a Handler to do the newtork operation
+ - [CHANGED]	Added an additonal layout for landscape for Messages View
+ - [CHANGED]	The about text
+ - [ADDED]		Closed some cursors
