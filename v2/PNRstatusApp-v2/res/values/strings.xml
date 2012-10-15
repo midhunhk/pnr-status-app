@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PNRStatusApp</string>
+    <string name="versionName">2.1.50</string>
+    <string name="app_desc">The PNRStatusApp can be used to check the status of a valid PNR Number.</string>
+    <string name="about_app_desc">The PNRStatusApp can be used to check the status of a valid PNR Number.\n 
+Check out the desktop version for more features.\n\n
+An active connection to the internet is necessary for proper functioning of this application.\n
+No part of the PNR Status Data retrieved is persisted by this application.\n\n
+Designed &amp; developed by midhunhk@gmail.com\n
+http://aeonline.co.nr/</string>
+	<string name="add_pnr_hint">Enter PNR Number.</string>
+	<string name="add_pnr">Add</string>
+	<string name="empty_set">Add a PNR Number to begin.</string>
+	<string name="check_pnr">Check</string>
+	<string name="delete_pnr">Delete</string>
+	<string name="info_pnr">Info</string>
+	
+	<!-- TicketInfo -->
+	<string name="ticket_info_title">Ticket Info</string>
+	<string name="passenger_info_title">Passenger Info</string>
+	
+</resources>
