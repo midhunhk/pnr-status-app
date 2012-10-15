@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	title="More Info" layout="absolute" 
+	showCloseButton="true" close="onCloseClick()"
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+	xmlns:custom="com.ae.custom.*" 
+	creationComplete="creationCompleteHandler()" remove="destroyHandler()"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ae.utils.Constants;
+			import com.ae.managers.AssetManager;
+			import com.ae.vo.PassengerDataVO;
+			import com.ae.vo.ResultVO;
+			import mx.managers.PopUpManager;
+			
+			/**
+			 * @private
+			 */
+			private var _resultVO:ResultVO;
+			
+			private var timer:Timer;
+			
+			/**
+			 * timer duration in seconds 
+			 */
+			private static const timerDuration:int = 5;
+			
+			//-------------------------
+			// Accessors
+			//-------------------------
+			public function set resultVO(value:ResultVO):void
+			{
+				this._resultVO = value;
+			}
+			
+			[Bindable]
+			public function get resultVO():ResultVO
+			{
+				return this._resultVO;
+			}
+			
+			//-------------------------
+			// Private Methods
+			//-------------------------
+			
+			/**
+			 * creationComplete handler
+			 */
+			private function creationCompleteHandler():void
+			{
+				if(resultVO && resultVO.passengerDataColl.length > 0)
+				{
+					passengerInfo.dataProvider = resultVO.passengerDataColl;
+				}
+				else
+				{
+					overlayCanvas.visible = true;
+					overlayCanvas.includeInLayout = true;
+				}
+				
+				// create a timer object and set up the listener
+				timer = new Timer(1000, timerDuration);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
+			}
+			
+			/**
+			 * Perform cleanup operations
+			 */
+			private function destroyHandler():void
+			{
+				trace(" MoreInfoPanel : destroyHandler()");
+				if(timer)
+					timer.removeEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
+			}
+			
+			/**
+			 * Function called when the close button is clicked
+			 */
+			private function onCloseClick():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			/**
+			 * This function will copy the current screen to the system 
+			 * clipboard.
+			 */
+			private function copyScreenToClipboard():void
+			{
+				var bd:BitmapData = new BitmapData(width, height);
+				bd.draw(this);
+				var clipboard:Clipboard = Clipboard.generalClipboard;
+				clipboard.clear();
+				clipboard.setData(ClipboardFormats.BITMAP_FORMAT, bd);
+				status = "Screen Copied!";
+				
+				// Start a timer to clear the status
+				timer.reset();
+				timer.start();
+			}
+			
+			/**
+			 * Clears the status field
+			 */
+			private function onTimerComplete(event:TimerEvent):void
+			{
+				// Clear the status
+				status = "";
+				timer.stop();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:VBox id="outerContainer" width="100%" height="100%" verticalGap="0" horizontalGap="0"
+		horizontalScrollPolicy="off" horizontalAlign="center" verticalScrollPolicy="off">
+		<mx:VBox width="100%" height="150" verticalGap="0" horizontalGap="0"
+			horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:Canvas width="100%">
+				<mx:Label text="Ticket Info" styleName="headingStyle2"/>
+				<custom:GlowImageButton width="32" height="32" 
+					imageClass="{AssetManager.getInstance().ClipboardIcon}"
+					right="2" top="2" buttonToolTip="Copy screen to clipboard"
+					glowColor="#A8D0E2" click="copyScreenToClipboard()"/>
+			</mx:Canvas>
+			<custom:NameValueRow labelName="Train" 
+				labelValue="{resultVO.statusData.trainName + ' (' + resultVO.statusData.trainNo + ')'}"/>
+			<custom:NameValueRow labelName="Chart Status" labelValue="{resultVO.statusData.chartStat}"/>
+			<custom:NameValueRow labelName="Boarding At" labelValue="{resultVO.statusData.trainBoard}"/>
+			<custom:NameValueRow labelName="Destination" labelValue="{resultVO.statusData.trainDest}"/>
+			<custom:NameValueRow labelName="Journey Date" labelValue="{resultVO.statusData.trainJourney}"/>
+			<custom:NameValueRow labelName="Train From" labelValue="{resultVO.statusData.trainEmbark}"/>
+			<custom:NameValueRow labelName="Train Origin" labelValue="{resultVO.statusData.trainOrigin}"/>
+			<custom:NameValueRow labelName="Class" labelValue="{resultVO.statusData.trainFareClass}"/>
+		</mx:VBox>
+		
+		<mx:Label text="Passenger Info" styleName="headingStyle2" textAlign="left" width="100%"/>
+		
+		<mx:List id="passengerInfo" width="96%" horizontalCenter="0" height="100%"
+			borderStyle="none" verticalScrollPolicy="auto" selectable="false" 
+			variableRowHeight="true"
+			itemRenderer="com.ae.renderers.PassengerInfoRenderer"/>
+	</mx:VBox>
+	
+	<mx:Canvas id="overlayCanvas" width="100%" height="100%" backgroundColor="#ffffff"
+		visible="false" includeInLayout="false">
+		<mx:TextArea text="{Constants.NO_TICKET_INFO}" 
+			width="90%" height="60"
+			styleName="selectableTextArea" editable="false" 
+			verticalCenter="0" horizontalCenter="0"/>
+	</mx:Canvas>
+	
+</mx:TitleWindow>

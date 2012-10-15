@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var pnrDataColl:ArrayCollection;
+		]]>
+	</mx:Script>
+	
+	<mx:DefaultListEffect id="listEffect" color="#e4e4e4"/>
+	
+	<mx:List width="100%" height="100%" dataProvider="{pnrDataColl}"
+		selectable="false" itemsChangeEffect="{listEffect}"
+		itemRenderer="com.ae.renderers.PNRInfoRenderer"/>
+		
+</mx:Canvas>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="16" verticalGap="0" horizontalGap="0">
+	
+	<mx:Script>
+		<![CDATA[
+			
+		//---------------------------------------------------------------------
+		//
+		//	Variables
+		//
+		//---------------------------------------------------------------------
+		private var _labelName:String;
+		private var _labelValue:String;
+		
+		//---------------------------------------------------------------------
+		//
+		//	Setters / Getters
+		//
+		//---------------------------------------------------------------------
+		
+		[Bindable]
+		public function set labelName(value:String):void
+		{
+			_labelName = value;
+		}
+		public function get labelName():String
+		{
+			return _labelName;
+		}
+		
+		[Bindable]
+		public function set labelValue(value:String):void
+		{
+			_labelValue = value;
+		}
+		public function get labelValue():String
+		{
+			return _labelValue;
+		}
+			
+		]]>
+	</mx:Script>
+	<mx:Spacer width="1%" height="100%"/>
+	<mx:Canvas width="36%">
+		<mx:Label text="{labelName}" toolTip="{labelName}" width="100%"/>
+	</mx:Canvas>
+	
+	<mx:Spacer width="0.5%" height="100%"/>
+	<mx:Label text=":"/>
+	<mx:Spacer width="0.5%" height="100%"/>
+	
+	<mx:Canvas width="58%">
+		<mx:Label text="{labelValue}" toolTip="{labelValue}" width="100%"/>
+	</mx:Canvas>
+	<mx:Spacer width="1%" height="100%"/>
+</mx:HBox>

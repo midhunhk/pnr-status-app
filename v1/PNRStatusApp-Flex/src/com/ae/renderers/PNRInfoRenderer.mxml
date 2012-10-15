@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="98%" height="80" xmlns:custom="com.ae.custom.*"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+		import mx.core.UIComponent;
+		import com.ae.vo.StatusHistoryVO;
+		import mx.controls.Alert;
+		import mx.events.CloseEvent;
+		import com.ae.events.ShowWindowEvent;
+		import com.ae.utils.ResponseUtils;
+		import com.ae.events.ServiceEvent;
+		import com.ae.events.ServiceResultEvent;
+		import com.ae.service.ServiceMessage;		
+		import com.ae.vo.ResultVO;
+		import com.ae.vo.PassengerDataVO;
+		import com.ae.vo.PnrNumberVO;
+		import com.ae.events.PNRRowEvent;
+		import com.ae.utils.Utils;
+		import com.ae.utils.Validators;
+		import com.ae.managers.AssetManager;
+		
+		//---------------------------------------------------------------------
+		//
+		// Variables
+		//
+		//---------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 */
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			if(value && value is PnrNumberVO)
+			{
+				setData();
+			}
+		}
+
+		private var isRequestInProgress:Boolean;
+		private var pnrNumber:String;		 
+		private var isDropDownCanvasOpen:Boolean;
+		private var resultVo:ResultVO;
+		private var showInitialData:Boolean;
+		
+		[Bindable]
+		public var _labelText:String;
+		[Bindable]
+		private var _pnrText:String;
+		[Bindable]
+		private var showLoadingAnimation:Boolean;
+		[Bindable]
+		private var assets:AssetManager = AssetManager.getInstance();
+		 
+		//---------------------------------------------------------------------
+		//
+		// Methods
+		//
+		//---------------------------------------------------------------------
+		
+		/**
+		 * Function to initialise the variables used in the app 
+		 */
+		private function init():void
+		{
+			if(showInitialData == false)
+			{
+				isDropDownCanvasOpen = false;
+				showLoadingAnimation = true;
+				dropDownCanvas.visible = false;
+				dropDownCanvas.includeInLayout = false;
+				contentContainer.visible = false;
+				contentContainer.includeInLayout = false;
+				dropDownCanvasImage.source = assets.DownArrow;
+			}
+			else
+			{
+				dropDownCanvasImage.source = assets.UpArrow;
+			}
+			isRequestInProgress = false;
+			wrapperCanvas.filters = [new DropShadowFilter()];
+		}
+		
+		private function setData():void
+		{
+			var pnrNumberVO:PnrNumberVO = data as PnrNumberVO;
+			_pnrText = pnrNumberVO.pnr1 + "" + pnrNumberVO.pnr2;
+			_labelText = pnrNumberVO.notes;
+			
+			if(pnrNumberVO.historyColl.length > 0)
+			{
+				// There are some history objects, lets show the latest status here.
+				var numHistories:int = pnrNumberVO.historyColl.length;
+				var lastStatus:StatusHistoryVO = 
+					pnrNumberVO.historyColl.getItemAt( numHistories - 1) as StatusHistoryVO;
+				if(bookingStatus.text.indexOf("Booking Status") == -1)
+					bookingStatus.text = "Most Recent Status : " + lastStatus.status;
+				wrapperCanvas.styleName = 
+					Utils.getStyleNameForIndex(lastStatus.styleIndex);
+				dropDownCanvas.visible = true;
+				dropDownCanvas.includeInLayout = true;
+				showDropDownCanvas();
+				
+				showInitialData = true;
+			}
+		}	
+		
+		/**
+		 * Handle Result
+		 */
+		public function handleResult(rawData:String):void
+		{
+			resultVo = ResponseUtils.parseResponse(rawData);
+			if(null != resultVo)
+			{
+				var passenger1Data:PassengerDataVO = resultVo.passengerDataColl[0];
+				wrapperCanvas.styleName = 
+					Utils.getStyleNameForResult(passenger1Data.trainCurrentStatus);
+				
+				// Display the result
+				bookingStatus.text = "Booking Status : " + passenger1Data.trainBookingBerth;
+				currentStatus.text = "Current Status : " + passenger1Data.trainCurrentStatus;
+				
+				var statusHistoryEvent:StatusHistoryVO = new StatusHistoryVO();
+				statusHistoryEvent.timestamp = new Date().getTime();
+				statusHistoryEvent.styleIndex = 
+					Utils.getIndexForStyleName( String(wrapperCanvas.styleName));
+				statusHistoryEvent.status = passenger1Data.trainCurrentStatus;
+				
+				var pnrEvent:PNRRowEvent = new PNRRowEvent(PNRRowEvent.PNR_ROW_UPDATED);
+				pnrEvent.pnrNumberVO = data as PnrNumberVO;
+				pnrEvent.statusHistoryVO = statusHistoryEvent;
+				dispatchEvent(pnrEvent);
+				
+				showLoadingAnimation = false;
+			}
+			else
+			{
+				Alert.show(ServiceMessage.ERROR_JSON_PARSE, "Error");
+			}
+			isRequestInProgress = false;
+		}
+		
+		public function handleFault():void
+		{
+			Alert.show(ServiceMessage.ERROR_WEBSERVICE_FAULT, "Error");
+		}
+		
+		private function labelUpdatedHandler(event:Event):void
+		{
+			var newPnrVo:PnrNumberVO = 
+				new PnrNumberVO().createFrom(data as PnrNumberVO);
+			newPnrVo.notes = event.target.data;
+			var updatedEvent:PNRRowEvent = 
+				new PNRRowEvent(PNRRowEvent.PNR_ROW_UPDATED);
+			updatedEvent.pnrNumberVO = data as PnrNumberVO;
+			updatedEvent.newPnrNumberVO = newPnrVo;
+			dispatchEvent(updatedEvent);
+		}
+
+		 
+		//-----------------------------
+		// Mouse Interactions
+		//-----------------------------
+		 
+		private function onCanvasMouseOver():void
+		{
+			dropDownCanvas.styleName='dropDownCanvasStyleOver';
+		}
+		 
+		private function onCanvasMouseOut():void
+		{
+			dropDownCanvas.styleName='dropDownCanvasStyle';
+		}
+		
+		private function onDropDownCanvasClick():void
+		{
+			if(isDropDownCanvasOpen)
+			{
+				hideDropDownCanvas();
+			}
+			else
+			{
+				showDropDownCanvas();
+			}
+		}
+		
+		/**
+		 * Handler fuction called when Check button is clicked
+		 */
+		private function onCheckClick():void
+		{
+			var pnrVo:PnrNumberVO = Utils.getPnrNumberVO(pnrNumberTxt.text);
+			var temp:Boolean = Validators.isValidPNR(pnrVo.pnr1, pnrVo.pnr2);
+			if(temp)
+			{
+				if(isDropDownCanvasOpen)
+				{
+					// Its already open, seems like an update click
+				}
+				showLoadingAnimation = true;
+				wrapperCanvas.styleName = "pnrRowStyleDefault";
+				
+				dropDownCanvas.visible = true;
+				dropDownCanvas.includeInLayout = true;
+				showDropDownCanvas();
+				
+				var params:String = Utils.getServiceParams(pnrVo.pnr1, pnrVo.pnr2);
+				
+				// Make sure only one request happens at a time from this object
+				if(isRequestInProgress == false)
+				{
+					isRequestInProgress = true;
+					var serviceEvent:ServiceEvent = new ServiceEvent(ServiceEvent.SEND);
+					serviceEvent.pnr1 = pnrVo.pnr1;
+					serviceEvent.pnr2 = pnrVo.pnr2;
+					dispatchEvent(serviceEvent);
+				}
+			}
+			else
+			{
+				pnrNumberTxt.text = "";
+				pnrNumberTxt.setFocus();
+				Alert.show("The entered PNR number is not valid.");
+			}
+		}
+		
+		/**
+		 * Handler for click on Remove Button.
+		 * This will assign the hanlder function onConfirmDelete
+		 * to actually dispatch the event to delete after checking
+		 * the user's response
+		 */
+		private function onRemoveClick():void
+		{
+			Alert.show("Are you sure you want to Remove this PNR No?", 
+				"Confirm Delete",Alert.YES | Alert.NO, this, onConfirmDelete);
+		}
+		
+		/**
+		 * Handler function for the click on confirmation to 
+		 * delete a PNR Row from the app
+		 */
+		private function onConfirmDelete(event:CloseEvent):void
+		{
+			if(event.detail == Alert.YES)
+			{
+				var pnrEvent:PNRRowEvent = new PNRRowEvent(PNRRowEvent.REMOVE_PNR_ROW);
+				pnrEvent.pnrNumberVO = data as PnrNumberVO;
+				dispatchEvent(pnrEvent);
+			}
+		}
+		
+		/**
+		 * Handler function for click of the clipboard image.
+		 * This will copy the pnrnumber to the user's clipboard.
+		 */
+		private function copyToClipboard():void
+		{
+			var clipboard:Clipboard = Clipboard.generalClipboard;
+			clipboard.clear();
+			clipboard.setData(ClipboardFormats.TEXT_FORMAT, _pnrText);
+		}
+		
+		/**
+		 * Handler Function for Click on the MoreInfoLink
+		 * We will throw a new event to the parent which will handle
+		 * showing the MoreInfoPanel properly displaying it.
+		 */
+		private function onMoreInfoClick():void
+		{
+			// Create a new SHOW_MORE_INFO Event
+			var showWindowEvent:ShowWindowEvent = 
+				new ShowWindowEvent(ShowWindowEvent.SHOW_MORE_INFO);
+			showWindowEvent.pnrNumberVO = data as PnrNumberVO
+			showWindowEvent.resultVO = resultVo;
+			dispatchEvent(showWindowEvent);
+		}
+		
+		private function onStatusHistoryClick():void
+		{
+			// Create a new SHOW_STATUS_HISTORY_WINDOW Event
+			var showWindowEvent:ShowWindowEvent = 
+				new ShowWindowEvent(ShowWindowEvent.SHOW_STATUS_HISTORY_WINDOW);
+			showWindowEvent.pnrNumberVO = data as PnrNumberVO
+			dispatchEvent(showWindowEvent);
+		}
+		
+		/**
+		 * Handler function invoked when the pnr number in the text boxes
+		 * has changed. Will dispatch the PNR NO CHANGED EVENT to the parent
+		 */
+		private function onPnrChange():void
+		{
+			// Construct the newPnrNumberVO
+			var newPnrNumberVo: PnrNumberVO = 
+				Utils.getPnrNumberVO(pnrNumberTxt.text);
+			
+			// Dispatch the event if the text is different from the one we have
+			// and also if the new one is valid
+			if( Validators.isValidPNR2(pnrNumberTxt.text)
+				&& (data as PnrNumberVO).equals(newPnrNumberVo)==false )
+			{
+				var pnrEvent:PNRRowEvent = new PNRRowEvent(PNRRowEvent.PNR_ROW_UPDATED);
+				
+				// Set the updated vo and dispatch the event
+				pnrEvent.pnrNumberVO = data as PnrNumberVO;
+				pnrEvent.newPnrNumberVO = newPnrNumberVo;
+				dispatchEvent(pnrEvent);
+			}
+		}
+		
+		//-----------------------------
+		// Utility methods
+		//----------------------------
+		
+		private function showDropDownCanvas():void
+		{
+			isDropDownCanvasOpen = true;
+			dropDownCanvasImage.source = assets.UpArrow;
+			contentContainer.visible = true;
+			contentContainer.includeInLayout = true;
+		}
+		
+		private function hideDropDownCanvas():void
+		{
+			isDropDownCanvasOpen = false;
+			dropDownCanvasImage.source = assets.DownArrow;
+			contentContainer.visible = false;
+			contentContainer.includeInLayout = false;
+		}
+		
+		private function labelRollOver(component:UIComponent):void
+		{
+			component.styleName = "moreInfoLinkHighlight";
+		}
+		
+		private function labelRollOut(component:UIComponent):void
+		{
+			component.styleName = "moreInfoLinkNormal";
+		}
+			
+		]]>
+	</mx:Script>
+	
+	
+	<!--effects-->
+	<mx:Resize id="resizeEffect" duration="400" heightFrom="0" heightTo="18"/>
+	<mx:Fade id="fadeInEffect" duration="400" alphaFrom="0" alphaTo="1"/>
+	<mx:Fade id="fadeOutEffect" duration="400" alphaFrom="1" alphaTo="0"/>
+	
+	<!--layout-->
+	<mx:VBox width="100%" height="100%" verticalGap="0" horizontalGap="0">
+		
+		<custom:GradientCanvas id="wrapperCanvas" width="100%" height="98%"
+			styleName="pnrRowStyleDefault" verticalCenter="0" horizontalCenter="0">
+			
+			<mx:HBox width="98%" height="96%" verticalGap="0" horizontalGap="0"
+				verticalCenter="0" horizontalCenter="0" 
+				verticalAlign="middle" horizontalAlign="center">
+				
+				<mx:Spacer width="1%"/>
+				<mx:Label text="PNR No : " width="4%" textAlign="left"/>
+				
+				<mx:Canvas width="25%" height="20" backgroundColor="#FAFAFA"
+					borderColor="#e8e8e8"
+					cornerRadius="5" borderStyle="solid" borderThickness="1">
+					<mx:TextInput id="pnrNumberTxt" text="{_pnrText}"
+						textAlign="right" backgroundAlpha="0" borderStyle="none"
+						change="onPnrChange()" width="98%" editable="false"
+						maxChars="10" restrict="0-9"/>
+				</mx:Canvas>
+				
+				<mx:Canvas width="10%" height="24">
+					<mx:Image source="{assets.ClipboardIcon}"
+						minWidth="20" minHeight="20" 
+						height="100%" maintainAspectRatio="true"
+						useHandCursor="true" buttonMode="true"
+						click="{copyToClipboard()}"
+						verticalAlign="middle" horizontalAlign="center"
+						verticalCenter="0" horizontalCenter="0"
+						toolTip="Copy PNR Number to clipboard"/>
+				</mx:Canvas>
+				
+				<mx:Button label="Check" click="onCheckClick()" width="4%"
+					toolTip="Check Current Status" useHandCursor="true" buttonMode="true"/>
+				
+				<mx:Spacer width="2%" height="100%"/>
+				
+				<!--custom editable label-->
+				<custom:EditableLabel id="labelNotes" labelText="{_labelText}"
+					imageSource="{AssetManager.getInstance().SelectedIcon}" 
+					labelUpdated="labelUpdatedHandler(event)"
+					width="50%" height="20" borderColor="#000000" borderStyle="solid"/>
+				
+				<mx:Spacer width="1%"/>
+				
+				<mx:Image id="BtnRemoveRow" source="{assets.RemoveIcon2}" 
+					toolTip="Remove" width="4%"
+					minWidth="20" minHeight="20"
+					click="onRemoveClick()"
+					useHandCursor="true" buttonMode="true">
+					<mx:filters>
+						<mx:DropShadowFilter distance="2" blurX="5" blurY="5"/>
+					</mx:filters>
+				</mx:Image>
+				
+				<mx:Spacer width="1%" height="100%"/>
+			</mx:HBox>
+			
+		</custom:GradientCanvas>
+		
+		<mx:Canvas id="contentContainer" width="100%" height="18"
+			showEffect="{fadeInEffect}" hideEffect="{fadeOutEffect}" 
+			styleName="contentContainerStyle">
+			<mx:Canvas id="loadingContainer" width="100%" height="100%"
+				visible="{showLoadingAnimation}" showEffect="{fadeInEffect}">
+				<mx:Image source="{assets.spinner}" width="15" height="15"
+					verticalCenter="0" horizontalCenter="0"/>
+			</mx:Canvas>
+			<mx:Canvas id="resultContainer" width="100%" height="100%"
+				visible="{!showLoadingAnimation}" 
+				verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:HBox width="100%" height="100%" verticalAlign="middle" 
+					verticalGap="0" horizontalGap="0">
+					<mx:Spacer width="3" height="100%"/>
+					<mx:HBox width="75%" height="100%">
+						<mx:Label id="bookingStatus"/>
+						<mx:Label id="currentStatus"/>
+					</mx:HBox>
+					<mx:Canvas width="25%" height="100%">
+						<mx:Label id="historyLink" text="History" 
+							click="{onStatusHistoryClick()}"
+							rollOver="labelRollOver(this)" rollOut="labelRollOut(this)"
+							styleName="moreInfoLinkNormal" left="0"
+							useHandCursor="true" buttonMode="true" mouseChildren="false"/>
+						<mx:Label id="moreInfoLink" text="More Info" click="{onMoreInfoClick()}"
+							rollOver="labelRollOver(this)" rollOut="labelRollOut(this)" 
+							styleName="moreInfoLinkNormal" right="0"
+							useHandCursor="true" buttonMode="true" mouseChildren="false"/>
+					</mx:Canvas>
+				</mx:HBox>
+			</mx:Canvas>
+		</mx:Canvas>
+		
+		<!--start drop down canvas-->
+		<custom:GradientCanvas id="dropDownCanvas" width="100%" height="12"
+			styleName="dropDownCanvasStyle"
+			click="{onDropDownCanvasClick()}"
+			mouseOver="{onCanvasMouseOver()}" mouseOut="{onCanvasMouseOut()}"
+			useHandCursor="true" buttonMode="true">
+			<mx:Image id="dropDownCanvasImage" verticalCenter="0" horizontalCenter="0"/>
+		</custom:GradientCanvas>
+		<!--end drop down canvas-->
+		
+		<mx:Spacer width="100%" height="6"/>
+	</mx:VBox>
+	
+</mx:Canvas>

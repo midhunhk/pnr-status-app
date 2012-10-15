@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap
+   xmlns:mx="http://www.adobe.com/2006/mxml"
+   xmlns="http://mate.asfusion.com/" xmlns:service="com.ae.service.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ae.views.ReservationHelper;
+			import com.ae.business.RemindersManager;
+			import com.ae.events.RemindersEvent;
+			
+		]]>
+	</mx:Script>
+	
+	<EventHandlers type="{RemindersEvent.ADD_REMINDER}">
+		
+		<MethodInvoker generator="{RemindersManager}" 
+			method="addReminder"
+			arguments="{event.reminderVo}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{RemindersEvent.REMOVE_REMINDER}">
+		
+		<MethodInvoker generator="{RemindersManager}" 
+			method="removeReminder"
+			arguments="{event.reminderVo}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{RemindersEvent.UPDATE_REMINDER}">
+		
+		<MethodInvoker generator="{RemindersManager}" 
+			method="updateReminder"
+			arguments="{[event.reminderVo, event.newReminderVo]}"/>
+		
+	</EventHandlers>
+	
+	<!--injectors-->
+	<Injectors target="{ReservationHelper}">
+		<PropertyInjector targetKey="remindersColl"
+			source="{RemindersManager}"
+			sourceKey="remindersColl"/>
+	</Injectors>
+
+</EventMap>

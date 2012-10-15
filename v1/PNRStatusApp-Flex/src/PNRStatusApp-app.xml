@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://ns.adobe.com/air/application/1.0">
+
+<!-- Adobe AIR Application Descriptor File Template.
+
+	Specifies parameters for identifying, installing, and launching AIR applications.
+	See http://www.adobe.com/go/air_1.0_application_descriptor for complete documentation.
+
+	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/1.0
+			The last segment of the namespace specifies the version 
+			of the AIR runtime required for this application to run.
+			
+	minimumPatchLevel - The minimum patch level of the AIR runtime required to run 
+			the application. Optional.
+-->
+
+	<!-- The application identifier string, unique to this application. Required. -->
+	<id>PNRStatusApp</id>
+
+	<!-- Used as the filename for the application. Required. -->
+	<filename>PNRStatusApp</filename>
+
+	<!-- The name that is displayed in the AIR application installer. Optional. -->
+	<name>PNRStatusApp</name>
+
+	<!-- An application version designator (such as "v1", "2.5", or "Alpha 1"). Required. -->
+	<version>1.6.0.20</version>
+
+	<!-- Description, displayed in the AIR application installer. Optional. -->
+	<description>This is a Desktop application that checks the status of
+	a PNR Number with the help of a service provider. This is not a commercial
+	project.</description>
+
+	<!-- Copyright information. Optional -->
+	<!-- <copyright></copyright> -->
+
+	<!-- Settings for the application's initial window. Required. -->
+	<initialWindow>
+		<!-- The main SWF or HTML file of the application. Required. -->
+		<!-- Note: In Flex Builder, the SWF reference is set automatically. -->
+		<content>[This value will be overwritten by Flex Builder in the output app.xml]</content>
+		
+		<!-- The title of the main window. Optional. -->
+		<!-- <title></title> -->
+
+		<!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
+		<!-- <systemChrome></systemChrome> -->
+
+		<!-- Whether the window is transparent. Only applicable when systemChrome is false. Optional. Default false. -->
+		<!-- <transparent></transparent> -->
+
+		<!-- Whether the window is initially visible. Optional. Default false. -->
+		<!-- <visible></visible> -->
+
+		<!-- Whether the user can minimize the window. Optional. Default true. -->
+		<!-- <minimizable></minimizable> -->
+
+		<!-- Whether the user can maximize the window. Optional. Default true. -->
+		<!-- <maximizable></maximizable> -->
+
+		<!-- Whether the user can resize the window. Optional. Default true. -->
+		<!-- <resizable></resizable> -->
+
+		<!-- The window's initial width. Optional. -->
+		<!-- <width></width> -->
+
+		<!-- The window's initial height. Optional. -->
+		<!-- <height></height> -->
+
+		<!-- The window's initial x position. Optional. -->
+		<!-- <x></x> -->
+
+		<!-- The window's initial y position. Optional. -->
+		<!-- <y></y> -->
+
+		<!-- The window's minimum size, specified as a width/height pair, such as "400 200". Optional. -->
+		<!-- <minSize></minSize> -->
+
+		<!-- The window's initial maximum size, specified as a width/height pair, such as "1600 1200". Optional. -->
+		<!-- <maxSize></maxSize> -->
+	</initialWindow>
+
+	<!-- The subpath of the standard default installation location to use. Optional. -->
+	<installFolder>mhkonline</installFolder>
+
+	<!-- The subpath of the Windows Start/Programs menu to use. Optional. -->
+	<programMenuFolder>mhkonline</programMenuFolder>
+
+	<!-- The icon the system uses for the application. For at least one resolution,
+		 specify the path to a PNG file included in the AIR package. Optional. -->
+	<icon>
+		<image16x16>/resources/images/icons/icon_016.png</image16x16>
+		<image32x32>/resources/images/icons/icon_032.png</image32x32>
+		<image48x48>/resources/images/icons/icon_048.png</image48x48>
+		<image128x128>/resources/images/icons/icon_128.png</image128x128>
+	</icon>
+
+	<!-- Whether the application handles the update when a user double-clicks an update version
+	of the AIR file (true), or the default AIR application installer handles the update (false).
+	Optional. Default false. -->
+	<!-- <customUpdateUI></customUpdateUI> -->
+	
+	<!-- Whether the application can be launched when the user clicks a link in a web browser.
+	Optional. Default false. -->
+	<!-- <allowBrowserInvocation></allowBrowserInvocation> -->
+
+	<!-- Listing of file types for which the application can register. Optional. -->
+	<fileTypes>
+		<fileType>
+			<name>PNRStatusApp.Reminder</name>
+			<extension>rem</extension>
+			<description>Reservations Reminder file</description>
+			<contentType>text/xml</contentType>
+			
+			<icon>
+				<image16x16>/resources/images/icons/file_icon_16.png</image16x16>
+				<image32x32>/resources/images/icons/file_icon_32.png</image32x32>
+				<image48x48>/resources/images/icons/file_icon_48.png</image48x48>
+				<image128x128>/resources/images/icons/file_icon_128.png</image128x128>
+			</icon>
+			
+		</fileType>
+	</fileTypes>
+
+</application>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="100%"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off"
+	creationComplete="init()">
+	
+	<mx:Metadata>
+		[Event(name="labelUpdated", type="flash.events.Event")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+		
+		//---------------------------------------------------------------------
+		//
+		//	Variables
+		//
+		//---------------------------------------------------------------------
+			
+		[Bindable]
+		public var imageSource:Class;
+		
+		private static const EDIT_STATE:String = "editState";
+		
+		[Bindable]
+		private var _labelText:String;
+		
+		public function set labelText(value:String):void
+		{
+			this._labelText = value;
+		}
+		
+		public function get labelText():String
+		{
+			return this._labelText;
+		}
+			
+		//---------------------------------------------------------------------
+		//
+		//	Variables
+		//
+		//---------------------------------------------------------------------
+			
+		/**
+		 * Initialize properties
+		 */
+		private function init():void
+		{
+			currentState = "";
+		}
+		
+		/**
+		 * Method invoked when the Label is clicked to display the
+		 * TextBox and the Save Button
+		 */
+		private function onLabelClick():void
+		{
+			currentState = EDIT_STATE;
+		}
+		
+		/**
+		 * Method invoked when the TextBox loses focus to display the 
+		 * label with the updated text.
+		 */
+		private function onTextBoxFocusOut():void
+		{
+			_labelText = textField.text;
+			currentState = "";
+			
+			// Save the changed data and dispatch the event
+			data = textField.text;
+			dispatchEvent(new Event("labelUpdated"));
+		}
+			
+		]]>
+	</mx:Script>
+	
+	<!--filters-->
+	<mx:DropShadowFilter id="dropDownFilter"/>
+	
+	<!--transitions-->
+	<mx:transitions>
+		<mx:Transition fromState="*" toState="editState">
+			<mx:Fade target="{textCanvas}"/>
+		</mx:Transition>
+		<mx:Transition fromState="editState" toState="*">
+			<mx:Fade target="{labelCanvas}"/>
+		</mx:Transition>
+	</mx:transitions>
+	
+	<mx:states>
+		<mx:State name="editState">
+			<mx:RemoveChild target="{labelCanvas}"/>
+			<mx:AddChild>
+				<mx:Canvas id="textCanvas" width="100%" height="100%"
+					filters="{[dropDownFilter]}"
+					styleName="editableLabelTextCanvasStyle">
+					<mx:TextInput id="textField" text="{_labelText}"
+						width="{textCanvas.width - 17}" height="100%"
+						styleName="editableLabelTextBox"/>
+					<mx:Image right="0" source="{imageSource}" useHandCursor="true"
+						click="onTextBoxFocusOut()" toolTip="Save" buttonMode="true"/>
+				</mx:Canvas>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	
+	<!--base state-->
+	<mx:Canvas id="labelCanvas" width="100%" height="100%" click="{onLabelClick()}">
+		<mx:Label text="{_labelText}" click="{onLabelClick()}" 
+			width="{labelCanvas.width}" toolTip="Click to Edit" truncateToFit="true"/>
+	</mx:Canvas>
+	
+</mx:Canvas>

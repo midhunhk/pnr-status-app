@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()" width="420" height="480"
+	minWidth="420" minHeight="300" closing="{onAppClose(event)}"
+	horizontalScrollPolicy="off" styleName="applicationStyle"
+	showGripper="true" showStatusBar="false"
+	layout="vertical" xmlns:custom="com.ae.custom.*" 
+	xmlns:maps="com.ae.maps.*" xmlns:views="com.ae.views.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ae.events.ShowWindowEvent;
+			import com.ae.events.SettingsEvent;
+			import com.ae.managers.AssetManager;
+			
+			//-----------------------------------------------------------------
+			//
+			// Bindable Variables
+			//
+			//-----------------------------------------------------------------
+			
+			[Bindable]
+			private var assets:AssetManager = AssetManager.getInstance();
+			
+			/**
+			 * @private
+			 */
+			private const SETTINGS_FILE:File = 
+				File.applicationStorageDirectory.resolvePath("settings.xml");
+			private const REMINDERS_FILE:File = 
+				File.applicationStorageDirectory.resolvePath("reminders.xml");
+			
+			//-----------------------------------------------------------------
+			//
+			// Private Methods
+			//
+			//-----------------------------------------------------------------
+			
+			/**
+			 * Initialize the application
+			 */
+			private function init():void
+			{				
+				// Load data from settings files if its there				
+				var settingsEvent:SettingsEvent = new SettingsEvent(SettingsEvent.LOAD_SETTINGS);
+				settingsEvent.settingsFile = SETTINGS_FILE;
+				settingsEvent.remindersFile = REMINDERS_FILE;
+				dispatchEvent(settingsEvent);				
+			}
+			
+			/**
+			 * Save the current collection to the disk before closing
+			 */
+			private function onAppClose(event:Event=null):void
+			{
+				// Save the settings to disk
+				var settingsEvent:SettingsEvent = new SettingsEvent(SettingsEvent.SAVE_SETTINGS);
+				settingsEvent.settingsFile = SETTINGS_FILE;
+				settingsEvent.remindersFile = REMINDERS_FILE;
+				dispatchEvent(settingsEvent);
+			}
+			
+			//-----------------------------------------------------------------
+			//
+			// Event Handler Functions
+			//
+			//-----------------------------------------------------------------
+			
+			/**
+			 *	Show the About Window 
+			 */
+			private function onAboutAppClick():void
+			{
+				var showWindowEvent:ShowWindowEvent = 
+					new ShowWindowEvent(ShowWindowEvent.SHOW_ABOUT_WINDOW);
+				dispatchEvent(showWindowEvent);
+			}
+			
+			/**
+			 * Show the Reservation Helper
+			 */
+			private function onReservationClick():void
+			{
+				var showWindowEvent:ShowWindowEvent = 
+					new ShowWindowEvent(ShowWindowEvent.SHOW_RESERVATION_HELPER);
+				dispatchEvent(showWindowEvent);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<!--theme-->
+	<mx:Style source="resources/themes/Ice.css"/>
+	<mx:Style source="resources/style/custom.css"/>
+	
+	<!--effects-->
+	<mx:WipeDown id="wipeDownEffect" duration="400"/>
+	
+	<!--event maps-->
+	<maps:PNREventMap/>
+	<maps:WindowEventMap/>
+	<maps:ServiceEventMap/>
+	<maps:SettingsEventMap/>
+	<maps:RemindersEventMap/>	
+		
+	<!--header-->
+	<mx:ApplicationControlBar dock="true" height="40"
+		verticalAlign="middle" horizontalAlign="center">
+		<mx:Canvas width="20%" height="100%"/>
+		<mx:Canvas width="60%" height="100%">
+			<mx:Label verticalCenter="0" horizontalCenter="0"
+				styleName="headingStyle" text="PNRStatusApp"/>
+		</mx:Canvas>
+		<mx:HBox width="20%" height="100%" verticalAlign="middle" horizontalAlign="right"
+			verticalGap="0" horizontalGap="2">
+			<custom:GlowImageButton imageClass="{assets.AboutIcon}" buttonToolTip="About" 
+				width="40" height="100%" click="onAboutAppClick()"/>
+			<custom:GlowImageButton imageClass="{assets.ReservationIcon}" 
+				buttonToolTip="Reservation Date Calculator" 
+				width="40" height="100%" click="onReservationClick()"/>
+		</mx:HBox>
+	</mx:ApplicationControlBar>
+		
+	<!--add pnr component-->
+	<views:AddPNRItem id="addPnrController"/>
+	
+	<mx:Spacer width="100%" height="1%"/>
+	
+	<!--pnr row container-->
+	<views:PNRInfoView width="100%" height="95%"/>
+	
+</mx:WindowedApplication>

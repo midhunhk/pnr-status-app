@@ -1,0 +1,237 @@
+/* CSS file */
+Button
+{
+	corner-radius: 4;
+}
+
+List
+{
+	border-alpha: 0;
+	focus-alpha: 0;
+	backgroundAlpha: 0;
+	corner-radius: 8;
+   	rollOverColor: #E94C00;
+   	textRollOverColor: #121212;
+   	borderStyle: none;
+   	selectionColor: #E86618;
+}
+/*
+LinkButton
+{
+	padding-bottom: 4;
+	padding-top: 4;
+}*/
+TextInput
+{
+	color:#121212;
+}
+ToolTip
+{
+	border-skin:ClassReference("com.ae.custom.AppToolTip");
+}
+
+/* Canvas BackGround Styles */
+.applicationStyle
+{
+	font-family:Arial;
+	background-color:#999999;
+	padding-left:10;
+	padding-right:10;
+	padding-top:10;
+	vertical-gap:4;
+}
+.headerCanvasStyle
+{
+	font-size:16px;
+	color:#f2f2f2;
+	top-left-radius:0;
+	top-right-radius:0;
+	bottom-left-radius:5px;
+	bottom-right-radius:5px;
+}
+.addPnrCanvasStyle
+{
+	corner-radius:8px;
+	border-style:solid;
+	border-color:#020202;
+	border-thickness:1px;
+	fill-colors:#777777, #202020;
+	angle:90;
+}
+.moreInfoLinkNormal
+{
+	right: 0;
+	color: #898989;
+}
+.moreInfoLinkHighlight
+{
+	right: 0;
+	color: #ffffff;
+}
+.pnrRowStyleDefault
+{
+	color:#f2f2f2;
+	fill-colors:#777777, #333333;
+	angle:90;
+}
+.pnrRowStyleYellow
+{
+	color:#333333;
+	fill-colors: #FFFCAD, #F0F000;
+	angle:90;
+}
+.pnrRowStyleGreen
+{
+	color:#f2f2f2;
+	fill-colors:#33FF4B, #248000;
+	angle:90;
+}
+.pnrRowStyleRed
+{
+	color:#f2f2f2;
+	fill-colors:#FF3624, #FF9D94;
+	angle:90;
+}
+.remindersCanvasStyleGrey
+{
+	color: #ffffff;
+	corner-radius: 4px;
+	border-style: none;
+	fill-colors:#808080, #202020;
+	angle:90;
+}
+.remindersCanvasStyleRed
+{
+	color: #ffffff;
+	corner-radius: 4px;
+	border-style: none;
+	fill-colors: #F37F7C, #FF3200;
+	angle:90;
+}
+.remindersCanvasStyleYellow
+{
+	color: #000000;
+	corner-radius: 4px;
+	border-style: none;
+	fill-colors: #FEE134, #B37515;
+	angle:90;
+}
+.remindersCanvasStyleGreen
+{
+	color: #000000;
+	corner-radius: 4px;
+	border-style: none;
+	fill-colors: #39A74F, #035A1A; /*light color, dark color*/
+	angle:90;
+}
+
+/* Styles for Drop Down Canvas*/
+.dropDownCanvasStyle
+{
+	top-left-radius:0;
+	top-right-radius:0;
+	bottom-left-radius:8px;
+	bottom-right-radius:8px;
+	fill-colors:#777777, #333333;
+	angle:90;
+}
+.dropDownCanvasStyleOver
+{
+	top-left-radius:0;
+	top-right-radius:0;
+	bottom-left-radius:8px;
+	bottom-right-radius:8px;
+	fill-colors:#426a9e, #39B5EA;
+	angle:90;
+}
+
+.contentContainerStyle
+{
+	color:#ffffff;
+	background-color:#333333;
+}
+.footerCanvasStyle
+{
+	background-color:#ffffff;
+}
+.passengerCanvasStyle
+{
+	padding-top:3px;
+	padding-bottom:2px;
+	corner-radius:5px;
+	fill-colors:#5AA0C3, #A8D0E2;
+	angle:90;
+}
+.simpleButton
+{
+	background-color:#f2f2f2;
+	corner-radius:8px;
+}
+/* Text Styles */
+.headingStyle
+{
+	color:#ffffff;
+	font-size:14px;
+	font-weight:bold;
+	padding-left:2px;
+}
+.headingStyle2
+{
+	color:#000000;
+	font-size:14px;
+	font-weight:bold;
+	padding-left:2px;
+}
+.reallyBigFontStyle
+{
+	color:#5AA0C3;
+	font-size:32;
+	font-sharpness:200;
+}
+
+/* Input Styles*/
+.inputNormal
+{
+	font-family:Arial;
+	font-style:normal;
+	color:#000000;
+}
+.whiteLabelFont
+{
+	font-family: Arial;
+	font-size:12;
+	color: #ffffff;
+}
+.inputAlt
+{
+	corner-radius:6px;
+	font-family:Arial;
+	font-style:italic;
+	color:#999999;
+}
+.editableLabelTextCanvasStyle
+{
+	background-color:#ffffff;
+}
+.editableLabelTextBox
+{
+	border-style:none;
+	background-alpha:0;
+}
+.dateLabelText
+{
+	font-size:12;
+	font-weight:bold;
+	padding-top:5;
+}
+.testButton
+{
+	up-skin:ClassReference("com.ae.custom.AppToolTip");
+}
+.selectableTextArea
+{
+	border-style: none;
+	background-alpha: 0;
+	highlight-alphas: 0, 0;
+	text-align: center;
+}

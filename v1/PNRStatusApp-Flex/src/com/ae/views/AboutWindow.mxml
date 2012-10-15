@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	title="About"
+	showCloseButton="true" close="onCloseClick()" 
+	layout="vertical" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import com.ae.managers.AssetManager;
+			import com.ae.utils.Constants;
+			
+			/**
+			 * Function called when the close button is clicked
+			 */
+			private function onCloseClick():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Canvas height="30%" width="100%">
+		<mx:Image source="{AssetManager.getInstance().Air_Logo}"
+			horizontalCenter="0" 
+			toolTip="Built on Adobe AIR" verticalCenter="0"/>
+	</mx:Canvas>
+	<mx:VBox height="70%" width="100%" verticalGap="0" horizontalGap="0">
+		<mx:Text text="{'PNRStatusApp ' + Constants.APP_VERSION}" width="100%" 
+			textAlign="center" fontWeight="bold"/>
+		<mx:Text text="{Constants.FOOTER_TEXT}" width="100%" 
+			height="100%" selectable="false"/>
+	</mx:VBox>
+		
+</mx:TitleWindow>

@@ -1,0 +1,49 @@
+PNR Status App 1.0 [Dec 2010]
+ - Initial Release Version
+ 
+PNR Status App 1.2 [Jan 2011]
+ - [FIXED] 		Bugs Fixes.
+ - [ADDED] 		Note component.
+ 
+PNR Status App 1.3 [Feb 2011]
+ - [CHANGED] 	Theme.
+ - [CHANGED] 	Refined layout.
+ - [ADDED] 		Reservation Date Calculator.
+ - [ADDED] 		Reminders for Dates.
+ 
+PNR Status App 1.4 [Feb 2011]
+ - [CHANGED]	Using the Mate Flex Framework
+ - [CHANGED] 	Most of the code rewrote to follow MVC Pattern.
+ - [CHANGED]	Removal of Redundant code.
+ - [ADDED]		Advanced Reservation Reminder facility.
+ 
+PNR Status App 1.5 [Mar 2011]
+ - [ADDED]		Copy More Info Screen as bitmap to the clipboard.
+ - [ADDED]		Error Handler for WebRequest fault.
+ - [CHANGED]	Using TabNavigator for RemindersScreen.
+ - [ADDED]		Licence.txt with licence texts.
+ - [ADDED]		Import and Export Reminders!
+ - [ADDED]		User is propmted before deleting a reminder
+ 
+PNR Status App 1.5.1 [Jun 2011]
+ - [ADDED]		Screen Copy, status message cleared after an interval.
+ - [FIXED]		Tickets with current status as RAC had berth positions 
+ 				calculated with RAC xx. It is prevented now.
+
+PNR Status App 1.6 [Aug 2011]
+ - [CHANGED]	PNRInfoRenderer Layout and UI.
+ - [ADDED]		Button to copy the PnrNumber to the clipboard.
+ - [CHANGED]	PNRInfo List not updated when a note is added / updated.
+ - [CHANGED]	PNRNo is not editable in the PNRInfoRenderer.
+ - [ADDED]		Each time a PNR Status is checked, it is stored in StatusHistory.
+ - [ADDED]		Last successful Status is displayed on startup.
+ - [ADDED]		StatusHistoryWindow lists all the StatusHistory of a PNRNumber.
+ - [FIXED]		Bug while reading back StatusHistory items.
+ - [ADDED]		Added option to clear StatusHistories.
+ - [ADDED]		Info Message if More Info clicked without checking the PNRStatus.
+ - [ADDED]		Style for PNRRow based on the last check.
+ - [FIXED]		Bug of Booking status text also getting updated when the note is updated.
+ - [CHANGED]	Removed the StatusBar.
+ - [FIXED]		Bug in PNRNumber equals method.
+ - [FIXED]		Bug in check for duplicate PNRNumber.
+ - [ADDED]		Alert is shown if trying to add a PNRNumber that already exists.

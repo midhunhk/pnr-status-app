@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="22" xmlns:custom="com.ae.custom.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.utils.StringUtil;
+			import com.ae.utils.Utils;
+			import mx.formatters.DateFormatter;
+			import com.ae.vo.StatusHistoryVO;
+			
+			//-----------------------------------------------------------------
+			//
+			//	Variables
+			//
+			//-----------------------------------------------------------------
+			
+			[Bindable]
+			private var checkedDate:String;
+			[Bindable]
+			private var lastStatus:String;
+				
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				
+				if(value != null)
+				{
+					setStatusHistory();
+				}
+			}
+			
+			//-----------------------------------------------------------------
+			//
+			//	Methods
+			//
+			//-----------------------------------------------------------------
+			
+			private function setStatusHistory():void
+			{
+				var historyVo:StatusHistoryVO = data as StatusHistoryVO;
+				if(historyVo)
+				{
+					// Convert the timestamp into a date object
+					var date:Date = new Date(historyVo.timestamp);
+					var dateFormatter:DateFormatter = new DateFormatter();
+					
+					// Set up the date format
+					dateFormatter.formatString = "MMM D, YYYY (HH:NN:SS)";
+					checkedDate = dateFormatter.format(date);
+					
+					// Remove any unwanted spaces
+					lastStatus = StringUtil.trim(historyVo.status);
+					
+					// Set the outer canvas style based on the last status
+					outerCanvas.styleName = 
+						Utils.getStyleNameForIndex( historyVo.styleIndex);
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<custom:GradientCanvas id="outerCanvas" width="100%" height="100%"
+		styleName="pnrRowStyleDefault">
+		<mx:HBox width="100%" height="100%" verticalGap="0" horizontalGap="0"
+			verticalAlign="middle" horizontalAlign="center">
+			<mx:Spacer width="1%"/>
+			<mx:Canvas width="58%" height="100%">
+				<mx:Label text="{checkedDate}"/>
+			</mx:Canvas>
+			<mx:Canvas width="39%" height="100%">
+				<mx:Label text="{lastStatus}" textAlign="right"/>
+			</mx:Canvas>
+			<mx:Spacer width="1%"/>
+		</mx:HBox>
+	</custom:GradientCanvas>
+	
+</mx:Canvas>

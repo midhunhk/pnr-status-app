@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap
+   xmlns:mx="http://www.adobe.com/2006/mxml"
+   xmlns="http://mate.asfusion.com/" xmlns:service="com.ae.service.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ae.business.WindowManager;
+			import com.ae.events.PNRRowEvent;
+			import com.ae.business.PNRDataManager;
+			
+		]]>
+	</mx:Script>
+	
+	<EventHandlers type="{PNRRowEvent.ADD_PNR_ROW}">
+		
+		<MethodInvoker generator="{PNRDataManager}" 
+			method="addPnrRow"
+			arguments="{event.pnrNumberVO}"/>
+		
+		<CallBack method="addPnrResult" arguments="{[lastReturn]}"/>
+	</EventHandlers>
+	
+	<EventHandlers type="{PNRRowEvent.REMOVE_PNR_ROW}">
+		
+		<MethodInvoker generator="{PNRDataManager}" 
+			method="removePnrRow"
+			arguments="{event.pnrNumberVO}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{PNRRowEvent.PNR_ROW_UPDATED}">
+		
+		<MethodInvoker generator="{PNRDataManager}" 
+			method="updatePnrRow"
+			arguments="{[event.pnrNumberVO, event.newPnrNumberVO, event.statusHistoryVO]}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{PNRRowEvent.SHOW_MORE_INFO}">
+		
+		<MethodInvoker generator="{WindowManager}" 
+			method="showMoreInfoPanel"
+			arguments="{event}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{PNRRowEvent.CLEAR_HISTORY_EVENT}">
+		<MethodInvoker generator="{PNRDataManager}"
+			method="clearHistory"
+			arguments="{[event.pnrNumberVO]}"/>
+			
+		<CallBack method="historyCleared"/>
+	</EventHandlers>
+
+</EventMap>

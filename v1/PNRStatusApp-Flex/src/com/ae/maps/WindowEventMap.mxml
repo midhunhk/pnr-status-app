@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap
+   xmlns:mx="http://www.adobe.com/2006/mxml"
+   xmlns="http://mate.asfusion.com/" xmlns:service="com.ae.service.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ae.business.RemindersManager;
+			import com.ae.business.WindowManager;
+			import com.ae.events.ShowWindowEvent;
+			
+			
+		]]>
+	</mx:Script>
+	
+	<EventHandlers type="{ShowWindowEvent.SHOW_ABOUT_WINDOW}">
+		
+		<MethodInvoker generator="{WindowManager}" 
+			method="showAboutWindow"
+			arguments="{event}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{ShowWindowEvent.SHOW_MORE_INFO}">
+		
+		<MethodInvoker generator="{WindowManager}" 
+			method="showMoreInfoPanel"
+			arguments="{event}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{ShowWindowEvent.SHOW_STATUS_HISTORY_WINDOW}">
+		
+		<MethodInvoker generator="{WindowManager}"
+			method="showStatusHistoryPanel"
+			arguments="{event}"/>
+		
+	</EventHandlers>
+	
+	<EventHandlers type="{ShowWindowEvent.SHOW_RESERVATION_HELPER}">
+		
+		<!--fetch the latest reminderscoll-->
+		<MethodInvoker generator="{RemindersManager}"
+			method="getRemindersColl"/>
+		
+		<!--copy the result-->
+		<DataCopier destination="data"
+			destinationKey="remindersColl"
+			source="lastReturn"/>
+			
+		<MethodInvoker generator="{WindowManager}" 
+			method="showReservationHelper"
+			arguments="{[event, data.remindersColl]}"/>
+		
+	</EventHandlers>
+
+</EventMap>
