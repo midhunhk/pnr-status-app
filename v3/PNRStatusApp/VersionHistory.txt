@@ -139,5 +139,7 @@ PNRStatusAppV3 3.1.92 [October 2013]
  - [ADDED]		Disabled state for the Info button
  - [CHANGED]	The Ticket details Popup is standardized
  
-PNRStatusAppV3 3.1.95 [November 2013]
+PNRStatusAppV3 3.1.95 marvin [November 2013]
  - [CHANGED]	Build target API is 18
+ - [CHANGED]	Minor layout tweaks
+ - [CHANGED]	Minor message change

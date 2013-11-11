@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:orientation="vertical" >
 
@@ -11,7 +10,6 @@
         android:layout_height="0dp"
         android:focusable="true"
         android:focusableInTouchMode="true" >
-
         <requestFocus />
     </LinearLayout>
 
@@ -35,7 +33,7 @@
             android:layout_gravity="bottom"
             android:layout_margin="2dip"
             android:layout_weight="1"
-            android:gravity="bottom"
+            android:gravity="center"
             android:hint="@string/add_pnr_hint"
             android:imeOptions="actionNext|flagNoEnterAction"
             android:inputType="number"
@@ -57,21 +55,24 @@
     <LinearLayout
         android:id="@+id/listContainer"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent" >
 
         <ListView
             android:id="@android:id/list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:cacheColorHint="@color/cache_hint_color" />
+            android:layout_margin="5dp"
+            android:cacheColorHint="@color/cache_hint_color"
+            android:gravity="center_vertical|center_horizontal" />
 
         <TextView
             android:id="@android:id/empty"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dip"
-            android:gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="@dimen/margin_large"
+            android:padding="@dimen/padding_small"
             android:text="@string/empty_set" />
     </LinearLayout>
 

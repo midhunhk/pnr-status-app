@@ -7,7 +7,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_licence">License</string>
     <string name="title_activity_main">PNRStatusApp</string>
-    <string name="message_delete_pnr">Delete this PNR entry?</string>
+    <string name="message_delete_pnr">Delete this PNR number?</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
 
@@ -21,7 +21,7 @@
     <string name="pnr_number_length">10</string>
 
     <!-- From v2 -->
-    <string name="version_name">Version 3.1.84 (August 2013)</string>
+    <string name="version_name">Version 3.1.95 - Marvin (November 2013)</string>
     <string name="about_app_desc">Use this app to check the status of a valid train PNR Number in India.\n\n\r
 No part of PNRStatus Data retrieved is persisted by this app.</string>
     <string name="designed_developer_info">Designed &amp; developed at ae labs</string>
@@ -54,8 +54,8 @@ No part of PNRStatus Data retrieved is persisted by this app.</string>
     <string name="str_share_status_detail">My PNR Status is %1$s, %2$s </string>
     <string name="str_share_via">Share Via</string>
     
-    <string name="str_error_no_internet">Not connected to the Internet</string>
-    <string name="str_error_parse_error">Unable to parse the response, please check the PNR Number</string>
+    <string name="str_error_no_internet">Please check if internet is available</string>
+    <string name="str_error_parse_error">Please check the PNR Number and try again</string>
     <string name="str_error_generic_error">A problem has occurred, please try again later</string>
     
     <string name="str_pref_messages">Messages</string>
