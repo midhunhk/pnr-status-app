@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.service;
 
 import java.io.IOException;
@@ -22,7 +38,7 @@ public class PnrApiService implements IStatusService {
 	/**
 	 * The URL for PNRAPI Service
 	 */
-	private final String	url			= "http://pnrapi.appspot.com/";
+	private final String	url			= "http://pnrapi.alagu.net/api/v1.0/pnr/";
 	private final String	serviceName	= "PNRAPI";
 
 	@Override
@@ -37,7 +53,6 @@ public class PnrApiService implements IStatusService {
 		Log.d(AppConstants.TAG, "SearchURL :  " + searchUrl);
 
 		String response = PNRUtils.getWebResult(searchUrl);
-		// String response = pnrService.getStubResponse();
 
 		Log.d(AppConstants.TAG, "WebResultResponse : " + response);
 		return parseResponse(response);
@@ -46,14 +61,23 @@ public class PnrApiService implements IStatusService {
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws JSONException, StatusException,
 			IOException {
+		PNRStatusVo statusVo = null;
 		if (stubResponse == true) {
-			return parseResponse(getStubResponse());
+			// Return from the stub response
+			statusVo = parseResponse(getStubResponse());
+		} else {
+			// Get the response from the server
+			statusVo = getResponse(pnrNumber);
 		}
-		return getResponse(pnrNumber);
+		// Set the pnrnumber to the vo so that the ui can update the correct one in the list
+		if (statusVo != null) {
+			statusVo.setPnrNumber(pnrNumber);
+		}
+		return statusVo;
 	}
 
 	private String getStubResponse() {
-		String response = "{'status': 'OK', 'data': {'passenger': [{'status': 'CNF', 'seat_number': 'S1  , 59,GN'}, {'status': 'CNF', 'seat_number': 'S1  , 62,GN'}, {'status': 'CNF', 'seat_number': 'S1  , 58,GN'}], 'from': 'ERS', 'alight': 'MAS', 'pnr_number': '4546028247', 'train_number': '*16042', 'to': 'MAS', 'board': 'ERS', 'train_name': 'CHENNAI EXPRESS', 'travel_date': {'date': '26-12-2011', 'timestamp': 1324857600}, 'class': 'SL'}}";
+		String response = "{'status':'OK','data':{'train_number':'12623','chart_prepared':false,'pnr_number':'4448820672','train_name':'TRIVANDRUM MAIL','travel_date':{'timestamp':1366914600,'date':'26-4-2013'},'from':{'code':'MAS','name':'CHENNAI CENTRAL','time':'19:45'},'to':{'code':'KTYM','name':'KOTTAYAM','time':'07:35'},'alight':{'code':'KTYM','name':'KOTTAYAM','time':'07:35'},'board':{'code':'MAS','name':'CHENNAI CENTRAL','time':'19:45','timestamp':1366985700},'class':'SL','passenger':[{'seat_number':'RAC 108,GNWL','status':'Confirmed'}]}}";
 		return response;
 	}
 
@@ -82,11 +106,11 @@ public class PnrApiService implements IStatusService {
 			JSONObject dateObject = dataObject.getJSONObject("travel_date");
 			String trainJourney = dateObject.getString("date");
 
-			String trainDest = dataObject.getString("alight");
+			String trainDest = getStationName(dataObject.getJSONObject("alight"));
 			String trainName = dataObject.getString("train_name");
 			String trainNo = PNRUtils.getTrainNo(dataObject.getString("train_number"));
-			String trainBoard = dataObject.getString("board");
-			String trainEmbark = dataObject.getString("to");
+			String trainBoard = getStationName(dataObject.getJSONObject("board"));
+			String trainEmbark = getStationName(dataObject.getJSONObject("to"));
 			String ticketClass = dataObject.getString("class");
 
 			// Read the PassengerDataVos
@@ -120,9 +144,9 @@ public class PnrApiService implements IStatusService {
 
 			// Set the values for the StatusVo
 			statusVo.setTicketStatus(ticketStatus);
-			statusVo.setTrainBoard(trainBoard);
+			statusVo.setBoardingPoint(trainBoard);
 			statusVo.setDestination(trainDest);
-			statusVo.setTrainEmbark(trainEmbark);
+			statusVo.setEmbarkPoint(trainEmbark);
 			statusVo.setTrainJourney(trainJourney);
 			statusVo.setTrainName(trainName);
 			statusVo.setTrainNo(trainNo);
@@ -139,11 +163,8 @@ public class PnrApiService implements IStatusService {
 
 		return statusVo;
 	}
-	/*
-	 * { 'status': 'OK', 'data': { 'passenger': [ { 'status': 'CNF', 'seat_number': 'S1 , 59,GN' }, { 'status': 'CNF',
-	 * 'seat_number': 'S1 , 62,GN' }, { 'status': 'CNF', 'seat_number': 'S1 , 58,GN' }], 'from': 'ERS', 'alight': 'MAS',
-	 * 'pnr_number': '4546028247', 'train_number': '*16042', 'to': 'MAS', 'board': 'ERS', 'train_name': 'CHENNAI
-	 * EXPRESS', 'travel_date': { 'date': '26-12-2011', 'timestamp': 1324857600 }, 'class': 'SL' } }
-	 */
 
+	private String getStationName(JSONObject object) throws JSONException{
+		return object.getString("name");
+	}
 }

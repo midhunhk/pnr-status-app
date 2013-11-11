@@ -20,42 +20,35 @@
             android:layout_marginTop="0dp" >
 
             <TextView
-                android:id="@+id/ticket_info_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/ticket_info_title"
-                android:textStyle="bold" >
-            </TextView>
-
-            <TextView
                 android:id="@+id/ticket_pnrnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ticket_info_title"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/margin_small"
                 android:text="@string/empty_text"
                 android:textStyle="bold" >
             </TextView>
 
-            <Button
+            <ImageButton
                 android:id="@+id/share_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/share_button_drawable"
-                android:hapticFeedbackEnabled="true" >
-            </Button>
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/empty_text"
+                android:hapticFeedbackEnabled="true"
+                android:src="@drawable/share_button_drawable" >
+            </ImageButton>
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/TicketInfoDetailLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -86,16 +79,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp" >
             </TextView>
+
+            <TextView
+                android:id="@+id/ticket_info_line5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp" >
+            </TextView>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/passenger_info_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/TicketInfoLayout"
-        android:background="#255D89"
+        android:layout_marginTop="@dimen/margin_medium"
         android:orientation="vertical"
-        android:layout_marginTop="5dp"
         android:paddingBottom="2dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
@@ -113,18 +113,18 @@
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:cacheColorHint="#255D89"
+            android:cacheColorHint="@color/list_selector"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:listSelector="#255D89" />
+            android:listSelector="@color/list_selector" />
 
         <TextView
             android:id="@android:id/empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="5dip"
+            android:layout_margin="@dimen/margin_medium"
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/empty_text" />
     </LinearLayout>

@@ -1,0 +1,12 @@
+<resources>
+
+    <string-array name="serviceNames">
+        <item>Indian Rail</item>
+        <item>PNR API</item>
+    </string-array>
+    <string-array name="serviceValues">
+        <item>3</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

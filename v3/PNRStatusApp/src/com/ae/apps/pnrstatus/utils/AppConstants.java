@@ -1,52 +1,70 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.utils;
 
-public class AppConstants {
+public interface AppConstants {
 	/**
 	 * Constant used for log tag for the application
 	 */
-	public static final String	TAG								= "PNRStatusApp";
+	String	TAG								= "PNRStatusApp";
 
-	public static String		APP_ACTION						= "action";
-	public static String		PNR_NUMBER						= "pnr_number";
-	public static String		ACTION_DELETE					= "actionDelete";
-	public static String		ACTION_CHECK					= "actionCheck";
-	public static String		PNR_STATUS_VO					= "pnrStatusVo";
-	public static String		GOOGLE_SDK						= "google_sdk";
+	String	APP_ACTION						= "action";
+	String	PNR_NUMBER						= "pnr_number";
+	String	ACTION_DELETE					= "actionDelete";
+	String	ACTION_CHECK					= "actionCheck";
+	String	PNR_STATUS_VO					= "pnrStatusVo";
+	String	GOOGLE_SDK						= "google_sdk";
+	String	APP_HASH_TAG					= "#PNRStatusApp";
 
 	/**
 	 * Ticket Classes
 	 */
-	public static String		CLASS_SLEEPER					= "SL";
-	public static String		CLASS_UNKNOWN					= "unknown";
-	public static String		CLASS_AC2						= "AC2";
-	public static String		CLASS_AC3						= "AC3";
+	String	CLASS_SLEEPER					= "SL";
+	String	CLASS_UNKNOWN					= "unknown";
+	String	CLASS_AC2						= "AC2";
+	String	CLASS_AC3						= "AC3";
 
 	/**
 	 * Ticket Status
 	 */
-	public static String		STATUS_CNF						= "CNF";
-	public static String		STATUS_RAC						= "RAC";
-	public static String		STATUS_WL						= "W/L";
+	String	STATUS_CNF						= "CNF";
+	String	STATUS_RAC						= "RAC";
+	String	STATUS_WL						= "W/L";
 
 	/**
 	 * Number of seats in compartments
 	 */
-	public static int			SEATS_IN_SLEEPER_COMPARTMENT	= 8;
-	public static int			SEATS_IN_AC2_COMPARTMENT		= 6;
+	int		SEATS_IN_SLEEPER_COMPARTMENT	= 8;
+	int		SEATS_IN_AC2_COMPARTMENT		= 6;
 
 	/**
 	 * Berth Positions
 	 */
-	public static String		BERTH_LOWER						= "Lower";
-	public static String		BERTH_MIDDLE					= "Middle";
-	public static String		BERTH_UPPER						= "Upper";
-	public static String		BERTH_SIDE_LOWER				= "Side Lower";
-	public static String		BERTH_SIDE_UPPER				= "Side Upper";
-	public static String		BERTH_DEFAULT					= "--";
+	String	BERTH_LOWER						= "Lower";
+	String	BERTH_MIDDLE					= "Middle";
+	String	BERTH_UPPER						= "Upper";
+	String	BERTH_SIDE_LOWER				= "Side Lower";
+	String	BERTH_SIDE_UPPER				= "Side Upper";
+	String	BERTH_DEFAULT					= "--";
 
 	/**
 	 * Request Methods
 	 */
-	public static String		METHOD_GET						= "GET";
-	public static String		METHOD_POST						= "POST";
+	String	METHOD_GET						= "GET";
+	String	METHOD_POST						= "POST";
+
 }

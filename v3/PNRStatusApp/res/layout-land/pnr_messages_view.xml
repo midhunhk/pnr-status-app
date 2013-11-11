@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top" >
+
+    <LinearLayout
+        android:id="@+id/listViewHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dip"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/noMessagesHolder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dip"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/empty_messages" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dividerImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/listViewHolder"
+        android:contentDescription="@string/empty_text"
+        android:src="@drawable/divider_vertical" />
+
+    <LinearLayout
+        android:id="@+id/messageDetailsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="3dip" >
+
+        <TextView
+            android:id="@+id/detailsPassengerName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/detailsTravelDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/detailsCurrentStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/detailsBerthType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/detailsTrain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" />
+    </LinearLayout>
+
+</RelativeLayout>

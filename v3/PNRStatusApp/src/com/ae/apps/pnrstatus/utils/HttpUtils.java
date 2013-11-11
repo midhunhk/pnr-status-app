@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.utils;
 
 import static com.ae.apps.pnrstatus.utils.AppConstants.METHOD_POST;
@@ -37,7 +53,7 @@ public class HttpUtils {
 	 * @throws IOException
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
-	public static String postForm(String urlString, Map requestHeaders, Map formParameters)
+	public static String postForm(String urlString, Map<?, ?> requestHeaders, Map<?, ?> formParameters)
 			throws MalformedURLException, ProtocolException, IOException {
 		return post(urlString, requestHeaders, formParameters, null);
 	}
@@ -59,7 +75,7 @@ public class HttpUtils {
 	 * @throws IOException
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
-	public static String postContents(String urlString, Map requestHeaders, String contents)
+	public static String postContents(String urlString, Map<?, ?> requestHeaders, String contents)
 			throws MalformedURLException, ProtocolException, IOException {
 		return post(urlString, requestHeaders, null, contents);
 	}
@@ -83,8 +99,8 @@ public class HttpUtils {
 	 * @throws IOException
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
-	public static String post(String urlString, Map requestHeaders, Map formParameters, String requestContents)
-			throws MalformedURLException, ProtocolException, IOException {
+	public static String post(String urlString, Map<?, ?> requestHeaders, Map<?, ?> formParameters,
+			String requestContents) throws MalformedURLException, ProtocolException, IOException {
 		// open url connection
 		URL url = new URL(urlString);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -132,7 +148,6 @@ public class HttpUtils {
 				int length = (buf.length() > 1024) ? 1024 : buf.length();
 				Log.d(AppConstants.TAG, "Post Params : " + buf.substring(0, length));
 
-				System.out.println("Post Params : " + buf.toString());
 				ostream.writeBytes(buf.toString());
 			}
 

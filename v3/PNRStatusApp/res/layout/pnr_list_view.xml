@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginBottom="3dip"
-    android:layout_marginTop="3dip" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,18 +20,50 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="1dip"
+        android:paddingTop="@dimen/padding_small"
         android:visibility="visible" />
 
-    <LinearLayout android:id="@+id/listContainer"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ProgressBar" >
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/new_pnr_text"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="2dip"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:hint="@string/add_pnr_hint"
+            android:imeOptions="actionNext|flagNoEnterAction"
+            android:inputType="number"
+            android:maxLength="10"
+            android:textColor="@color/white" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/add_pnr_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:contentDescription="@string/empty_text"
+            android:src="@drawable/ic_new"
+            android:text="@string/add_pnr" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
         <ListView
             android:id="@android:id/list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:cacheColorHint="#182128" />
+            android:cacheColorHint="@color/cache_hint_color" />
 
         <TextView
             android:id="@android:id/empty"
@@ -42,35 +75,4 @@
             android:text="@string/empty_set" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:layout_below="@+id/listContainer"
-        android:layout_alignParentBottom="true">
-
-        <EditText
-            android:id="@+id/pnrTextInput"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="2dip"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:hint="@string/add_pnr_hint"
-            android:imeOptions="actionNext|flagNoEnterAction"
-            android:inputType="number"
-            android:maxLength="10"
-            android:textColor="#ffffff" >
-        </EditText>
-
-        <Button
-            android:id="@+id/add_pnr_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="@string/add_pnr" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

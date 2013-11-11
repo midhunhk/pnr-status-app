@@ -8,8 +8,8 @@
         android:id="@+id/app_info_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -25,17 +25,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:text="@string/version_number" >
+            android:text="@string/empty_text" >
         </TextView>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/empty_text"
+        android:src="@drawable/ic_ae_logo_inv" />
+
     <TextView
         android:id="@+id/about_app_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
+        android:maxLines="4"
         android:text="@string/about_app_desc" >
+    </TextView>
+    
+    <TextView
+        android:id="@+id/developer_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:maxLines="4"
+        android:text="@string/designed_developer_info" >
     </TextView>
 
     <LinearLayout
@@ -47,16 +65,11 @@
         android:orientation="horizontal"
         android:padding="5dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/empty_text"
-            android:src="@drawable/ic_facebook" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:drawableLeft="@drawable/ic_facebook"
             android:padding="5dip"
             android:text="@string/fb_app_page" />
     </LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/str_pref_messages" >
+        <CheckBoxPreference
+            android:key="pref_key_hide_past_messages"
+            android:summaryOff="@string/str_pref_hide_past_summary_off"
+            android:summaryOn="@string/str_pref_hide_past_summary_on"
+            android:title="@string/str_pref_hide_past_messages" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/str_pref_service">
+        <ListPreference 
+            android:key="pref_service"
+            android:defaultValue="3"
+            android:summary="@string/str_pref_service_summary"
+            android:title="@string/str_pref_select_service"
+            android:entries="@array/serviceNames"
+            android:entryValues="@array/serviceValues"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="highlight_bg">#ff255D89</color>
-	
+
+    <color name="white">#ffffff</color>
+    <color name="cache_hint_color">#182128</color>
+    <color name="list_selector">#255D89</color>
+
 </resources>

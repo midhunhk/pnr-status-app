@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.service;
 
 import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
@@ -31,7 +47,7 @@ public class IndianRailService implements IStatusService {
 	 */
 	private final String	url1		= "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
 
-	private final String	serviceName	= "Indian Rail";
+	private final String	serviceName	= "IndianRail";
 
 	@Override
 	public String getServiceName() {
@@ -64,11 +80,10 @@ public class IndianRailService implements IStatusService {
 		PNRStatusVo pnrStatusVo = null;
 		if (stubResponse == true) {
 			pnrStatusVo = parseResponse(getStubResponse());
-		}
-		else{
+		} else {
 			pnrStatusVo = getResponse(pnrNumber);
 		}
-		if(pnrStatusVo != null){
+		if (pnrStatusVo != null) {
 			pnrStatusVo.setPnrNumber(pnrNumber);
 		}
 		return pnrStatusVo;
@@ -101,10 +116,17 @@ public class IndianRailService implements IStatusService {
 	 * 
 	 * @param html
 	 * @return
+	 * @throws StatusException
 	 */
-	private PNRStatusVo parseResponse(String html) {
+	private PNRStatusVo parseResponse(String html) throws StatusException {
 		PNRStatusVo pnrStatusVo = new PNRStatusVo();
-		List<String> elements = PNRUtils.parseIndianRailHtml(html);
+		List<String> elements = null;
+		try {
+			elements = PNRUtils.parseIndianRailHtml(html);
+		} catch (Exception e) {
+			// If PNR Number is invalid, we might get an exception while parsing
+			throw new StatusException("Unable to Parse the response");
+		}
 
 		Log.d(TAG, "enter parseResponse()");
 		Log.d(TAG, "elements.size() : " + elements.size());
@@ -112,13 +134,13 @@ public class IndianRailService implements IStatusService {
 		int infoDataCount = 8;
 		if (elements.size() > infoDataCount) {
 			// Seems to be a valid ticket data
-			String ticketClass = elements.get(7);
+			String ticketClass = elements.get(7).trim();
 			pnrStatusVo.setTrainNo(PNRUtils.getTrainNo(elements.get(0)));
 			pnrStatusVo.setTrainName(elements.get(1));
 			pnrStatusVo.setTrainJourney(elements.get(2));
-			pnrStatusVo.setTrainBoard(elements.get(6));
-			pnrStatusVo.setDestination(elements.get(5));
-			pnrStatusVo.setTrainEmbark(elements.get(3));
+			pnrStatusVo.setBoardingPoint(elements.get(6));
+			pnrStatusVo.setDestination(elements.get(4));
+			pnrStatusVo.setEmbarkPoint(elements.get(5));
 			pnrStatusVo.setTicketClass(ticketClass);
 
 			// Populate the passenger datas
@@ -148,7 +170,8 @@ public class IndianRailService implements IStatusService {
 				passengerDataVo.setBerthPosition(berthPosition);
 				passengerDataVo.setTrainBookingBerth(trainBookingBerth.trim());
 
-				// Update some values in the main vo based on the first passenger
+				// Update some values in the main vo based on the first
+				// passenger
 				if (i == 1) {
 					pnrStatusVo.setFirstPassengerData(passengerDataVo);
 					pnrStatusVo.setCurrentStatus(trainCurrentStatus);
@@ -156,6 +179,8 @@ public class IndianRailService implements IStatusService {
 				}
 				passengersList.add(passengerDataVo);
 			}
+			String chartStatus = elements.get(elements.size() - 1);
+			pnrStatusVo.setChartStatus(chartStatus);
 			pnrStatusVo.setPassengers(passengersList);
 		}
 		Log.d(TAG, "exit parseResponse()");

@@ -1,8 +1,25 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.adapters;
 
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +31,7 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 public class PassengerAdapter extends BaseAdapter {
 
+	private Context							context;
 	private LayoutInflater					inflater;
 	private static List<PassengerDataVo>	arrayList;
 
@@ -25,6 +43,7 @@ public class PassengerAdapter extends BaseAdapter {
 	 */
 	public PassengerAdapter(Context context, List<PassengerDataVo> list) {
 		arrayList = list;
+		this.context = context;
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -48,7 +67,7 @@ public class PassengerAdapter extends BaseAdapter {
 		ViewHolder holder;
 		if (convertView == null) {
 			// Use the custom layout
-			convertView = inflater.inflate(R.layout.passenger_info_row, null);
+			convertView = inflater.inflate(R.layout.popup_passenger_item, null);
 
 			// Get references to the TextViews in the layout
 			holder = new ViewHolder();
@@ -65,10 +84,12 @@ public class PassengerAdapter extends BaseAdapter {
 		// Set the values for the TextViews based on the PassengerDataVo
 		PassengerDataVo dataVo = arrayList.get(position);
 		if (null != dataVo) {
-			holder.txtLine1.setText("Passenger Name : " + dataVo.getTrainPassenger());
-			holder.txtLine2.setText("Booking Status : " + dataVo.getTrainBookingBerth());
-			holder.txtLine3.setText("Current Status : " + dataVo.getTrainCurrentStatus());
-			holder.txtLine4.setText("Berth Position : " + dataVo.getBerthPosition());
+			// Show the strings with the help of localization
+			Resources resources = context.getResources();
+			holder.txtLine1.setText(resources.getString(R.string.str_passengner_name, dataVo.getTrainPassenger()));
+			holder.txtLine2.setText(resources.getString(R.string.str_booking_status, dataVo.getTrainBookingBerth()));
+			holder.txtLine3.setText(resources.getString(R.string.str_current_status, dataVo.getTrainCurrentStatus()));
+			holder.txtLine4.setText(resources.getString(R.string.str_berth_position, dataVo.getBerthPosition()));
 		}
 
 		return convertView;
