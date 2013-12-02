@@ -77,9 +77,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 		// Create the datamanager instance here
 		mDataManager = new DataManager(this);
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections
-		// of the app.
+		// Create the adapter that will return a fragment for each sections
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.

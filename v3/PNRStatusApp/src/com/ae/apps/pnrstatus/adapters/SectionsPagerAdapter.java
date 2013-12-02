@@ -33,7 +33,7 @@ import com.ae.apps.pnrstatus.v3.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	private Context		context;
+	private Context	context;
 
 	public SectionsPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
