@@ -21,7 +21,7 @@
     <string name="pnr_number_length">10</string>
 
     <!-- From v2 -->
-    <string name="version_name">Version 3.1.95 - Marvin (November 2013)</string>
+    <string name="version_name">Version 3.1.97 - Marvin (December 2013)</string>
     <string name="about_app_desc">Use this app to check the status of a valid train PNR Number in India.\n\n\r
 No part of PNRStatus Data retrieved is persisted by this app.</string>
     <string name="designed_developer_info">Designed &amp; developed at ae labs</string>

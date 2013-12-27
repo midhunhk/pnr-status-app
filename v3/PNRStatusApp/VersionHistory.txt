@@ -143,3 +143,7 @@ PNRStatusAppV3 3.1.95 "marvin" [November 2013]
  - [CHANGED]	Build target API is 18
  - [CHANGED]	Minor layout tweaks
  - [CHANGED]	Minor message change
+ 
+PNRStatusAppV3 3.1.97 "marvin" [December 2013]
+ - [CHANGED]	File organization
+ - [CHANGED]	App Icon change
