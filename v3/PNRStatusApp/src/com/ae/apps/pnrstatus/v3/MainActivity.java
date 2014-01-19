@@ -189,8 +189,8 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 				}).start();
 
 			} catch (Exception e) {
-				e.printStackTrace();
-				Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
+				// e.printStackTrace();
+				// Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.str_error_no_internet, Toast.LENGTH_LONG).show();
