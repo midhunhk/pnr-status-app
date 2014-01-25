@@ -47,15 +47,23 @@ public class PnrApiService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber) throws JSONException, StatusException, IOException {
+	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		String searchUrl = getServiceUrl(pnrNumber);
 		Log.i(AppConstants.TAG, "Using " + getServiceName());
 		Log.d(AppConstants.TAG, "SearchURL :  " + searchUrl);
 
-		String response = PNRUtils.getWebResult(searchUrl);
+		PNRStatusVo pnrStatusVo = null;
 
-		Log.d(AppConstants.TAG, "WebResultResponse : " + response);
-		return parseResponse(response);
+		try {
+			String response = PNRUtils.getWebResult(searchUrl);
+			Log.d(AppConstants.TAG, "WebResultResponse : " + response);
+			pnrStatusVo = parseResponse(response);
+		} catch (JSONException e) {
+			throw new StatusException("Error in JSON Response");
+		} catch (IOException e) {
+			throw new StatusException("IO Error occured");
+		}
+		return pnrStatusVo;
 	}
 
 	@Override
@@ -164,7 +172,7 @@ public class PnrApiService implements IStatusService {
 		return statusVo;
 	}
 
-	private String getStationName(JSONObject object) throws JSONException{
+	private String getStationName(JSONObject object) throws JSONException {
 		return object.getString("name");
 	}
 }

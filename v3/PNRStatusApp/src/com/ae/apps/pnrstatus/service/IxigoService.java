@@ -54,16 +54,25 @@ public class IxigoService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber) throws JSONException, StatusException, IOException {
+	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		String searchUrl = getServiceUrl(pnrNumber);
 		Log.i(AppConstants.TAG, "Using " + getServiceName());
 		Log.d(AppConstants.TAG, "SearchURL :  " + searchUrl);
 
-		String response = PNRUtils.getWebResult(searchUrl);
-		// String response = pnrService.getStubResponse();
+		String response = null;
+		PNRStatusVo pnrStatusVo = null;
+
+		try {
+			response = PNRUtils.getWebResult(searchUrl);
+			pnrStatusVo = parseResponse(response);
+		} catch (IOException e) {
+			throw new StatusException("IO Error occured");
+		} catch (JSONException e) {
+			throw new StatusException("Error in Json response");
+		}
 
 		Log.d(AppConstants.TAG, "WebResultResponse : " + response);
-		return parseResponse(response);
+		return pnrStatusVo;
 	}
 
 	@Override
@@ -74,10 +83,6 @@ public class IxigoService implements IStatusService {
 		}
 		return getResponse(pnrNumber);
 	}
-
-	/**
-	 * Returns the
-	 */
 
 	private String getServiceUrl(String pnrNumber) {
 		if (null != pnrNumber && !pnrNumber.equals("")) {

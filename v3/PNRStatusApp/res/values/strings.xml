@@ -12,7 +12,6 @@
     <string name="button_no">No</string>
 
     <!-- No need to translate these -->
-    <string name="fb_page_link">http://www.facebook.com/PNRStatusApp</string>
     <string name="empty_text"></string>
     <string name="line1">line1</string>
     <string name="line2">line2</string>
@@ -21,10 +20,11 @@
     <string name="pnr_number_length">10</string>
 
     <!-- From v2 -->
-    <string name="version_name">Version 3.1.97 - Marvin (December 2013)</string>
-    <string name="about_app_desc">Use this app to check the status of a valid train PNR Number in India.\n\n\r
+    <string name="app_version">Version 3.1.97 - Marvin (January 2014)</string>
+    <string name="app_desc">Use this app to check the status of a valid train PNR Number in India.\n\n\r
 No part of PNRStatus Data retrieved is persisted by this app.</string>
-    <string name="designed_developer_info">Designed &amp; developed at ae labs</string>
+    <string name="app_developer_info">Designed &amp; developed at ae labs</string>
+    
     <string name="add_pnr_hint">Enter a PNR Number</string>
     <string name="add_pnr">Add</string>
     <string name="empty_set">Add a PNR Number to begin</string>

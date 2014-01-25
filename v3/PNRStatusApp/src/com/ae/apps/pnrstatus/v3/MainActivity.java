@@ -16,6 +16,7 @@
 
 package com.ae.apps.pnrstatus.v3;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import android.content.Intent;
@@ -135,7 +136,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 					public void run() {
 						Log.d(AppConstants.TAG, "Check the status in a new thread");
 						boolean isStub = Utils.isDevelopmentMode();
-						IStatusService service;
+						IStatusService service = null;
 						try {
 							// Read from the preference what service we should use, default to indian rail service
 							SharedPreferences preferences = PreferenceManager
@@ -169,6 +170,17 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 											Toast.LENGTH_LONG).show();
 								}
 							});
+						} catch (FileNotFoundException e) {
+							Log.e(AppConstants.TAG, "error", e);
+							handler.post(new Runnable() {
+
+								@Override
+								public void run() {
+									Toast.makeText(getApplicationContext(), R.string.str_error_generic_error,
+											Toast.LENGTH_LONG).show();
+								}
+							});
+
 						} catch (Exception e) {
 							e.printStackTrace();
 							Log.e(AppConstants.TAG, "error", e);

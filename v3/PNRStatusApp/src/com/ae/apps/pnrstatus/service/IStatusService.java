@@ -39,7 +39,7 @@ public interface IStatusService {
 	 * @param responseString
 	 * @return
 	 */
-	PNRStatusVo getResponse(String pnrNumber) throws JSONException, StatusException, IOException;
+	PNRStatusVo getResponse(String pnrNumber) throws StatusException;
 
 	/**
 	 * Returns a PNRSTatusVo object based on the value for stubResponse

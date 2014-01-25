@@ -19,6 +19,8 @@ package com.ae.apps.pnrstatus.service;
 import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +92,7 @@ public class IndianRailService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber) throws JSONException, StatusException, IOException {
+	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		Log.d(TAG, "enter getResponse()");
 
 		// Create the headers and params for request
@@ -103,7 +105,16 @@ public class IndianRailService implements IStatusService {
 		params.put("submitpnr", "Get+Status");
 
 		// invoke the post method and get the response
-		String webResponse = HttpUtils.postForm(url1, headers, params);
+		String webResponse = null;
+		try {
+			webResponse = HttpUtils.postForm(url1, headers, params);
+		} catch (MalformedURLException e) {
+			throw new StatusException("Error in request");
+		} catch (ProtocolException e) {
+			throw new StatusException("Error in request");
+		} catch (IOException e) {
+			throw new StatusException("IO Error occured");
+		}
 
 		Log.d(TAG, "WebResultResponse : " + webResponse.length());
 		Log.d(TAG, "exit getResponse()");
