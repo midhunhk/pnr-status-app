@@ -48,10 +48,10 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
  */
 public class PnrRowAdapter extends BaseAdapter {
 
-	private PnrStatusFragment	parentFragment;
-	private List<PNRStatusVo>	arrayList;
-	private LayoutInflater		inflater;
-	private Context				context;
+	private final PnrStatusFragment	parentFragment;
+	private final List<PNRStatusVo>	arrayList;
+	private final LayoutInflater	inflater;
+	private final Context			context;
 
 	public PnrRowAdapter(Context context, PnrStatusFragment parentFragment, List<PNRStatusVo> list) {
 		arrayList = list;
@@ -112,12 +112,12 @@ public class PnrRowAdapter extends BaseAdapter {
 			Log.d(AppConstants.TAG, message);
 
 			holder.btnInfo.setEnabled(true);
-			//holder.btnInfo.setImageResource(R.drawable.ic_info);
+			// holder.btnInfo.setImageResource(R.drawable.ic_info);
 			holder.txtStatus.setText(passengerDataVo.getTrainCurrentStatus());
 		} else {
 			// Disable the Extra Info Button
 			holder.btnInfo.setEnabled(false);
-			//holder.btnInfo.setImageResource(R.drawable.ic_info_disabled);
+			// holder.btnInfo.setImageResource(R.drawable.ic_info_disabled);
 			holder.txtStatus.setText("");
 		}
 
@@ -148,7 +148,7 @@ public class PnrRowAdapter extends BaseAdapter {
 				builder.setMessage(activity.getString(R.string.message_delete_pnr));
 
 				// Set the positive button click
-				builder.setPositiveButton(activity.getString(R.string.button_yes),
+				builder.setPositiveButton(activity.getString(android.R.string.ok),
 						new DialogInterface.OnClickListener() {
 
 							@Override
@@ -159,7 +159,7 @@ public class PnrRowAdapter extends BaseAdapter {
 						});
 
 				// Set the negative button click
-				builder.setNegativeButton(activity.getString(R.string.button_no),
+				builder.setNegativeButton(activity.getString(android.R.string.cancel),
 						new DialogInterface.OnClickListener() {
 
 							@Override
@@ -188,8 +188,9 @@ public class PnrRowAdapter extends BaseAdapter {
 
 	/**
 	 * Inner Class that describes the contents of a PNR Status Row
+	 * 
 	 * @author Midhun
-	 *
+	 * 
 	 */
 	private static class ViewHolder {
 		TextView	txtName;
