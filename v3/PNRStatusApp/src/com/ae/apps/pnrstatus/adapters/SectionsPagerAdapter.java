@@ -33,24 +33,30 @@ import com.ae.apps.pnrstatus.v3.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	private Context	context;
+	private final Context	context;
+	private final Fragment	mMessagesFragment;
+	private final Fragment	mPnrStatusFragment;
+	private final Fragment	mAboutFragment;
 
 	public SectionsPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		this.context = context;
+		mMessagesFragment = new MessagesFragment();
+		mPnrStatusFragment = new PnrStatusFragment();
+		mAboutFragment = new AboutFragment();
 	}
 
 	@Override
 	public Fragment getItem(int i) {
 		Fragment fragment = null;
 		if (i == 0) {
-			fragment = new MessagesFragment();
+			fragment = mMessagesFragment;
 		} else if (i == 1) {
-			fragment = new PnrStatusFragment();
+			fragment = mPnrStatusFragment;
 		} else if (i == 2) {
-			fragment = new AboutFragment();
+			fragment = mAboutFragment;
 		} else {
-			fragment = new AboutFragment();
+			fragment = mAboutFragment;
 		}
 		return fragment;
 	}

@@ -44,6 +44,7 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:layout_marginRight="@dimen/margin_small"
         android:padding="3dip" >
 
         <TextView
