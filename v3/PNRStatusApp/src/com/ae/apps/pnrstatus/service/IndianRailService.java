@@ -48,6 +48,7 @@ public class IndianRailService implements IStatusService {
 	 * The URL for Indian Rail Service
 	 */
 	private final String	url1		= "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
+	private final String	url2		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_690.cgi";
 
 	private final String	serviceName	= "IndianRail";
 
@@ -95,19 +96,29 @@ public class IndianRailService implements IStatusService {
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		Log.d(TAG, "enter getResponse()");
 
+		// Here, ahem we generate a random captcha for the server
+		long randomCaptcha = Math.round(Math.random() * 89999) + 10000;
+
 		// Create the headers and params for request
 		HashMap<String, String> params = new HashMap<String, String>();
 		HashMap<String, String> headers = new HashMap<String, String>();
 
-		headers.put("X-Alt-Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
+		// headers.put("X-Alt-Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
+		headers.put("Referer", "http://www.indianrail.gov.in/pnr_stat.html");
+		headers.put("Keep-Alive", "115");
+		headers.put("Host", "http://www.indianrail.gov.in");
+		headers.put("Content-type", "application/x-www-form-urlencoded");
+		headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6) Gecko/20100101 Firefox/4.0.1");
 
 		params.put("lccp_pnrno1", pnrNumber);
 		params.put("submitpnr", "Get+Status");
+		params.put("lccp_cap_val", randomCaptcha + "");
+		params.put("lccp_capinp_val", randomCaptcha + "");
 
 		// invoke the post method and get the response
 		String webResponse = null;
 		try {
-			webResponse = HttpUtils.postForm(url1, headers, params);
+			webResponse = HttpUtils.postForm(url2, headers, params);
 		} catch (MalformedURLException e) {
 			throw new StatusException("Error in request");
 		} catch (ProtocolException e) {
@@ -193,6 +204,8 @@ public class IndianRailService implements IStatusService {
 			String chartStatus = elements.get(elements.size() - 1);
 			pnrStatusVo.setChartStatus(chartStatus);
 			pnrStatusVo.setPassengers(passengersList);
+		} else {
+			throw new StatusException("Empty response from server");
 		}
 		Log.d(TAG, "exit parseResponse()");
 		return pnrStatusVo;

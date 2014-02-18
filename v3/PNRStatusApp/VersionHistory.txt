@@ -147,3 +147,6 @@ PNRStatusAppV3 3.1.95 "marvin" [November 2013]
 PNRStatusAppV3 3.1.97 "marvin" [December 2013]
  - [CHANGED]	File organization
  - [CHANGED]	App Icon change
+ 
+PNRStatusAppV3 3.1.98 "marvin" [December 2013]
+ - [CHANGED]	Workarounds to work with indianrail
