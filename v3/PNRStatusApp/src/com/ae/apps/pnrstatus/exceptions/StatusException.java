@@ -26,7 +26,12 @@ public class StatusException extends Exception {
 
 	private static final long	serialVersionUID	= 4678860372933762653L;
 
-	private String				statusString;
+	public enum ErrorCodes {
+		PARSE_ERROR, NETWORK_ERROR, EMPTY_RESPONSE
+	}
+
+	private ErrorCodes	errorCode;
+	private String		statusString;
 
 	public StatusException() {
 		super();
@@ -48,8 +53,17 @@ public class StatusException extends Exception {
 		this.statusString = statusString;
 	}
 
+	public StatusException(String message, ErrorCodes code) {
+		super(message);
+		errorCode = code;
+	}
+
 	public String getStatusString() {
 		return statusString;
+	}
+
+	public ErrorCodes getErrorCode() {
+		return errorCode;
 	}
 
 }

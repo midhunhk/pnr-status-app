@@ -51,5 +51,5 @@ public interface IStatusService {
 	 * @throws StatusException
 	 * @throws IOException
 	 */
-	PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws JSONException, StatusException, IOException;
+	PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException;
 }

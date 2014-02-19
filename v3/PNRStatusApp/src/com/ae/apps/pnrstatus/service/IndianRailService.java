@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
@@ -78,8 +76,7 @@ public class IndianRailService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws JSONException, StatusException,
-			IOException {
+	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
 		PNRStatusVo pnrStatusVo = null;
 		if (stubResponse == true) {
 			pnrStatusVo = parseResponse(getStubResponse());
@@ -103,12 +100,16 @@ public class IndianRailService implements IStatusService {
 		HashMap<String, String> params = new HashMap<String, String>();
 		HashMap<String, String> headers = new HashMap<String, String>();
 
+		// Creating the headers
 		// headers.put("X-Alt-Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
 		headers.put("Referer", "http://www.indianrail.gov.in/pnr_stat.html");
-		headers.put("Keep-Alive", "115");
-		headers.put("Host", "http://www.indianrail.gov.in");
-		headers.put("Content-type", "application/x-www-form-urlencoded");
-		headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6) Gecko/20100101 Firefox/4.0.1");
+
+		// headers.put("Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
+		// headers.put("Keep-Alive", "115");
+		// headers.put("Host", "http://www.indianrail.gov.in");
+		// headers.put("Origin", "http://www.indianrail.gov.in");
+		// headers.put("Content-type", "application/x-www-form-urlencoded");
+		// headers.put("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.5 Safari/537.22");
 
 		params.put("lccp_pnrno1", pnrNumber);
 		params.put("submitpnr", "Get+Status");
@@ -118,6 +119,8 @@ public class IndianRailService implements IStatusService {
 		// invoke the post method and get the response
 		String webResponse = null;
 		try {
+			// webResponse = HttpUtils.sendPost(url2, headers, params);
+			// Log.d(TAG, webResponse);
 			webResponse = HttpUtils.postForm(url2, headers, params);
 		} catch (MalformedURLException e) {
 			throw new StatusException("Error in request");
@@ -169,15 +172,15 @@ public class IndianRailService implements IStatusService {
 			int passengersCount = (elements.size() - infoDataCount - 1) / 3;
 			Log.d(AppConstants.TAG, "passengersCount : " + passengersCount);
 
+			int passengerDataIndex = infoDataCount;
 			List<PassengerDataVo> passengersList = new ArrayList<PassengerDataVo>();
 			for (int i = 1; i <= passengersCount; i++) {
-				int dataIndex = infoDataCount * i;
-				String trainCurrentStatus = elements.get(dataIndex + 2);
-				String trainBookingBerth = elements.get(dataIndex + 1);
+				String trainCurrentStatus = elements.get(passengerDataIndex + 2);
+				String trainBookingBerth = elements.get(passengerDataIndex + 1);
 
 				// Create the PassengerDataVo
 				PassengerDataVo passengerDataVo = new PassengerDataVo();
-				passengerDataVo.setTrainPassenger(elements.get(dataIndex));
+				passengerDataVo.setTrainPassenger(elements.get(passengerDataIndex));
 				passengerDataVo.setTrainBookingBerth(trainBookingBerth);
 				passengerDataVo.setTrainCurrentStatus(trainCurrentStatus);
 
@@ -200,6 +203,7 @@ public class IndianRailService implements IStatusService {
 					pnrStatusVo.setTicketStatus(trainCurrentStatus);
 				}
 				passengersList.add(passengerDataVo);
+				passengerDataIndex += 3;
 			}
 			String chartStatus = elements.get(elements.size() - 1);
 			pnrStatusVo.setChartStatus(chartStatus);

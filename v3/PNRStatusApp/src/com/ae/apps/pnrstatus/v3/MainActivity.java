@@ -16,7 +16,6 @@
 
 package com.ae.apps.pnrstatus.v3;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import android.content.Intent;
@@ -167,16 +166,6 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 								public void run() {
 									// Show a toast with the reason for the Status Exception
 									Toast.makeText(getApplicationContext(), R.string.str_error_parse_error,
-											Toast.LENGTH_LONG).show();
-								}
-							});
-						} catch (FileNotFoundException e) {
-							Log.e(AppConstants.TAG, "error", e);
-							handler.post(new Runnable() {
-
-								@Override
-								public void run() {
-									Toast.makeText(getApplicationContext(), R.string.str_error_generic_error,
 											Toast.LENGTH_LONG).show();
 								}
 							});

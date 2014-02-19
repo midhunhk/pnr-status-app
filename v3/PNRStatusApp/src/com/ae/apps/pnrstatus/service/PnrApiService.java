@@ -58,8 +58,6 @@ public class PnrApiService implements IStatusService {
 			String response = PNRUtils.getWebResult(searchUrl);
 			Log.d(AppConstants.TAG, "WebResultResponse : " + response);
 			pnrStatusVo = parseResponse(response);
-		} catch (JSONException e) {
-			throw new StatusException("Error in JSON Response");
 		} catch (IOException e) {
 			throw new StatusException("IO Error occured");
 		}
@@ -67,8 +65,7 @@ public class PnrApiService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws JSONException, StatusException,
-			IOException {
+	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
 		PNRStatusVo statusVo = null;
 		if (stubResponse == true) {
 			// Return from the stub response
@@ -96,79 +93,81 @@ public class PnrApiService implements IStatusService {
 		return "";
 	}
 
-	private PNRStatusVo parseResponse(String responseString) throws JSONException, StatusException {
+	private PNRStatusVo parseResponse(String responseString) throws StatusException {
 		PNRStatusVo statusVo = new PNRStatusVo();
+		try {
+			JSONTokener jsonTokener = new JSONTokener(responseString);
+			JSONObject object = (JSONObject) jsonTokener.nextValue();
 
-		JSONTokener jsonTokener = new JSONTokener(responseString);
-		JSONObject object = (JSONObject) jsonTokener.nextValue();
+			// Get the status of the PNR Number
+			String ticketStatus = object.getString("status");
 
-		// Get the status of the PNR Number
-		String ticketStatus = object.getString("status");
+			if (ticketStatus.equals(PNRStatus.OK)) {
+				JSONObject dataObject = object.getJSONObject("data");
+				JSONArray passengersArray = dataObject.getJSONArray("passenger");
 
-		if (ticketStatus.equals(PNRStatus.OK)) {
-			JSONObject dataObject = object.getJSONObject("data");
-			JSONArray passengersArray = dataObject.getJSONArray("passenger");
+				String firstPassengerStatus = "";
 
-			String firstPassengerStatus = "";
+				JSONObject dateObject = dataObject.getJSONObject("travel_date");
+				String trainJourney = dateObject.getString("date");
 
-			JSONObject dateObject = dataObject.getJSONObject("travel_date");
-			String trainJourney = dateObject.getString("date");
+				String trainDest = getStationName(dataObject.getJSONObject("alight"));
+				String trainName = dataObject.getString("train_name");
+				String trainNo = PNRUtils.getTrainNo(dataObject.getString("train_number"));
+				String trainBoard = getStationName(dataObject.getJSONObject("board"));
+				String trainEmbark = getStationName(dataObject.getJSONObject("to"));
+				String ticketClass = dataObject.getString("class");
 
-			String trainDest = getStationName(dataObject.getJSONObject("alight"));
-			String trainName = dataObject.getString("train_name");
-			String trainNo = PNRUtils.getTrainNo(dataObject.getString("train_number"));
-			String trainBoard = getStationName(dataObject.getJSONObject("board"));
-			String trainEmbark = getStationName(dataObject.getJSONObject("to"));
-			String ticketClass = dataObject.getString("class");
+				// Read the PassengerDataVos
+				List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
 
-			// Read the PassengerDataVos
-			List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
+				for (int i = 0; i < passengersArray.length(); i++) {
+					JSONObject object2 = passengersArray.getJSONObject(i);
+					String trainBookingBerth = object2.getString("seat_number").trim();
+					String trainCurrentStatus = object2.getString("status").trim();
+					String trainPassenger = "Passenger " + (i + 1);
+					String berthPosition = "";
 
-			for (int i = 0; i < passengersArray.length(); i++) {
-				JSONObject object2 = passengersArray.getJSONObject(i);
-				String trainBookingBerth = object2.getString("seat_number").trim();
-				String trainCurrentStatus = object2.getString("status").trim();
-				String trainPassenger = "Passenger " + (i + 1);
-				String berthPosition = "";
+					// Calculate the BerthPosition
+					berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth, ticketClass, ",");
 
-				// Calculate the BerthPosition
-				berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth, ticketClass, ",");
+					PassengerDataVo dataVo = new PassengerDataVo();
+					dataVo.setTrainBookingBerth(trainBookingBerth);
+					dataVo.setTrainCurrentStatus(trainCurrentStatus);
+					dataVo.setTrainPassenger(trainPassenger);
+					dataVo.setBerthPosition(berthPosition);
 
-				PassengerDataVo dataVo = new PassengerDataVo();
-				dataVo.setTrainBookingBerth(trainBookingBerth);
-				dataVo.setTrainCurrentStatus(trainCurrentStatus);
-				dataVo.setTrainPassenger(trainPassenger);
-				dataVo.setBerthPosition(berthPosition);
+					passengers.add(dataVo);
+				}
 
-				passengers.add(dataVo);
+				// Get the first passenger status
+				if (passengers.size() > 0) {
+					PassengerDataVo dataVo = (passengers.get(0));
+					statusVo.setFirstPassengerData(dataVo);
+					firstPassengerStatus = dataVo.getTrainCurrentStatus();
+				}
+
+				// Set the values for the StatusVo
+				statusVo.setTicketStatus(ticketStatus);
+				statusVo.setBoardingPoint(trainBoard);
+				statusVo.setDestination(trainDest);
+				statusVo.setEmbarkPoint(trainEmbark);
+				statusVo.setTrainJourney(trainJourney);
+				statusVo.setTrainName(trainName);
+				statusVo.setTrainNo(trainNo);
+				statusVo.setTicketClass(ticketClass);
+				statusVo.setCurrentStatus(firstPassengerStatus);
+
+				statusVo.setPassengers(passengers);
+			} else {
+				// ticket may be invalid or server timed out
+				StatusException exception = new StatusException();
+				exception.setStatusString(ticketStatus);
+				throw exception;
 			}
-
-			// Get the first passenger status
-			if (passengers.size() > 0) {
-				PassengerDataVo dataVo = (passengers.get(0));
-				statusVo.setFirstPassengerData(dataVo);
-				firstPassengerStatus = dataVo.getTrainCurrentStatus();
-			}
-
-			// Set the values for the StatusVo
-			statusVo.setTicketStatus(ticketStatus);
-			statusVo.setBoardingPoint(trainBoard);
-			statusVo.setDestination(trainDest);
-			statusVo.setEmbarkPoint(trainEmbark);
-			statusVo.setTrainJourney(trainJourney);
-			statusVo.setTrainName(trainName);
-			statusVo.setTrainNo(trainNo);
-			statusVo.setTicketClass(ticketClass);
-			statusVo.setCurrentStatus(firstPassengerStatus);
-
-			statusVo.setPassengers(passengers);
-		} else {
-			// ticket may be invalid or server timed out
-			StatusException exception = new StatusException();
-			exception.setStatusString(ticketStatus);
-			throw exception;
+		} catch (JSONException exception) {
+			throw new StatusException("Json response error");
 		}
-
 		return statusVo;
 	}
 
