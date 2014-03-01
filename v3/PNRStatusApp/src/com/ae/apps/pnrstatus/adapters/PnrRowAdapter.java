@@ -77,7 +77,7 @@ public class PnrRowAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+		final ViewHolder holder;
 		final String normalPNR = arrayList.get(position).getPnrNumber();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.pnr_row_item, null);
@@ -136,6 +136,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				Log.d(AppConstants.TAG, "PnrRowAdapter :: Check Button Clicked");
+				holder.txtStatus.setText("");
 				parentFragment.checkStatus(pnrStatusVo);
 			}
 		});

@@ -54,6 +54,8 @@ public class DialogUtils {
 		// TextView pnrNumber = (TextView) inflatedView.findViewById(R.id.ticket_pnrnumber);
 		// pnrNumber.setText(PNRUtils.formatPNRString(pnrStatusVo.getPnrNumber()));
 
+		View header = LayoutInflater.from(context).inflate(R.layout.dialog_header, null);
+
 		// Get reference to the textviews
 		TextView line1 = (TextView) inflatedView.findViewById(R.id.ticket_info_line1);
 		TextView line2 = (TextView) inflatedView.findViewById(R.id.ticket_info_line2);
@@ -78,7 +80,7 @@ public class DialogUtils {
 		line5.setText(pnrStatusVo.getChartStatus());
 
 		// Handle the Share button click
-		ImageButton shareButton = (ImageButton) inflatedView.findViewById(R.id.share_button);
+		ImageButton shareButton = (ImageButton) header.findViewById(R.id.share_button);
 		shareButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -96,7 +98,7 @@ public class DialogUtils {
 		// .setCustomTitle(customTitleView)
 		// Ask the system to create an Alert dialog for us
 		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
-				.setTitle(R.string.ticket_info_title).setView(inflatedView)
+				.setTitle(R.string.ticket_info_title).setView(inflatedView).setCustomTitle(header)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override

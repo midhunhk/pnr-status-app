@@ -55,7 +55,7 @@ public class PnrStatusFragment extends ListFragment {
 	private PnrRowAdapter			mCustomAdapter;
 	private FragmentActivity		activity;
 	private OnCheckStatusListener	mCallback;
-	private View					mHiddenFocusLayout;
+	// private View mHiddenFocusLayout;
 	private ProgressBar				progressBar;
 
 	@Override
@@ -63,7 +63,7 @@ public class PnrStatusFragment extends ListFragment {
 		activity = super.getActivity();
 		layout = inflater.inflate(R.layout.pnr_list_view, null);
 		context = activity.getApplicationContext();
-		mHiddenFocusLayout = layout.findViewById(R.id.hiddenFocusLayout);
+		// mHiddenFocusLayout = layout.findViewById(R.id.hiddenFocusLayout);
 		initActivity();
 		return layout;
 	}
