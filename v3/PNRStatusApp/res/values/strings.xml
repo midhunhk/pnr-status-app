@@ -17,7 +17,7 @@
     <string name="line4">line4</string>
     <string name="pnr_number_length">10</string>
 
-    <string name="app_version">Version 3.1.98 - Marvin (January 2014)</string>
+    <string name="app_version">Version 3.3.10 - Marvin2 (March 2014)</string>
     <string name="app_desc">Use this app to check the status of a valid train PNR Number in India.\n\n\r
 No part of PNRStatus Data retrieved is persisted by this app.</string>
     <string name="app_developer_info">Designed &amp; developed at ae labs</string>
@@ -48,7 +48,7 @@ No part of PNRStatus Data retrieved is persisted by this app.</string>
     <string name="str_train_no">Train No : %s</string>
     <string name="str_ticket_class">Ticket Class : %s</string>
     <string name="str_share_status_subject">PNR Status for %s</string>
-    <string name="str_share_status_detail">My PNR Status is %1$s, %2$s </string>
+    <string name="str_share_status_detail">PNR Status is %1$s, %2$s #PNRStatusApp</string>
     <string name="str_share_via">Share Via</string>
     
     <string name="str_error_no_internet">Please check if internet is available</string>
