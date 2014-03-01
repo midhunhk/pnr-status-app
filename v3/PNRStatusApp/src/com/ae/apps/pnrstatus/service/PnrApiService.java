@@ -16,7 +16,6 @@
 
 package com.ae.apps.pnrstatus.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,7 @@ import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.utils.AppConstants;
+import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
@@ -55,11 +55,12 @@ public class PnrApiService implements IStatusService {
 		PNRStatusVo pnrStatusVo = null;
 
 		try {
-			String response = PNRUtils.getWebResult(searchUrl);
+			// String response = PNRUtils.getWebResult(searchUrl);
+			String response = HttpUtils.sendGet(searchUrl);
 			Log.d(AppConstants.TAG, "WebResultResponse : " + response);
 			pnrStatusVo = parseResponse(response);
-		} catch (IOException e) {
-			throw new StatusException("IO Error occured");
+		} catch (Exception e) {
+			throw new StatusException(e.getMessage(), e);
 		}
 		return pnrStatusVo;
 	}

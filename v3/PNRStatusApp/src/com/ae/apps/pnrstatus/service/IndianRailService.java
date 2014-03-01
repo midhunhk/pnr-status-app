@@ -18,9 +18,6 @@ package com.ae.apps.pnrstatus.service;
 
 import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,37 +39,22 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
  */
 public class IndianRailService implements IStatusService {
 
-	/**
-	 * The URL for Indian Rail Service
-	 */
-	private final String	url1		= "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
-	private final String	url2		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_690.cgi";
-
-	private final String	serviceName	= "IndianRail";
+	private static final String	SEPARATOR_COMMA		= ",";
+	private static final String	PARAM_REFERER		= "Referer";
+	private static final String	SUBMIT_VALUE		= "Get+Status";
+	private static final String	PARAM_CAPTCHA_INPUT	= "lccp_capinp_val";
+	private static final String	PARAM_CAPTCHA		= "lccp_cap_val";
+	private static final String	PARAM_SUBMIT		= "submitpnr";
+	private static final String	PARAM_PNR			= "lccp_pnrno1";
+	private static final String	REFERRER_URL		= "http://www.indianrail.gov.in/pnr_stat.html";
+	// private static final String url1 = "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
+	// 690
+	private static final String	INDIAN_RAIL_URL		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
+	private static final String	SERVICE_NAME		= "IndianRail";
 
 	@Override
 	public String getServiceName() {
-		return serviceName;
-	}
-
-	private String getStubResponse() {
-		String response = "<td colspan=\"9\" class=\"heading_table_top\">Journey Details</td></tr><TR class=\"heading_table\"><td width=\"11%\">"
-				+ "Train Number</Td><td width=\"16%\">Train Name</td><td width=\"18%\">Boarding Date <br>(DD-MM-YYYY)</td><td width=\"7%\">From</Td>"
-				+ "<td width=\"7%\">To</Td><td width=\"14%\">Reserved Upto</Td><td width=\"21%\">Boarding Point</Td><td width=\"6%\">Class</Td></TR>"
-				+ "<TR><TD class=\"table_border_both\">*12623</TD><TD class=\"table_border_both\">TRIVANDRUM MAIL</TD><TD class=\"table_border_both\">"
-				+ "14- 9-2012</TD><TD class=\"table_border_both\">MAS </TD><TD class=\"table_border_both\">ERN </TD><TD class=\"table_border_both\">"
-				+ "ERN </TD><TD class=\"table_border_both\">MAS </TD><TD class=\"table_border_both\"> SL</TD></TR></TABLE><BR /><TABLE align=\"center\">"
-				+ "<TR><TD><FORM NAME=\"RouteInfo\" METHOD=\"POST\" ACTION=\"http://www.indianrail.gov.in/cgi_bin/inet_trnpath_cgi.cgi\">"
-				+ "<INPUT TYPE=\"SUBMIT\" CLASS=\"btn_style\" VALUE=\"Get Schedule\" NAME=\"lccp_submitpath\"><INPUT TYPE=\"HIDDEN\" NAME=\"lccp_trn_no\" "
-				+ "SIZE=\"5\" VALUE=\"12623\"><INPUT  TYPE=\"HIDDEN\" NAME=\"lccp_month\" SIZE=\"2\" VALUE=\"9\"><INPUT  TYPE=\"HIDDEN\" NAME=\"lccp_day\" "
-				+ "SIZE=\"2\" VALUE=\"14\"><INPUT TYPE=\"HIDDEN\" NAME=\"lccp_daycnt\" SIZE=\"1\" VALUE=\"0\"></FORM></TD></TR></TABLE><TABLE "
-				+ "width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" class=\"table_border\" id=\"center_table\" ><TR><td width=\"25%\" "
-				+ "class=\"heading_table_top\">S. No.</td><td width=\"45%\" class=\"heading_table_top\">Booking Status <br /> (Coach No , Berth No., "
-				+ "Quota)</td><td width=\"30%\" class=\"heading_table_top\">* Current Status <br />(Coach No , Berth No.)</td></TR><TR><TD "
-				+ "class=\"table_border_both\"><B>Passenger 1</B></TD><TD class=\"table_border_both\"><B>S3,    24,GN  </B></TD><TD "
-				+ "class=\"table_border_both\"><B>CNF</B></TD></TR><TR><td class=\"heading_table_top\">Charting Status</td><TD colspan=\"3\" "
-				+ "align=\"middle\" valign=\"middle\" class=\"table_border_both\"> CHART NOT PREPARED </TD></TR><TR>";
-		return response;
+		return SERVICE_NAME;
 	}
 
 	@Override
@@ -102,7 +84,7 @@ public class IndianRailService implements IStatusService {
 
 		// Creating the headers
 		// headers.put("X-Alt-Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
-		headers.put("Referer", "http://www.indianrail.gov.in/pnr_stat.html");
+		headers.put(PARAM_REFERER, REFERRER_URL);
 
 		// headers.put("Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
 		// headers.put("Keep-Alive", "115");
@@ -111,26 +93,22 @@ public class IndianRailService implements IStatusService {
 		// headers.put("Content-type", "application/x-www-form-urlencoded");
 		// headers.put("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.5 Safari/537.22");
 
-		params.put("lccp_pnrno1", pnrNumber);
-		params.put("submitpnr", "Get+Status");
-		params.put("lccp_cap_val", randomCaptcha + "");
-		params.put("lccp_capinp_val", randomCaptcha + "");
+		params.put(PARAM_PNR, pnrNumber);
+		params.put(PARAM_SUBMIT, SUBMIT_VALUE);
+		params.put(PARAM_CAPTCHA, randomCaptcha + "");
+		params.put(PARAM_CAPTCHA_INPUT, randomCaptcha + "");
 
 		// invoke the post method and get the response
 		String webResponse = null;
 		try {
-			// webResponse = HttpUtils.sendPost(url2, headers, params);
-			// Log.d(TAG, webResponse);
-			webResponse = HttpUtils.postForm(url2, headers, params);
-		} catch (MalformedURLException e) {
-			throw new StatusException("Error in request");
-		} catch (ProtocolException e) {
-			throw new StatusException("Error in request");
-		} catch (IOException e) {
-			throw new StatusException("IO Error occured");
+			webResponse = HttpUtils.sendPost(INDIAN_RAIL_URL, headers, params);
+			Log.d(TAG, webResponse);
+			// webResponse = HttpUtils.postForm(url2, headers, params);
+		} catch (Exception e) {
+			throw new StatusException(e.getMessage(), e);
 		}
 
-		Log.d(TAG, "WebResultResponse : " + webResponse.length());
+		Log.d(TAG, "WebResultResponse length : " + webResponse.length());
 		Log.d(TAG, "exit getResponse()");
 
 		return parseResponse(webResponse);
@@ -175,32 +153,32 @@ public class IndianRailService implements IStatusService {
 			int passengerDataIndex = infoDataCount;
 			List<PassengerDataVo> passengersList = new ArrayList<PassengerDataVo>();
 			for (int i = 1; i <= passengersCount; i++) {
-				String trainCurrentStatus = elements.get(passengerDataIndex + 2);
-				String trainBookingBerth = elements.get(passengerDataIndex + 1);
+				String currentStatus = elements.get(passengerDataIndex + 2);
+				String bookingBerth = elements.get(passengerDataIndex + 1);
 
 				// Create the PassengerDataVo
 				PassengerDataVo passengerDataVo = new PassengerDataVo();
 				passengerDataVo.setTrainPassenger(elements.get(passengerDataIndex));
-				passengerDataVo.setTrainBookingBerth(trainBookingBerth);
-				passengerDataVo.setTrainCurrentStatus(trainCurrentStatus);
+				passengerDataVo.setTrainBookingBerth(bookingBerth);
+				passengerDataVo.setTrainCurrentStatus(currentStatus);
 
 				// Try to calculate the berth position
 				String berthPosition = "";
 				try {
 					// Separator is a comma
-					berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth, ticketClass, ",");
+					berthPosition = PNRUtils
+							.getBerthPosition(currentStatus, bookingBerth, ticketClass, SEPARATOR_COMMA);
 				} catch (Exception e) {
 					Log.e(TAG, "Exception in parseResponse() " + e.getMessage());
 				}
 				passengerDataVo.setBerthPosition(berthPosition);
-				passengerDataVo.setTrainBookingBerth(trainBookingBerth.trim());
+				passengerDataVo.setTrainBookingBerth(bookingBerth.trim());
 
-				// Update some values in the main vo based on the first
-				// passenger
+				// Update some values in the main vo based on the first passenger
 				if (i == 1) {
 					pnrStatusVo.setFirstPassengerData(passengerDataVo);
-					pnrStatusVo.setCurrentStatus(trainCurrentStatus);
-					pnrStatusVo.setTicketStatus(trainCurrentStatus);
+					pnrStatusVo.setCurrentStatus(currentStatus);
+					pnrStatusVo.setTicketStatus(currentStatus);
 				}
 				passengersList.add(passengerDataVo);
 				passengerDataIndex += 3;
@@ -215,4 +193,22 @@ public class IndianRailService implements IStatusService {
 		return pnrStatusVo;
 	}
 
+	private static String getStubResponse() {
+		String response = "<td colspan=\"9\" class=\"heading_table_top\">Journey Details</td></tr><TR class=\"heading_table\"><td width=\"11%\">Train Number</Td>"
+				+ "<td width=\"16%\">Train Name</td><td width=\"18%\">Boarding Date <br>(DD-MM-YYYY)</td><td width=\"7%\">From</Td><td width=\"7%\">To</Td>"
+				+ "<td width=\"14%\">Reserved Upto</Td><td width=\"21%\">Boarding Point</Td><td width=\"6%\">Class</Td></TR><TR><TD class=\"table_border_both\">*17229</TD>"
+				+ "<TD class=\"table_border_both\">SABARI EXPRESS </TD><TD class=\"table_border_both\"> 6- 3-2014</TD><TD class=\"table_border_both\">ERN </TD><TD class=\"table_border_both\">SC  </TD>"
+				+ "<TD class=\"table_border_both\">SC  </TD><TD class=\"table_border_both\">ERN </TD><TD class=\"table_border_both\"> SL</TD></TR></TABLE><BR />"
+				+ "<TABLE align=\"center\"><TR><TD><FORM NAME=\"RouteInfo\" METHOD=\"POST\" ACTION=\"http://www.indianrail.gov.in/cgi_bin/inet_trnpath_cgi.cgi\">"
+				+ "<INPUT TYPE=\"SUBMIT\" CLASS=\"btn_style\" VALUE=\"Get Schedule\" NAME=\"lccp_submitpath\"><INPUT TYPE=\"HIDDEN\" NAME=\"lccp_trn_no\" SIZE=\"5\" VALUE=\"17229\">"
+				+ "<INPUT  TYPE=\"HIDDEN\" NAME=\"lccp_month\" SIZE=\"2\" VALUE=\"3\"><INPUT  TYPE=\"HIDDEN\" NAME=\"lccp_day\" SIZE=\"2\" VALUE=\"6\"><INPUT TYPE=\"HIDDEN\" NAME=\"lccp_daycnt\" SIZE=\"1\" VALUE=\"0\"></FORM></TD></TR></TABLE>"
+				+ "<TABLE width=\"100%\" border=\"0\"><tr><td align=\"left\"><font size=1><strong>Passenger current status updated time: 1-3-2014 19:42</strong></td></font></tr></table>"
+				+ "<TABLE width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" class=\"table_border\" id=\"center_table\" >"
+				+ "<TR><td width=\"25%\" class=\"heading_table_top\">S. No.</td><td width=\"45%\" class=\"heading_table_top\">Booking Status <br /> (Coach No , Berth No., Quota)</td>"
+				+ "<td width=\"30%\" class=\"heading_table_top\">* Current Status <br />(Coach No , Berth No.)</td>"
+				+ "</TR><TR><TD class=\"table_border_both\"><B>Passenger 1</B></TD>"
+				+ "<TD class=\"table_border_both\"><B>S10 ,  7,GN    </B></TD><TD class=\"table_border_both\"><B>   CNF  </B></TD></TR><TR><td class=\"heading_table_top\">Charting Status</td>"
+				+ "<TD colspan=\"3\" align=\"middle\" valign=\"middle\" class=\"table_border_both\"> CHART NOT PREPARED </TD></TR><TR>";
+		return response;
+	}
 }

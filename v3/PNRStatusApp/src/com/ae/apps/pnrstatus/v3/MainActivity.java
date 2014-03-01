@@ -34,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ae.apps.pnrstatus.adapters.SectionsPagerAdapter;
+import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.managers.DataManager;
@@ -160,21 +161,19 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 								}
 							});
 						} catch (StatusException e) {
+							final String message = e.getMessage();
 							handler.post(new Runnable() {
 
 								@Override
 								public void run() {
 									// Show a toast with the reason for the Status Exception
-									Toast.makeText(getApplicationContext(), R.string.str_error_parse_error,
+									Toast.makeText(getApplicationContext(), R.string.str_error_parse_error + message,
 											Toast.LENGTH_LONG).show();
 								}
 							});
 
-						} catch (Exception e) {
-							e.printStackTrace();
-							Log.e(AppConstants.TAG, "error", e);
-							Toast.makeText(getApplicationContext(), R.string.str_error_generic_error, Toast.LENGTH_LONG)
-									.show();
+						} catch (InvalidServiceException e) {
+							// This shouldn't occur
 						} finally {
 
 							// Stop the ProgressBar on the main thread using the handler
@@ -190,8 +189,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 				}).start();
 
 			} catch (Exception e) {
-				// e.printStackTrace();
-				// Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.str_error_no_internet, Toast.LENGTH_LONG).show();

@@ -38,6 +38,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -68,7 +69,7 @@ public class HttpUtils {
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
 	public static String postForm(String urlString, Map<?, ?> requestHeaders, Map<?, ?> formParameters)
-			throws MalformedURLException, ProtocolException, IOException {
+			throws Exception {
 		return post(urlString, requestHeaders, formParameters, null);
 	}
 
@@ -89,8 +90,7 @@ public class HttpUtils {
 	 * @throws IOException
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
-	public static String postContents(String urlString, Map<?, ?> requestHeaders, String contents)
-			throws MalformedURLException, ProtocolException, IOException {
+	public static String postContents(String urlString, Map<?, ?> requestHeaders, String contents) throws Exception {
 		return post(urlString, requestHeaders, null, contents);
 	}
 
@@ -114,7 +114,7 @@ public class HttpUtils {
 	 *             reports I/O sending and/or retrieving data over Http
 	 */
 	public static String post(String urlString, Map<?, ?> requestHeaders, Map<?, ?> formParameters,
-			String requestContents) throws MalformedURLException, ProtocolException, IOException {
+			String requestContents) throws Exception {
 		// open url connection
 		URL url = new URL(urlString);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -197,7 +197,6 @@ public class HttpUtils {
 	// http://www.androidsnippets.com/get-the-content-from-a-httpresponse-or-any-inputstream-as-a-string
 
 	public static String sendPost(String url, Map<String, String> requestHeaders, Map<String, String> formParameters) {
-
 		StringBuilder result = new StringBuilder();
 		try {
 			HttpPost httppost = new HttpPost(url);
@@ -235,9 +234,36 @@ public class HttpUtils {
 			}
 
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+		return result.toString();
+	}
+
+	public static String sendGet(String url) {
+		StringBuilder result = new StringBuilder();
+		try {
+			HttpGet httpGet = new HttpGet(url);
+
+			// Execute HTTP Post Request
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpResponse response = httpclient.execute(httpGet);
+
+			int res = response.getStatusLine().getStatusCode();
+			Log.d("PNR", "response " + res);
+			Log.d("PNR", response.getStatusLine().getReasonPhrase());
+
+			String line = "";
+
+			// Wrap a BufferedReader around the InputStream
+			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			// Read response until the end
+			while ((line = rd.readLine()) != null) {
+				result.append(line);
+			}
+
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
 		}
 		return result.toString();
 	}

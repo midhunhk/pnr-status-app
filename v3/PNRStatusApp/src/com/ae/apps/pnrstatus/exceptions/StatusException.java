@@ -17,7 +17,7 @@
 package com.ae.apps.pnrstatus.exceptions;
 
 /**
- * Denotes an exception in the Status
+ * Denotes an exception that occured while checking for status
  * 
  * @author midhun_harikumar
  * 
@@ -27,7 +27,7 @@ public class StatusException extends Exception {
 	private static final long	serialVersionUID	= 4678860372933762653L;
 
 	public enum ErrorCodes {
-		PARSE_ERROR, NETWORK_ERROR, EMPTY_RESPONSE
+		PARSE_ERROR, NETWORK_ERROR, EMPTY_RESPONSE, URL_ERROR
 	}
 
 	private ErrorCodes	errorCode;
@@ -55,6 +55,11 @@ public class StatusException extends Exception {
 
 	public StatusException(String message, ErrorCodes code) {
 		super(message);
+		errorCode = code;
+	}
+
+	public StatusException(String message, Throwable throwable, ErrorCodes code) {
+		super(message, throwable);
 		errorCode = code;
 	}
 
