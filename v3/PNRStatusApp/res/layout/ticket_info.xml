@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp" >
 
-            <TextView
+            <!-- <TextView
                 android:id="@+id/ticket_pnrnumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
                 android:layout_margin="@dimen/margin_small"
                 android:text="@string/empty_text"
                 android:textStyle="bold" >
-            </TextView>
+            </TextView> -->
 
             <ImageButton
                 android:id="@+id/share_button"

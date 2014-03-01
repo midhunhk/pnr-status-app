@@ -55,7 +55,6 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 	private SectionsPagerAdapter	mSectionsPagerAdapter;
 	private ViewPager				mViewPager;
-	private View					mHiddenFocusLayout;
 	private DataManager				mDataManager;
 	private Handler					handler;
 	private final boolean			isDevMode			= true;
@@ -81,8 +80,6 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 		// Create a new Handler object
 		handler = new Handler();
-
-		mHiddenFocusLayout = findViewById(R.id.hiddenFocusLayout);
 	}
 
 	@Override
@@ -213,7 +210,6 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 	@Override
 	public void addPnr(PNRStatusVo pnrStatusVo) {
 		mDataManager.add(pnrStatusVo);
-		mHiddenFocusLayout.requestFocus();
 	}
 
 	@Override

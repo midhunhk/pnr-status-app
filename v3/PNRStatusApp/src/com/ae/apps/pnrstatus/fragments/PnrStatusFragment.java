@@ -55,7 +55,7 @@ public class PnrStatusFragment extends ListFragment {
 	private PnrRowAdapter			mCustomAdapter;
 	private FragmentActivity		activity;
 	private OnCheckStatusListener	mCallback;
-
+	private View					mHiddenFocusLayout;
 	private ProgressBar				progressBar;
 
 	@Override
@@ -63,6 +63,7 @@ public class PnrStatusFragment extends ListFragment {
 		activity = super.getActivity();
 		layout = inflater.inflate(R.layout.pnr_list_view, null);
 		context = activity.getApplicationContext();
+		mHiddenFocusLayout = layout.findViewById(R.id.hiddenFocusLayout);
 		initActivity();
 		return layout;
 	}
@@ -83,7 +84,6 @@ public class PnrStatusFragment extends ListFragment {
 	private void initActivity() {
 
 		try {
-
 			// Get the data list from the db and set the data adapter
 			List<PNRStatusVo> pnrList = mCallback.getListData();
 			mCustomAdapter = new PnrRowAdapter(context, this, pnrList);
@@ -93,8 +93,7 @@ public class PnrStatusFragment extends ListFragment {
 			mCallback.setPNRStatusAdapter(mCustomAdapter);
 
 			// Read the length of a valid PNR
-			final int validPNRLength = Integer.valueOf(
-					context.getResources().getString(R.string.pnr_number_length));
+			final int validPNRLength = Integer.valueOf(context.getResources().getString(R.string.pnr_number_length));
 
 			// Get a reference to the EditText Object
 			final EditText txtPnrNumber = (EditText) layout.findViewById(R.id.new_pnr_text);
@@ -124,6 +123,8 @@ public class PnrStatusFragment extends ListFragment {
 
 						// Add the PNRStatusVo to the list
 						mCallback.addPnr(statusVo);
+						// hide the keyboard
+						// mHiddenFocusLayout.requestFocus();
 					} else {
 						String message = context.getResources().getString(R.string.str_invalid_pnr_message, pnrNumber);
 						Toast.makeText(context, message, Toast.LENGTH_LONG).show();

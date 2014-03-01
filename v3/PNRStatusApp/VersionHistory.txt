@@ -158,4 +158,5 @@ Version 3.2 Code named Marvin2
 PNRStatusAppV3 3.2.10 [March 2013]
  - [CHANGED]	Using apache http client for network
  - [CHANGED]	Exception handling
+ - [CHANGED]	UI Tweaks
  

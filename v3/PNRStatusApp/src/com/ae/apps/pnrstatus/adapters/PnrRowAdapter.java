@@ -113,7 +113,12 @@ public class PnrRowAdapter extends BaseAdapter {
 
 			holder.btnInfo.setEnabled(true);
 			// holder.btnInfo.setImageResource(R.drawable.ic_info);
-			holder.txtStatus.setText(passengerDataVo.getTrainCurrentStatus());
+			String currentStatus = passengerDataVo.getTrainCurrentStatus();
+			if (currentStatus.contains("CNF") && passengerDataVo.getTrainBookingBerth() != null) {
+				holder.txtStatus.setText(passengerDataVo.getTrainBookingBerth());
+			} else {
+				holder.txtStatus.setText(currentStatus);
+			}
 		} else {
 			// Disable the Extra Info Button
 			holder.btnInfo.setEnabled(false);

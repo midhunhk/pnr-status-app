@@ -51,8 +51,8 @@ public class DialogUtils {
 		View inflatedView = LayoutInflater.from(context).inflate(R.layout.ticket_info, null);
 
 		// Set the data from the dataObject
-		TextView pnrNumber = (TextView) inflatedView.findViewById(R.id.ticket_pnrnumber);
-		pnrNumber.setText(PNRUtils.formatPNRString(pnrStatusVo.getPnrNumber()));
+		// TextView pnrNumber = (TextView) inflatedView.findViewById(R.id.ticket_pnrnumber);
+		// pnrNumber.setText(PNRUtils.formatPNRString(pnrStatusVo.getPnrNumber()));
 
 		// Get reference to the textviews
 		TextView line1 = (TextView) inflatedView.findViewById(R.id.ticket_info_line1);
@@ -95,11 +95,9 @@ public class DialogUtils {
 
 		// .setCustomTitle(customTitleView)
 		// Ask the system to create an Alert dialog for us
-		AlertDialog.Builder builder = new AlertDialog.Builder(context)
-			.setCancelable(true)
-			.setTitle(R.string.ticket_info_title)
-			.setView(inflatedView)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
+				.setTitle(R.string.ticket_info_title).setView(inflatedView)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
