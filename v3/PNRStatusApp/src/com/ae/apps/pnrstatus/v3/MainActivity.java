@@ -125,7 +125,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 					@Override
 					public void run() {
 						Log.d(AppConstants.TAG, "Check the status in a new thread");
-						boolean isStub = true; // Utils.isDevelopmentMode();
+						boolean isStub = Utils.isDevelopmentMode();
 						IStatusService service = null;
 						try {
 							// Read from the preference what service we should use, default to indian rail service
