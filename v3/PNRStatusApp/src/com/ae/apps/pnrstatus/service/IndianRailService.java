@@ -25,6 +25,7 @@ import java.util.List;
 import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
+import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
@@ -165,7 +166,6 @@ public class IndianRailService implements IStatusService {
 				// Try to calculate the berth position
 				String berthPosition = "";
 				try {
-					// Separator is a comma
 					berthPosition = PNRUtils
 							.getBerthPosition(currentStatus, bookingBerth, ticketClass, SEPARATOR_COMMA);
 				} catch (Exception e) {
@@ -187,7 +187,7 @@ public class IndianRailService implements IStatusService {
 			pnrStatusVo.setChartStatus(chartStatus);
 			pnrStatusVo.setPassengers(passengersList);
 		} else {
-			throw new StatusException("Empty response from server");
+			throw new StatusException("Empty response from server", null, ErrorCodes.EMPTY_RESPONSE);
 		}
 		Log.d(TAG, "exit parseResponse()");
 		return pnrStatusVo;

@@ -196,6 +196,14 @@ public class HttpUtils {
 	// http://www.androidsnippets.com/executing-a-http-post-request-with-httpclient
 	// http://www.androidsnippets.com/get-the-content-from-a-httpresponse-or-any-inputstream-as-a-string
 
+	/**
+	 * send a post request
+	 * 
+	 * @param url
+	 * @param requestHeaders
+	 * @param formParameters
+	 * @return
+	 */
 	public static String sendPost(String url, Map<String, String> requestHeaders, Map<String, String> formParameters) {
 		StringBuilder result = new StringBuilder();
 		try {
@@ -223,7 +231,7 @@ public class HttpUtils {
 			Log.d("PNR", "response " + res);
 			Log.d("PNR", response.getStatusLine().getReasonPhrase());
 
-			String line = "";
+			String line = null;
 
 			// Wrap a BufferedReader around the InputStream
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -232,19 +240,23 @@ public class HttpUtils {
 			while ((line = rd.readLine()) != null) {
 				result.append(line);
 			}
-
 		} catch (ClientProtocolException e) {
 		} catch (IOException e) {
 		}
 		return result.toString();
 	}
 
+	/**
+	 * send a get request
+	 * 
+	 * @param url
+	 * @return
+	 */
 	public static String sendGet(String url) {
 		StringBuilder result = new StringBuilder();
 		try {
 			HttpGet httpGet = new HttpGet(url);
 
-			// Execute HTTP Post Request
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpResponse response = httpclient.execute(httpGet);
 
@@ -252,16 +264,14 @@ public class HttpUtils {
 			Log.d("PNR", "response " + res);
 			Log.d("PNR", response.getStatusLine().getReasonPhrase());
 
-			String line = "";
-
 			// Wrap a BufferedReader around the InputStream
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
+			String line = null;
 			// Read response until the end
 			while ((line = rd.readLine()) != null) {
 				result.append(line);
 			}
-
 		} catch (ClientProtocolException e) {
 		} catch (IOException e) {
 		}

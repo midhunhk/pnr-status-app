@@ -150,3 +150,12 @@ PNRStatusAppV3 3.1.97 "marvin" [December 2013]
  
 PNRStatusAppV3 3.1.98 "marvin" [December 2013]
  - [CHANGED]	Workarounds to work with indianrail
+
+ =============================
+Version 3.2 Code named Marvin2
+==============================
+ 
+PNRStatusAppV3 3.2.10 [March 2013]
+ - [CHANGED]	Using apache http client for network
+ - [CHANGED]	Exception handling
+ 

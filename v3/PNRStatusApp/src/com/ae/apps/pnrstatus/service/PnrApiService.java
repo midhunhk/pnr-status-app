@@ -27,6 +27,7 @@ import org.json.JSONTokener;
 import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
+import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
@@ -35,11 +36,12 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 public class PnrApiService implements IStatusService {
 
+	private static final String	FIELD_NAME	= "name";
 	/**
 	 * The URL for PNRAPI Service
 	 */
-	private final String	url			= "http://pnrapi.alagu.net/api/v1.0/pnr/";
-	private final String	serviceName	= "PNRAPI";
+	private final String		url			= "http://pnrapi.alagu.net/api/v1.0/pnr/";
+	private final String		serviceName	= "PNRAPI";
 
 	@Override
 	public String getServiceName() {
@@ -112,11 +114,11 @@ public class PnrApiService implements IStatusService {
 				JSONObject dateObject = dataObject.getJSONObject("travel_date");
 				String trainJourney = dateObject.getString("date");
 
-				String trainDest = getStationName(dataObject.getJSONObject("alight"));
+				String trainDest = getField(dataObject.getJSONObject("alight"), FIELD_NAME);
 				String trainName = dataObject.getString("train_name");
 				String trainNo = PNRUtils.getTrainNo(dataObject.getString("train_number"));
-				String trainBoard = getStationName(dataObject.getJSONObject("board"));
-				String trainEmbark = getStationName(dataObject.getJSONObject("to"));
+				String trainBoard = getField(dataObject.getJSONObject("board"), FIELD_NAME);
+				String trainEmbark = getField(dataObject.getJSONObject("to"), FIELD_NAME);
 				String ticketClass = dataObject.getString("class");
 
 				// Read the PassengerDataVos
@@ -167,12 +169,12 @@ public class PnrApiService implements IStatusService {
 				throw exception;
 			}
 		} catch (JSONException exception) {
-			throw new StatusException("Json response error");
+			throw new StatusException("Json response error", exception, ErrorCodes.PARSE_ERROR);
 		}
 		return statusVo;
 	}
 
-	private String getStationName(JSONObject object) throws JSONException {
-		return object.getString("name");
+	private String getField(JSONObject object, String fieldName) throws JSONException {
+		return object.getString(fieldName);
 	}
 }

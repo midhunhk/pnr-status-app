@@ -53,21 +53,12 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  */
 public class MainActivity extends FragmentActivity implements PnrStatusFragment.OnCheckStatusListener {
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory.
-	 * If this becomes too memory intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
 	private SectionsPagerAdapter	mSectionsPagerAdapter;
-
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	private ViewPager				mViewPager;
-
+	private View					mHiddenFocusLayout;
 	private DataManager				mDataManager;
 	private Handler					handler;
+	private final boolean			isDevMode			= true;
 	private final int				SETTINGS_REQUEST	= 1001;
 
 	@Override
@@ -90,6 +81,8 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 		// Create a new Handler object
 		handler = new Handler();
+
+		mHiddenFocusLayout = findViewById(R.id.hiddenFocusLayout);
 	}
 
 	@Override
@@ -161,14 +154,17 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 								}
 							});
 						} catch (StatusException e) {
-							final String message = e.getMessage();
+							final String exceptionMessage = e.getMessage();
 							handler.post(new Runnable() {
 
 								@Override
 								public void run() {
 									// Show a toast with the reason for the Status Exception
-									Toast.makeText(getApplicationContext(), R.string.str_error_parse_error + message,
-											Toast.LENGTH_LONG).show();
+									String message = getResources().getString(R.string.str_error_parse_error);
+									if (isDevMode) {
+										message = message + exceptionMessage;
+									}
+									Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 								}
 							});
 
@@ -189,7 +185,9 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 				}).start();
 
 			} catch (Exception e) {
-				Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
+				if (isDevMode) {
+					Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
+				}
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.str_error_no_internet, Toast.LENGTH_LONG).show();
@@ -215,6 +213,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 	@Override
 	public void addPnr(PNRStatusVo pnrStatusVo) {
 		mDataManager.add(pnrStatusVo);
+		mHiddenFocusLayout.requestFocus();
 	}
 
 	@Override
