@@ -41,7 +41,6 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
  */
 public class IndianRailService implements IStatusService {
 
-	private static final int	HTTP_CODE_404		= 404;
 	private static final String	SEPARATOR_COMMA		= ",";
 	private static final String	PARAM_REFERER		= "Referer";
 	private static final String	SUBMIT_VALUE		= "Get+Status";
@@ -55,6 +54,8 @@ public class IndianRailService implements IStatusService {
 	// 690
 	private static final String	INDIAN_RAIL_URL		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
 	private static final String	SERVICE_NAME		= "IndianRail";
+
+	private String				mServiceUrl			= null;
 
 	@Override
 	public String getServiceName() {
@@ -98,10 +99,18 @@ public class IndianRailService implements IStatusService {
 		// invoke the post method and get the response
 		WebRequestResult webResponse = null;
 		try {
-			webResponse = HttpUtils.sendPost(INDIAN_RAIL_URL, headers, params);
-			if (webResponse.getResponseCode() == HTTP_CODE_404) {
-				// IndianRail may have changed the
+			if (mServiceUrl == null) {
+				// we should fire a request to find the current url used for PNR Enquiry
+				webResponse = HttpUtils.sendGet(PNR_ENQ_URL);
+				mServiceUrl = getServiceUrl(webResponse.getResponse());
 			}
+
+			// now, fire the request for finding the pnrstatus
+			webResponse = HttpUtils.sendPost(mServiceUrl, headers, params);
+			if (webResponse == null) {
+				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
+			}
+			Log.d(TAG, "responseCode " + webResponse.getResponseCode() + " " + webResponse.getResponsePhrase());
 			Log.d(TAG, webResponse.getResponse());
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
@@ -111,10 +120,6 @@ public class IndianRailService implements IStatusService {
 		Log.d(TAG, "exit getResponse()");
 
 		return parseResponse(webResponse.getResponse());
-	}
-
-	private String getRandomCaptcha() {
-		return (Math.round(Math.random() * 89999) + 10000) + "";
 	}
 
 	/**
@@ -193,6 +198,14 @@ public class IndianRailService implements IStatusService {
 		}
 		Log.d(TAG, "exit parseResponse()");
 		return pnrStatusVo;
+	}
+
+	private String getServiceUrl(String response) {
+		return INDIAN_RAIL_URL;
+	}
+
+	private String getRandomCaptcha() {
+		return (Math.round(Math.random() * 89999) + 10000) + "";
 	}
 
 	private static String getStubResponse() {

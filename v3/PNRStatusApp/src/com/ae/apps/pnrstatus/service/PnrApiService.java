@@ -16,6 +16,8 @@
 
 package com.ae.apps.pnrstatus.service;
 
+import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
+import com.ae.apps.pnrstatus.utils.WebRequestResult;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
@@ -57,10 +60,12 @@ public class PnrApiService implements IStatusService {
 		PNRStatusVo pnrStatusVo = null;
 
 		try {
-			// String response = PNRUtils.getWebResult(searchUrl);
-			String response = HttpUtils.sendGet(searchUrl);
-			Log.d(AppConstants.TAG, "WebResultResponse : " + response);
-			pnrStatusVo = parseResponse(response);
+			WebRequestResult response = HttpUtils.sendGet(searchUrl);
+			if (response == null) {
+				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
+			}
+			Log.d(TAG, "responseCode " + response.getResponseCode() + " " + response.getResponsePhrase());
+			pnrStatusVo = parseResponse(response.getResponse());
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
