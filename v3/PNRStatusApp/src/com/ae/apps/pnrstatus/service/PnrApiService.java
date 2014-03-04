@@ -164,8 +164,7 @@ public class PnrApiService implements IStatusService {
 				statusVo.setPassengers(passengers);
 			} else {
 				// ticket may be invalid or server timed out
-				StatusException exception = new StatusException();
-				exception.setStatusString(ticketStatus);
+				StatusException exception = new StatusException(ticketStatus);
 				throw exception;
 			}
 		} catch (JSONException exception) {

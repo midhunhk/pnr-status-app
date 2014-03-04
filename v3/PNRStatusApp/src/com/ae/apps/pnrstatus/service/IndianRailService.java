@@ -29,6 +29,7 @@ import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
+import com.ae.apps.pnrstatus.utils.WebRequestResult;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
@@ -40,6 +41,7 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
  */
 public class IndianRailService implements IStatusService {
 
+	private static final int	HTTP_CODE_404		= 404;
 	private static final String	SEPARATOR_COMMA		= ",";
 	private static final String	PARAM_REFERER		= "Referer";
 	private static final String	SUBMIT_VALUE		= "Get+Status";
@@ -48,6 +50,7 @@ public class IndianRailService implements IStatusService {
 	private static final String	PARAM_SUBMIT		= "submitpnr";
 	private static final String	PARAM_PNR			= "lccp_pnrno1";
 	private static final String	REFERRER_URL		= "http://www.indianrail.gov.in/pnr_stat.html";
+	private static final String	PNR_ENQ_URL			= "http://www.indianrail.gov.in/pnr_Enq.html";
 	// private static final String url1 = "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
 	// 690
 	private static final String	INDIAN_RAIL_URL		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
@@ -77,42 +80,41 @@ public class IndianRailService implements IStatusService {
 		Log.d(TAG, "enter getResponse()");
 
 		// Here, ahem we generate a random captcha for the server
-		long randomCaptcha = Math.round(Math.random() * 89999) + 10000;
+		String randomCaptcha = getRandomCaptcha();
 
 		// Create the headers and params for request
 		HashMap<String, String> params = new HashMap<String, String>();
 		HashMap<String, String> headers = new HashMap<String, String>();
 
 		// Creating the headers
-		// headers.put("X-Alt-Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
 		headers.put(PARAM_REFERER, REFERRER_URL);
 
-		// headers.put("Referer", "http://www.indianrail.gov.in/pnr_Enq.html");
-		// headers.put("Keep-Alive", "115");
-		// headers.put("Host", "http://www.indianrail.gov.in");
-		// headers.put("Origin", "http://www.indianrail.gov.in");
-		// headers.put("Content-type", "application/x-www-form-urlencoded");
-		// headers.put("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.5 Safari/537.22");
-
+		// Create the parameters for the request
 		params.put(PARAM_PNR, pnrNumber);
 		params.put(PARAM_SUBMIT, SUBMIT_VALUE);
-		params.put(PARAM_CAPTCHA, randomCaptcha + "");
-		params.put(PARAM_CAPTCHA_INPUT, randomCaptcha + "");
+		params.put(PARAM_CAPTCHA, randomCaptcha);
+		params.put(PARAM_CAPTCHA_INPUT, randomCaptcha);
 
 		// invoke the post method and get the response
-		String webResponse = null;
+		WebRequestResult webResponse = null;
 		try {
 			webResponse = HttpUtils.sendPost(INDIAN_RAIL_URL, headers, params);
-			Log.d(TAG, webResponse);
-			// webResponse = HttpUtils.postForm(url2, headers, params);
+			if (webResponse.getResponseCode() == HTTP_CODE_404) {
+				// IndianRail may have changed the
+			}
+			Log.d(TAG, webResponse.getResponse());
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
 
-		Log.d(TAG, "WebResultResponse length : " + webResponse.length());
+		Log.d(TAG, "WebResultResponse length : " + webResponse.getResponse().length());
 		Log.d(TAG, "exit getResponse()");
 
-		return parseResponse(webResponse);
+		return parseResponse(webResponse.getResponse());
+	}
+
+	private String getRandomCaptcha() {
+		return (Math.round(Math.random() * 89999) + 10000) + "";
 	}
 
 	/**

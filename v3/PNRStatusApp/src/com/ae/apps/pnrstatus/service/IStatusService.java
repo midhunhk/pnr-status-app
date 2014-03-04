@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Midhun Harikumar
+ * Copyright 2014 Midhun Harikumar
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public interface IStatusService {
 	PNRStatusVo getResponse(String pnrNumber) throws StatusException;
 
 	/**
-	 * Returns a PNRSTatusVo object based on the value for stubResponse
+	 * Returns a PNRStatusVo object based on the value for stubResponse
 	 * 
 	 * @param pnrNumber
 	 * @param stubResponse

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Midhun Harikumar
+ * Copyright 2013 Midhun Harikumar
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ public class StatusException extends Exception {
 	}
 
 	private ErrorCodes	errorCode;
-	private String		statusString;
 
 	public StatusException() {
 		super();
@@ -45,26 +44,19 @@ public class StatusException extends Exception {
 		super(detailMessage);
 	}
 
-	public StatusException(Throwable throwable) {
-		super(throwable);
-	}
-
-	public void setStatusString(String statusString) {
-		this.statusString = statusString;
-	}
-
 	public StatusException(String message, ErrorCodes code) {
 		super(message);
+		errorCode = code;
+	}
+
+	public StatusException(Throwable throwable, ErrorCodes code) {
+		super(throwable);
 		errorCode = code;
 	}
 
 	public StatusException(String message, Throwable throwable, ErrorCodes code) {
 		super(message, throwable);
 		errorCode = code;
-	}
-
-	public String getStatusString() {
-		return statusString;
 	}
 
 	public ErrorCodes getErrorCode() {

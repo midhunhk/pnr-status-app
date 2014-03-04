@@ -30,7 +30,7 @@ public class StatusServiceFactory {
 	public static final int	INDIAN_RAIL_SERVICE	= 3;
 
 	/**
-	 * The getService() method returns an IStatusService implementation based on the value of the type
+	 * Returns an IStatusService implementation based on the value of the type
 	 * 
 	 * @param type
 	 *            the type of service requested
@@ -52,8 +52,9 @@ public class StatusServiceFactory {
 			statusService = new PnrApiService();
 			break;
 		}
-		if (null == statusService)
+		if (null == statusService) {
 			throw new InvalidServiceException();
+		}
 
 		return statusService;
 	}
