@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Midhun Harikumar
+ * Copyright 2014 Midhun Harikumar
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,19 +46,17 @@ import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 
 /**
- * The Main Activity for the project
- * 
  * @author Midhun
- * 
  */
 public class MainActivity extends FragmentActivity implements PnrStatusFragment.OnCheckStatusListener {
 
-	private SectionsPagerAdapter	mSectionsPagerAdapter;
-	private ViewPager				mViewPager;
+	private static final String		PREF_KEY_SERVICE	= "pref_service";
+	private static final String		DEFAULT_SERVICE		= StatusServiceFactory.INDIAN_RAIL_SERVICE + "";
+	private static final boolean	isDevMode			= true;
+	private static final int		SETTINGS_REQUEST	= 1001;
+
+	private Handler					mHandler;
 	private DataManager				mDataManager;
-	private Handler					handler;
-	private final boolean			isDevMode			= true;
-	private final int				SETTINGS_REQUEST	= 1001;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,17 +67,17 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 		mDataManager = new DataManager(this);
 
 		// Create the adapter that will return a fragment for each sections
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getApplicationContext(), getSupportFragmentManager());
+		SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(pagerAdapter);
 
-		// Show the middle one by default
-		mViewPager.setCurrentItem(1);
+		// Show the 2nd page as current time
+		viewPager.setCurrentItem(1);
 
-		// Create a new Handler object
-		handler = new Handler();
+		// Create a new Handler object in the main thread
+		mHandler = new Handler();
 	}
 
 	@Override
@@ -105,16 +103,12 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
 	public void checkStatus(final PNRStatusVo pnrStatusVo, final ProgressBar progressBar) {
 		boolean isInternetAvailable = Utils.isInternetAvailable(getApplicationContext());
 		if (isInternetAvailable) {
 			try {
 				if (progressBar != null) {
+					// Show the progressbar
 					progressBar.setIndeterminate(true);
 					progressBar.setVisibility(View.VISIBLE);
 				}
@@ -128,12 +122,11 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 						boolean isStub = Utils.isDevelopmentMode();
 						IStatusService service = null;
 						try {
-							// Read from the preference what service we should use, default to indian rail service
+							// Read from the preference what service we should use
 							SharedPreferences preferences = PreferenceManager
 									.getDefaultSharedPreferences(getBaseContext());
-							String serviceTypeStr = preferences.getString("pref_service",
-									StatusServiceFactory.INDIAN_RAIL_SERVICE + "");
-							int serviceType = Integer.valueOf(serviceTypeStr);
+							String serviceTypePref = preferences.getString(PREF_KEY_SERVICE, DEFAULT_SERVICE);
+							int serviceType = Integer.valueOf(serviceTypePref);
 
 							// Create the service object from the factory
 							service = StatusServiceFactory.getService(serviceType);
@@ -142,7 +135,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 							Log.d(AppConstants.TAG, "got the response");
 
 							// Update the UI from the main thread using the handler
-							handler.post(new Runnable() {
+							mHandler.post(new Runnable() {
 
 								@Override
 								public void run() {
@@ -152,35 +145,35 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 							});
 						} catch (StatusException e) {
 							final String exceptionMessage = e.getMessage();
-							handler.post(new Runnable() {
+							mHandler.post(new Runnable() {
 
 								@Override
 								public void run() {
 									// Show a toast with the reason for the Status Exception
 									String message = getResources().getString(R.string.str_error_parse_error);
 									if (isDevMode) {
-										message = message + exceptionMessage;
+										message = message + " " + exceptionMessage;
 									}
 									Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 								}
 							});
-
 						} catch (InvalidServiceException e) {
-							// This shouldn't occur
+							// This shouldn't occur ideally
+							Log.e(AppConstants.TAG, e.getMessage());
 						} finally {
-
 							// Stop the ProgressBar on the main thread using the handler
-							handler.post(new Runnable() {
+							mHandler.post(new Runnable() {
 
 								@Override
 								public void run() {
-									stopProgressbar(progressBar);
+									if (progressBar != null) {
+										progressBar.setVisibility(View.INVISIBLE);
+									}
 								}
 							});
 						}
 					}
 				}).start();
-
 			} catch (Exception e) {
 				if (isDevMode) {
 					Toast.makeText(getApplicationContext(), "err " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -188,17 +181,6 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.str_error_no_internet, Toast.LENGTH_LONG).show();
-		}
-	}
-
-	/**
-	 * This method will be executed to stop the progress bar state
-	 * 
-	 * @param progressBar
-	 */
-	private void stopProgressbar(ProgressBar progressBar) {
-		if (progressBar != null) {
-			progressBar.setVisibility(View.INVISIBLE);
 		}
 	}
 
