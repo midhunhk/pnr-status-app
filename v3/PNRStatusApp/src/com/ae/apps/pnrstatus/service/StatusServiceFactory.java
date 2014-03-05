@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Midhun Harikumar
+ * Copyright 2014 Midhun Harikumar
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ public class StatusServiceFactory {
 	public static final int	IXIGO_SERVICE		= 1;
 	public static final int	PNRAPI_SERVICE		= 2;
 	public static final int	INDIAN_RAIL_SERVICE	= 3;
+	public static final int	PNR_STATUS_SERVICE	= 4;
 
 	/**
 	 * Returns an IStatusService implementation based on the value of the type
@@ -50,6 +51,9 @@ public class StatusServiceFactory {
 			break;
 		case PNRAPI_SERVICE:
 			statusService = new PnrApiService();
+			break;
+		case PNR_STATUS_SERVICE:
+			statusService = new PNRStatusService();
 			break;
 		}
 		if (null == statusService) {

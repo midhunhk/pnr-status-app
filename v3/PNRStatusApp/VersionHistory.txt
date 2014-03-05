@@ -164,4 +164,7 @@ PNRStatusAppV3 3.2.18 [March 2013]
  - [ADDED]		Custom header for ticket info dialog, which includes the share icon
  - [CHANGED]	Reset status when check button is clicked
  - [OPTIMIZED]	Code cleanup
- - [ADDED]		Apache HttpClient for http operations	
+ - [ADDED]		Apache HttpClient for http operations
+
+PNRStatusAppV3 3.2.25 [March 2013]	
+ - [ADDED]		PNRStatusService

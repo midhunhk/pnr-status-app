@@ -104,7 +104,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 	@Override
 	public void checkStatus(final PNRStatusVo pnrStatusVo, final ProgressBar progressBar) {
-		boolean isInternetAvailable = Utils.isInternetAvailable(getApplicationContext());
+		boolean isInternetAvailable = true; // Utils.isInternetAvailable(getApplicationContext());
 		if (isInternetAvailable) {
 			try {
 				if (progressBar != null) {
@@ -129,9 +129,9 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 							int serviceType = Integer.valueOf(serviceTypePref);
 
 							// Create the service object from the factory
-							service = StatusServiceFactory.getService(serviceType);
+							service = StatusServiceFactory.getService(StatusServiceFactory.PNR_STATUS_SERVICE); // serviceType);
 							Log.i(AppConstants.TAG, "Using service " + service.getServiceName());
-							final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), isStub);
+							final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), true);
 							Log.d(AppConstants.TAG, "got the response");
 
 							// Update the UI from the main thread using the handler
