@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,7 @@ import com.ae.apps.pnrstatus.adapters.StackAdapter;
 import com.ae.apps.pnrstatus.managers.PNRMessagesManager;
 import com.ae.apps.pnrstatus.managers.SMSManager;
 import com.ae.apps.pnrstatus.utils.AppConstants;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.MessageVo;
@@ -75,7 +75,7 @@ public class MessagesFragment extends Fragment {
 			ADDRESS = "11";
 		}
 
-		Log.d(AppConstants.TAG, "onCreateView");
+		Logger.d(AppConstants.TAG, "onCreateView");
 
 		// Initialize the activity
 		initActivity();
@@ -167,7 +167,7 @@ public class MessagesFragment extends Fragment {
 			mListViewHolder.setVisibility(View.VISIBLE);
 			mMessageDetailsHolder.setVisibility(View.VISIBLE);
 		}
-		Log.i(AppConstants.TAG, "size " + mPnrMessagesList.size());
+		Logger.i(AppConstants.TAG, "size " + mPnrMessagesList.size());
 		// Tell the adapter that the data has changed
 		if (adapter != null) {
 			adapter.notifyDataSetChanged();

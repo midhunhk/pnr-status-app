@@ -43,6 +43,7 @@ import com.ae.apps.pnrstatus.service.IStatusService;
 import com.ae.apps.pnrstatus.service.StatusServiceFactory;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.DialogUtils;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 
@@ -120,7 +121,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 					@Override
 					public void run() {
-						Log.d(AppConstants.TAG, "Check the status in a new thread");
+						Logger.d(AppConstants.TAG, "Check the status in a new thread");
 						IStatusService service = null;
 						try {
 							// Read from the preference what service we should use
@@ -130,7 +131,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 							// Get an instance of the service object using the factory
 							service = StatusServiceFactory.getService(serviceTypePref);
-							Log.i(AppConstants.TAG, "Using service " + service.getServiceName());
+							Logger.i(AppConstants.TAG, "Using service " + service.getServiceName());
 							final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), false);
 
 							// Update the UI from the main thread using the handler
@@ -158,7 +159,7 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 							});
 						} catch (InvalidServiceException e) {
 							// This shouldn't occur ideally
-							Log.e(AppConstants.TAG, e.getMessage());
+							Logger.e(AppConstants.TAG, e.getMessage());
 						} finally {
 							// Stop the ProgressBar on the main thread using the handler
 							mHandler.post(new Runnable() {

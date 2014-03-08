@@ -16,15 +16,15 @@
 
 package com.ae.apps.pnrstatus.db;
 
-import com.ae.apps.pnrstatus.utils.AppConstants;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import com.ae.apps.pnrstatus.utils.AppConstants;
+import com.ae.apps.pnrstatus.utils.Logger;
 
 /**
  * Helper class for interacting with the system database
@@ -41,15 +41,15 @@ public class DataHelper {
 	/* Table names */
 	private static final String	TABLE_PNR				= "DataTable";
 	private static final String	TABLE_REMINDERS			= "Reminders";
-	
+
 	/* Table Keys */
 	public static final String	KEY_ID					= "_id";
 	public static final String	KEY_DATA1				= "data1";
 	public static final String	KEY_DATA2				= "data2";
 
 	/* Table creation code */
-	
-	/* _id, pnrnumber, unused*/
+
+	/* _id, pnrnumber, unused */
 	private static final String	PNR_TABLE_CREATE		= "CREATE TABLE " + TABLE_PNR + " (" + KEY_ID
 																+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_DATA1
 																+ " TEXT NOT NULL," + KEY_DATA2 + " TEXT);";
@@ -173,7 +173,7 @@ public class DataHelper {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w(AppConstants.TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
+			Logger.w(AppConstants.TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
 					+ ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PNR);
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDERS);

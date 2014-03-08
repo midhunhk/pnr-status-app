@@ -49,11 +49,6 @@ public class DialogUtils {
 	 */
 	public static void showPNRStatusInfo(final Context context, final PNRStatusVo pnrStatusVo) {
 		View inflatedView = LayoutInflater.from(context).inflate(R.layout.ticket_info, null);
-
-		// Set the data from the dataObject
-		// TextView pnrNumber = (TextView) inflatedView.findViewById(R.id.ticket_pnrnumber);
-		// pnrNumber.setText(PNRUtils.formatPNRString(pnrStatusVo.getPnrNumber()));
-
 		View header = LayoutInflater.from(context).inflate(R.layout.dialog_header, null);
 
 		// Get reference to the textviews
@@ -95,10 +90,11 @@ public class DialogUtils {
 		ListView lv = (ListView) inflatedView.findViewById(android.R.id.list);
 		lv.setAdapter(adapter);
 
-		// .setCustomTitle(customTitleView)
 		// Ask the system to create an Alert dialog for us
 		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
-				.setTitle(R.string.ticket_info_title).setView(inflatedView).setCustomTitle(header)
+				.setTitle(R.string.ticket_info_title)
+				.setView(inflatedView)
+				.setCustomTitle(header)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override
@@ -117,9 +113,11 @@ public class DialogUtils {
 	 * @param context
 	 */
 	public static void showLicenseDialog(final Context context) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
-				.setTitle(R.string.menu_licence).setMessage(R.string.str_license_text)
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context)
+			.setCancelable(true)
+			.setTitle(R.string.menu_licence)
+			.setMessage(R.string.str_license_text)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

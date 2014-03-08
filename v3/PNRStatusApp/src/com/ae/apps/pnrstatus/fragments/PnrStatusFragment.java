@@ -24,7 +24,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ae.apps.pnrstatus.adapters.PnrRowAdapter;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
@@ -111,7 +111,7 @@ public class PnrStatusFragment extends ListFragment {
 				public void onClick(View v) {
 					// Create a PNRStatusVo object
 					String pnrNumber = txtPnrNumber.getText().toString();
-					Log.i(TAG, "Add a pnr " + pnrNumber);
+					Logger.i(TAG, "Add a pnr " + pnrNumber);
 					if (pnrNumber != null && pnrNumber.trim().length() == validPNRLength) {
 						PNRStatusVo statusVo = PNRUtils.getEmptyPNRStatusObject();
 						statusVo.setPnrNumber(pnrNumber);
@@ -133,8 +133,7 @@ public class PnrStatusFragment extends ListFragment {
 			});
 			progressBar = (ProgressBar) layout.findViewById(R.id.ProgressBar);
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
-			System.out.println(e.getMessage());
+			Logger.e(TAG, e.getMessage());
 		}
 	}
 

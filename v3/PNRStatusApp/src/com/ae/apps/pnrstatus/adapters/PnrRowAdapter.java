@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.utils.AppConstants;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.v3.R;
@@ -109,7 +110,7 @@ public class PnrRowAdapter extends BaseAdapter {
 		PassengerDataVo passengerDataVo = arrayList.get(position).getFirstPassengerData();
 		if (null != passengerDataVo) {
 			String message = "Update " + holder.txtName.getText() + " with " + passengerDataVo.getTrainCurrentStatus();
-			Log.d(AppConstants.TAG, message);
+			Logger.d(AppConstants.TAG, message);
 
 			holder.btnInfo.setEnabled(true);
 			// holder.btnInfo.setImageResource(R.drawable.ic_info);
@@ -135,7 +136,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				Log.d(AppConstants.TAG, "PnrRowAdapter :: Check Button Clicked");
+				Logger.d(AppConstants.TAG, "PnrRowAdapter :: Check Button Clicked");
 				holder.txtStatus.setText("");
 				parentFragment.checkStatus(pnrStatusVo);
 			}
@@ -185,7 +186,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				Log.d(AppConstants.TAG, "PnrRowAdapter :: Info Button Clicked");
+				Logger.d(AppConstants.TAG, "PnrRowAdapter :: Info Button Clicked");
 				parentFragment.showPNRStatusDetail(pnrStatusVo);
 			}
 		});

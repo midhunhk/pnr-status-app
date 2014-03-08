@@ -23,8 +23,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-import android.util.Log;
-
 public class Serializer {
 
 	/**
@@ -46,7 +44,7 @@ public class Serializer {
 
 			return buf;
 		} catch (IOException ioe) {
-			Log.e("serializeObject", "error", ioe);
+			Logger.e("serializeObject", "error", ioe);
 
 			return null;
 		}
@@ -63,16 +61,12 @@ public class Serializer {
 			ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b));
 			Object object = in.readObject();
 			in.close();
-
 			return object;
 		} catch (ClassNotFoundException cnfe) {
-			Log.e("deserializeObject", "class not found error", cnfe);
-
-			return null;
+			Logger.e("deserializeObject", "class not found error", cnfe);
 		} catch (IOException ioe) {
-			Log.e("deserializeObject", "io error", ioe);
-
-			return null;
+			Logger.e("deserializeObject", "io error", ioe);
 		}
+		return null;
 	}
 }

@@ -25,12 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.util.Log;
-
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
@@ -57,7 +56,7 @@ public class PNRStatusService implements IStatusService {
 
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
-		Log.i(AppConstants.TAG, "Using " + getServiceName());
+		Logger.i(AppConstants.TAG, "Using " + getServiceName());
 
 		PNRStatusVo pnrStatusVo = null;
 

@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.util.Log;
 import android.widget.BaseAdapter;
 
 import com.ae.apps.pnrstatus.db.DataHelper;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 
 /**
@@ -36,7 +36,7 @@ public class DataManager {
 
 	private Cursor					mCursor;
 	private DataHelper				mDbHelper;
-	private Activity				activity;
+	private final Activity			activity;
 	private BaseAdapter				adapter;
 	private ArrayList<PNRStatusVo>	dataList;
 
@@ -130,10 +130,10 @@ public class DataManager {
 			if (adapter != null) {
 				adapter.notifyDataSetChanged();
 			}
-			Log.i(TAG, "Added " + statusVo.getPnrNumber());
+			Logger.i(TAG, "Added " + statusVo.getPnrNumber());
 			return true;
 		} else {
-			Log.e(TAG, "Error in inserting row.");
+			Logger.e(TAG, "Error in inserting row.");
 		}
 		return false;
 	}

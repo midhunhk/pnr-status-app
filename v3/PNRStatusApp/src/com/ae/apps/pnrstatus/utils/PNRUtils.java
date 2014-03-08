@@ -158,7 +158,7 @@ public class PNRUtils {
 				}
 			}
 		} catch (Exception e) {
-			Log.e(AppConstants.TAG, "PNRUtils " + e.getMessage());
+			Logger.e(AppConstants.TAG, "PNRUtils " + e.getMessage());
 		}
 
 		return berthPos;
@@ -305,7 +305,8 @@ public class PNRUtils {
 	}
 
 	/**
-	 * Returns an empty PNRStatusVo Object 
+	 * Returns an empty PNRStatusVo Object
+	 * 
 	 * @return
 	 */
 	public static PNRStatusVo getEmptyPNRStatusObject() {

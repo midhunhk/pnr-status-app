@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.util.Log;
-
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
@@ -77,7 +76,7 @@ public class IndianRailService implements IStatusService {
 
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
-		Log.d(TAG, "enter getResponse()");
+		Logger.d(TAG, "enter getResponse()");
 
 		// Here, ahem we generate a random captcha for the server
 		String randomCaptcha = getRandomCaptcha();
@@ -113,14 +112,14 @@ public class IndianRailService implements IStatusService {
 			if (webResponse == null) {
 				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
 			}
-			Log.d(TAG, webResponse);
+			Logger.d(TAG, webResponse);
 		} catch (StatusException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
 
-		Log.d(TAG, "WebResultResponse length : " + webResponse.length());
+		Logger.d(TAG, "WebResultResponse length : " + webResponse.length());
 
 		return parseResponse(webResponse);
 	}
@@ -142,7 +141,7 @@ public class IndianRailService implements IStatusService {
 			throw new StatusException("Unable to Parse the response", ErrorCodes.PARSE_ERROR);
 		}
 
-		Log.d(TAG, "elements in parsed response : " + elements.size());
+		Logger.d(TAG, "elements in parsed response : " + elements.size());
 
 		int infoDataCount = 8;
 		if (elements.size() > infoDataCount) {
@@ -158,7 +157,7 @@ public class IndianRailService implements IStatusService {
 
 			// Populate the passenger datas
 			int passengersCount = (elements.size() - infoDataCount - 1) / 3;
-			Log.d(AppConstants.TAG, "passengersCount : " + passengersCount);
+			Logger.d(AppConstants.TAG, "passengersCount : " + passengersCount);
 
 			int passengerDataIndex = infoDataCount;
 			List<PassengerDataVo> passengersList = new ArrayList<PassengerDataVo>();
@@ -178,7 +177,7 @@ public class IndianRailService implements IStatusService {
 					berthPosition = PNRUtils
 							.getBerthPosition(currentStatus, bookingBerth, ticketClass, SEPARATOR_COMMA);
 				} catch (Exception e) {
-					Log.e(TAG, "Exception in parseResponse() " + e.getMessage());
+					Logger.e(TAG, "Exception in parseResponse() " + e.getMessage());
 				}
 				passengerDataVo.setBerthPosition(berthPosition);
 				passengerDataVo.setTrainBookingBerth(bookingBerth.trim());
@@ -196,12 +195,17 @@ public class IndianRailService implements IStatusService {
 			pnrStatusVo.setChartStatus(chartStatus);
 			pnrStatusVo.setPassengers(passengersList);
 		} else {
-			throw new StatusException("Empty response from server", null, ErrorCodes.EMPTY_RESPONSE);
+			throw new StatusException("Empty response from server", ErrorCodes.EMPTY_RESPONSE);
 		}
-		Log.d(TAG, "exit parseResponse()");
+		Logger.d(TAG, "exit parseResponse()");
 		return pnrStatusVo;
 	}
 
+	/**
+	 * 
+	 * @param response
+	 * @return
+	 */
 	private String getServiceUrl(String response) {
 		// response =
 		// "<form id=\"form3\" name=\"pnr_stat\" method=\"post\" action=\"http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_26163.cgi\" onsubmit=\"return checkform(this);\"> ";

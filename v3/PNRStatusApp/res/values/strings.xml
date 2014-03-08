@@ -17,7 +17,7 @@
     <string name="line4">line4</string>
     <string name="pnr_number_length">10</string>
 
-    <string name="app_version">Version 3.2.22 - Marvin2 (March 2014)</string>
+    <string name="app_version">Version 3.2.25 - Marvin2 (March 2014)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 	<string name="app_disclaimer">DISCLAIMER : No portion of PNRStatus data retrieved is persisted by this app.\n
 	The PNR Status is retrieved using third party services.\n 
@@ -39,7 +39,7 @@
 
     <!-- Localization Strings -->
     <string name="str_passengner_name">Passenger : %s</string>
-    <string name="str_invalid_pnr_message">%s doesn\'t seem to be valid</string>
+    <string name="str_invalid_pnr_message">%s doesn\'t seem to be a valid PNR Number</string>
     <string name="str_train_name_no">Train : %1$s ( %2$s )</string>
     <string name="str_journey_date">Journey Date : %s</string>
     <string name="str_current_status">Current Status : %s</string>
@@ -53,7 +53,7 @@
     <string name="str_share_status_detail">PNR Status is %1$s, %2$s</string>
     <string name="str_share_via">Share Via</string>
     
-    <string name="str_error_no_internet">Are you connected to internet?</string>
+    <string name="str_error_no_internet">Are you connected to the internet?</string>
     <string name="str_error_parse_error">Please check the PNR Number and try again</string>
     <string name="str_error_generic_error">Hmmm, a problem has occurred, please try again later</string>
     

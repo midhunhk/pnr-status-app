@@ -24,8 +24,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.vo.MessageVo;
 
 /**
@@ -36,11 +36,11 @@ import com.ae.apps.pnrstatus.vo.MessageVo;
  */
 public class SMSManager {
 
-	private static String	TAG				= "SMSManager";
-	private static String	SMS_INBOX_URI	= "content://sms/"; // inbox
+	private static String			TAG				= "SMSManager";
+	private static String			SMS_INBOX_URI	= "content://sms/"; // inbox
 
-	private ContentResolver	contentResolver;
-	private List<MessageVo>	messagesList;
+	private final ContentResolver	contentResolver;
+	private final List<MessageVo>	messagesList;
 
 	/**
 	 * Constructor
@@ -74,7 +74,7 @@ public class SMSManager {
 			}
 		}
 		cursor.close();
-		Log.d(TAG, "Total SMS  : " + list.size());
+		Logger.d(TAG, "Total SMS  : " + list.size());
 		return list;
 	}
 

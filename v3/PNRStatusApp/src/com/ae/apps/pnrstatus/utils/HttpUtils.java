@@ -164,7 +164,7 @@ public class HttpUtils {
 					}
 				}
 				int length = (buf.length() > 1024) ? 1024 : buf.length();
-				Log.d(AppConstants.TAG, "Post Params : " + buf.substring(0, length));
+				Logger.d(AppConstants.TAG, "Post Params : " + buf.substring(0, length));
 
 				ostream.writeBytes(buf.toString());
 			}
@@ -175,8 +175,8 @@ public class HttpUtils {
 
 		} catch (Exception e) {
 			String msg = e.getMessage();
-			Log.e(AppConstants.TAG, "err " + msg);
-			Log.e(AppConstants.TAG, "err " + e.getStackTrace()[0].toString());
+			Logger.e(AppConstants.TAG, "err " + msg);
+			Logger.e(AppConstants.TAG, "err " + e.getStackTrace()[0].toString());
 			e.printStackTrace();
 		} finally {
 			if (ostream != null) {
@@ -259,7 +259,7 @@ public class HttpUtils {
 			HttpResponse response = httpclient.execute(request);
 			int responseCode = response.getStatusLine().getStatusCode();
 			String reasonPhrase = response.getStatusLine().getReasonPhrase();
-			Log.d(AppConstants.TAG, "ExecuteHttpRequest : " + responseCode + " - " + reasonPhrase);
+			Logger.d(AppConstants.TAG, "ExecuteHttpRequest : " + responseCode + " - " + reasonPhrase);
 
 			// Wrap a BufferedReader around the InputStream
 			StringBuilder result = new StringBuilder();
