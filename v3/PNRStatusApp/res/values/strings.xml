@@ -33,7 +33,6 @@ No part of PNRStatus Data retrieved is persisted by this app.</string>
     <!-- Titles and About Page -->
     <string name="ticket_info_title">Ticket Info</string>
     <string name="passenger_info_title">Passenger Info</string>
-    <string name="fb_app_page">PNRStatusApp on Facebook</string>
 
     <!-- Localization Strings -->
     <string name="str_passengner_name">Passenger : %s</string>

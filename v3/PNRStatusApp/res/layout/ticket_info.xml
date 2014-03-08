@@ -49,11 +49,11 @@
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:cacheColorHint="@color/list_selector"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:listSelector="@color/list_selector" />
+            android:cacheColorHint="@android:color/transparent"
+            android:listSelector="@android:color/transparent" />
 
         <TextView
             android:id="@android:id/empty"
