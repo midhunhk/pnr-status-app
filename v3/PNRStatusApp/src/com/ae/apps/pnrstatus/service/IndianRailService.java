@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Midhun Harikumar
+ * Copyright 2014 Midhun Harikumar
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
-import com.ae.apps.pnrstatus.utils.WebRequestResult;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
@@ -52,7 +51,7 @@ public class IndianRailService implements IStatusService {
 	private static final String	PNR_ENQ_URL			= "http://www.indianrail.gov.in/pnr_Enq.html";
 	// private static final String url1 = "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
 	// 690
-	private static final String	INDIAN_RAIL_URL		= "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
+	// private static final String INDIAN_RAIL_URL = "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
 	private static final String	SERVICE_NAME		= "IndianRail";
 
 	private String				mServiceUrl			= null;
@@ -97,12 +96,16 @@ public class IndianRailService implements IStatusService {
 		params.put(PARAM_CAPTCHA_INPUT, randomCaptcha);
 
 		// invoke the post method and get the response
-		WebRequestResult webResponse = null;
+		String webResponse = null;
 		try {
 			if (mServiceUrl == null) {
 				// we should fire a request to find the current url used for PNR Enquiry
 				webResponse = HttpUtils.sendGet(PNR_ENQ_URL);
-				mServiceUrl = getServiceUrl(webResponse.getResponse());
+				mServiceUrl = getServiceUrl(webResponse);
+			}
+			// See if we got the url for accessing the service
+			if (mServiceUrl == null) {
+				throw new RuntimeException("service url is null for indian rail service");
 			}
 
 			// now, fire the request for finding the pnrstatus
@@ -110,16 +113,16 @@ public class IndianRailService implements IStatusService {
 			if (webResponse == null) {
 				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
 			}
-			Log.d(TAG, "responseCode " + webResponse.getResponseCode() + " " + webResponse.getResponsePhrase());
-			Log.d(TAG, webResponse.getResponse());
+			Log.d(TAG, webResponse);
+		} catch (StatusException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
 
-		Log.d(TAG, "WebResultResponse length : " + webResponse.getResponse().length());
-		Log.d(TAG, "exit getResponse()");
+		Log.d(TAG, "WebResultResponse length : " + webResponse.length());
 
-		return parseResponse(webResponse.getResponse());
+		return parseResponse(webResponse);
 	}
 
 	/**
@@ -136,11 +139,10 @@ public class IndianRailService implements IStatusService {
 			elements = PNRUtils.parseIndianRailHtml(html);
 		} catch (Exception e) {
 			// If PNR Number is invalid, we might get an exception while parsing
-			throw new StatusException("Unable to Parse the response");
+			throw new StatusException("Unable to Parse the response", ErrorCodes.PARSE_ERROR);
 		}
 
-		Log.d(TAG, "enter parseResponse()");
-		Log.d(TAG, "elements.size() : " + elements.size());
+		Log.d(TAG, "elements in parsed response : " + elements.size());
 
 		int infoDataCount = 8;
 		if (elements.size() > infoDataCount) {
@@ -201,7 +203,11 @@ public class IndianRailService implements IStatusService {
 	}
 
 	private String getServiceUrl(String response) {
-		return INDIAN_RAIL_URL;
+		// response =
+		// "<form id=\"form3\" name=\"pnr_stat\" method=\"post\" action=\"http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_26163.cgi\" onsubmit=\"return checkform(this);\"> ";
+		int startIndex = response.indexOf("action=") + 8;
+		int endIndex = response.indexOf(".cgi", startIndex) + 4;
+		return response.substring(startIndex, endIndex);
 	}
 
 	private String getRandomCaptcha() {

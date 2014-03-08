@@ -1,6 +1,20 @@
-package com.ae.apps.pnrstatus.service;
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
+package com.ae.apps.pnrstatus.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +32,15 @@ import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
-import com.ae.apps.pnrstatus.utils.WebRequestResult;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
+/**
+ * An implementation of StatusService based on the PNRStatusService
+ * 
+ * @author Midhun
+ * 
+ */
 public class PNRStatusService implements IStatusService {
 
 	private static final String	SERVICE_NAME	= "PNRStatus";
@@ -51,12 +70,11 @@ public class PNRStatusService implements IStatusService {
 		params.put(PARAM_PNR, pnrNumber);
 
 		try {
-			WebRequestResult response = HttpUtils.sendPost(SERVICE_URL, headers, params);
+			String response = HttpUtils.sendPost(SERVICE_URL, headers, params);
 			if (response == null) {
 				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
 			}
-			Log.d(TAG, "responseCode " + response.getResponseCode() + " " + response.getResponsePhrase());
-			pnrStatusVo = parseResponse(response.getResponse());
+			pnrStatusVo = parseResponse(response);
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
@@ -72,18 +90,18 @@ public class PNRStatusService implements IStatusService {
 			String charting = rootObject.getString("Charting");
 
 			// Get the train / journey details
-			String j = rootObject.getString("Journey");
-			JSONObject journeyObject = getJsonObject(j);
+			String journey = rootObject.getString("Journey");
+			JSONObject journeyDetails = getJsonObject(journey);
 
-			String ticketClass = journeyObject.getString("Class");
+			String ticketClass = journeyDetails.getString("Class");
 			statusVo.setChartStatus(charting);
-			statusVo.setTrainNo(journeyObject.getString("Train Number"));
-			statusVo.setTrainName(journeyObject.getString("Train Name"));
-			statusVo.setTrainJourney(journeyObject.getString("Boarding Date"));
+			statusVo.setTrainNo(journeyDetails.getString("Train Number"));
+			statusVo.setTrainName(journeyDetails.getString("Train Name"));
+			statusVo.setTrainJourney(journeyDetails.getString("Boarding Date"));
 			// statusVo.setTrainJourney(journeyObject.getString("From"));
-			statusVo.setEmbarkPoint(journeyObject.getString("To"));
-			statusVo.setDestination(journeyObject.getString("Reserved Upto"));
-			statusVo.setBoardingPoint(journeyObject.getString("Boarding Point"));
+			statusVo.setEmbarkPoint(journeyDetails.getString("To"));
+			statusVo.setDestination(journeyDetails.getString("Reserved Upto"));
+			statusVo.setBoardingPoint(journeyDetails.getString("Boarding Point"));
 			statusVo.setTicketClass(ticketClass);
 
 			// Get the passenger details
@@ -123,6 +141,13 @@ public class PNRStatusService implements IStatusService {
 		return statusVo;
 	}
 
+	/**
+	 * This method is specific to responses from PNRStatus to parse json object from response string
+	 * 
+	 * @param source
+	 * @return
+	 * @throws JSONException
+	 */
 	private JSONObject getJsonObject(String source) throws JSONException {
 		StringBuilder json = new StringBuilder();
 		json.append('{');

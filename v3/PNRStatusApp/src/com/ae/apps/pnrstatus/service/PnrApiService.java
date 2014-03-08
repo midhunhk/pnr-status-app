@@ -16,8 +16,6 @@
 
 package com.ae.apps.pnrstatus.service;
 
-import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,46 +24,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.util.Log;
-
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
-import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
-import com.ae.apps.pnrstatus.utils.WebRequestResult;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 public class PnrApiService implements IStatusService {
 
-	private static final String	FIELD_NAME	= "name";
-	/**
-	 * The URL for PNRAPI Service
-	 */
-	private final String		url			= "http://pnrapi.alagu.net/api/v1.0/pnr/";
-	private final String		serviceName	= "PNRAPI";
+	private static final String	FIELD_NAME		= "name";
+	private static final String	SERVICE_URL		= "http://pnrapi.alagu.net/api/v1.0/pnr/";
+	private static final String	SERVICE_NAME	= "PNRAPI";
 
 	@Override
 	public String getServiceName() {
-		return serviceName;
+		return SERVICE_NAME;
 	}
 
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		String searchUrl = getServiceUrl(pnrNumber);
-		Log.i(AppConstants.TAG, "Using " + getServiceName());
-		Log.d(AppConstants.TAG, "SearchURL :  " + searchUrl);
 
 		PNRStatusVo pnrStatusVo = null;
-
 		try {
-			WebRequestResult response = HttpUtils.sendGet(searchUrl);
+			String response = HttpUtils.sendGet(searchUrl);
 			if (response == null) {
 				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
 			}
-			Log.d(TAG, "responseCode " + response.getResponseCode() + " " + response.getResponsePhrase());
-			pnrStatusVo = parseResponse(response.getResponse());
+			pnrStatusVo = parseResponse(response);
 		} catch (Exception e) {
 			throw new StatusException(e.getMessage(), e);
 		}
@@ -96,7 +83,7 @@ public class PnrApiService implements IStatusService {
 
 	private String getServiceUrl(String pnrNumber) {
 		if (null != pnrNumber && !pnrNumber.equals("")) {
-			return url + pnrNumber;
+			return SERVICE_URL + pnrNumber;
 		}
 		return "";
 	}
@@ -119,11 +106,11 @@ public class PnrApiService implements IStatusService {
 				JSONObject dateObject = dataObject.getJSONObject("travel_date");
 				String trainJourney = dateObject.getString("date");
 
-				String trainDest = getField(dataObject.getJSONObject("alight"), FIELD_NAME);
+				String trainDest = dataObject.getJSONObject("alight").getString(FIELD_NAME);
 				String trainName = dataObject.getString("train_name");
 				String trainNo = PNRUtils.getTrainNo(dataObject.getString("train_number"));
-				String trainBoard = getField(dataObject.getJSONObject("board"), FIELD_NAME);
-				String trainEmbark = getField(dataObject.getJSONObject("to"), FIELD_NAME);
+				String trainBoard = dataObject.getJSONObject("board").getString(FIELD_NAME);
+				String trainEmbark = dataObject.getJSONObject("to").getString(FIELD_NAME);
 				String ticketClass = dataObject.getString("class");
 
 				// Read the PassengerDataVos
@@ -178,7 +165,4 @@ public class PnrApiService implements IStatusService {
 		return statusVo;
 	}
 
-	private String getField(JSONObject object, String fieldName) throws JSONException {
-		return object.getString(fieldName);
-	}
 }

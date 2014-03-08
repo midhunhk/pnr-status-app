@@ -208,9 +208,8 @@ public class HttpUtils {
 	 * @param formParameters
 	 * @return
 	 */
-	public static WebRequestResult sendPost(String url, Map<String, String> requestHeaders,
-			Map<String, String> formParameters) {
-		WebRequestResult requestResult = null;
+	public static String sendPost(String url, Map<String, String> requestHeaders, Map<String, String> formParameters) {
+		String requestResult = null;
 		HttpPost httppost = new HttpPost(url);
 		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 
@@ -231,7 +230,6 @@ public class HttpUtils {
 		}
 
 		// Examine the response code and reasonPhrase
-		requestResult = executeHttpRequest(httppost);
 		return requestResult;
 	}
 
@@ -241,13 +239,11 @@ public class HttpUtils {
 	 * @param url
 	 * @return
 	 */
-	public static WebRequestResult sendGet(String url) {
-		WebRequestResult requestResult = null;
+	public static String sendGet(String url) {
 		HttpGet httpGet = new HttpGet(url);
 
 		// create the result object
-		requestResult = executeHttpRequest(httpGet);
-		return requestResult;
+		return executeHttpRequest(httpGet);
 	}
 
 	/**
@@ -256,16 +252,17 @@ public class HttpUtils {
 	 * @param response
 	 * @return
 	 */
-	private static WebRequestResult executeHttpRequest(HttpUriRequest request) {
-		WebRequestResult requestResult = null;
+	private static String executeHttpRequest(HttpUriRequest request) {
+		String requestResult = null;
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpResponse response = httpclient.execute(request);
 			int responseCode = response.getStatusLine().getStatusCode();
 			String reasonPhrase = response.getStatusLine().getReasonPhrase();
-			StringBuilder result = new StringBuilder();
+			Log.d(AppConstants.TAG, "ExecuteHttpRequest : " + responseCode + " - " + reasonPhrase);
 
 			// Wrap a BufferedReader around the InputStream
+			StringBuilder result = new StringBuilder();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			String line = null;
 			// Read response until the end
@@ -275,18 +272,17 @@ public class HttpUtils {
 			rd.close();
 
 			// create a request result object
-			requestResult = new WebRequestResult();
-
-			// Let's pack all these data and send to the sender
-			requestResult.setResponseCode(responseCode);
-			requestResult.setResponsePhrase(reasonPhrase);
-			requestResult.setResponse(result.toString());
+			requestResult = result.toString();
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			Log.e("PNR", e.getMessage());
+			if (AppConstants.IS_DEV_MODE) {
+				e.printStackTrace();
+				Log.e(AppConstants.TAG, "ExecuteHttpRequest : " + e.getMessage());
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("PNR", e.getMessage());
+			if (AppConstants.IS_DEV_MODE) {
+				e.printStackTrace();
+				Log.e(AppConstants.TAG, "ExecuteHttpRequest : " + e.getMessage());
+			}
 		}
 		return requestResult;
 	}

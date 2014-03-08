@@ -31,14 +31,24 @@
         android:id="@+id/ticket_info_line5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_margin="2dip"
+        android:background="@color/app_blue"/>
 
     <TextView
         android:id="@+id/passenger_info_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_marginBottom="2dp"
+        android:textSize="14sp"
         android:text="@string/passenger_info_title"
         android:textStyle="bold" >
+
     </TextView>
 
     <RelativeLayout

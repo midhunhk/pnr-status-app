@@ -148,7 +148,7 @@ public class Utils {
 	}
 
 	/**
-	 * Returns true if we are running in development mode
+	 * Returns true if we are running in on emulator
 	 * 
 	 * @return
 	 */

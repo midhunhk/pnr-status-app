@@ -166,6 +166,7 @@ PNRStatusAppV3 3.2.18 [March 2013]
  - [OPTIMIZED]	Code cleanup
  - [ADDED]		Apache HttpClient for http operations
 
-PNRStatusAppV3 3.2.20 [March 2013]
+PNRStatusAppV3 3.2.24 [March 2013]
  - [ADDED]		PNRStatusService
  - [CHANGED]	No highlight color when list is highlighted 
+ - [CHANGED]	Text resources and layouts

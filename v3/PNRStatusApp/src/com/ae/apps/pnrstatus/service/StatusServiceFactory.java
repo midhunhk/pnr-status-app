@@ -62,4 +62,15 @@ public class StatusServiceFactory {
 
 		return statusService;
 	}
+
+	/**
+	 * Returns an instance of IStatusService based on the type
+	 * 
+	 * @param type
+	 * @return
+	 * @throws InvalidServiceException
+	 */
+	public static IStatusService getService(String type) throws InvalidServiceException {
+		return getService(Integer.valueOf(type));
+	}
 }
