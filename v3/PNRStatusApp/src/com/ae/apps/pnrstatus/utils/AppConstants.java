@@ -21,7 +21,7 @@ public interface AppConstants {
 	 * Constant used for log tag for the application
 	 */
 	String	TAG								= "PNRStatusApp";
-	boolean	IS_DEV_MODE						= false;
+	boolean	IS_DEV_MODE						= Boolean.valueOf("true");
 
 	String	APP_ACTION						= "action";
 	String	PNR_NUMBER						= "pnr_number";
@@ -30,6 +30,7 @@ public interface AppConstants {
 	String	PNR_STATUS_VO					= "pnrStatusVo";
 	String	GOOGLE_SDK						= "google_sdk";
 	String	APP_HASH_TAG					= "#PNRStatusApp";
+	String	TICKET_STATUS_CONFIRM			= "CNF";
 
 	/**
 	 * Ticket Classes

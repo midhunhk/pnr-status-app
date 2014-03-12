@@ -40,7 +40,7 @@ public class DataManager {
 	private BaseAdapter				adapter;
 	private ArrayList<PNRStatusVo>	dataList;
 
-	private static final String		TAG	= "DataManager";
+	private static final String		TAG	= "PNR_DataManager";
 
 	public DataManager(Activity activity) {
 		this.activity = activity;
@@ -93,7 +93,7 @@ public class DataManager {
 	 * @param statusVo
 	 */
 	public boolean remove(PNRStatusVo statusVo) {
-		boolean isChanged = false;
+		boolean removed = false;
 		for (int i = 0; i < dataList.size(); i++) {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
 			String pnrNumber = pnrStatusVo.getPnrNumber();
@@ -102,16 +102,16 @@ public class DataManager {
 				// Delete from the database
 				mDbHelper.deletePnrNumber(pnrStatusVo.getRowId());
 				dataList.remove(i);
-				isChanged = true;
+				removed = true;
 				break;
 			}
 		}
 
-		// Update the list
-		if (isChanged && adapter != null) {
+		// Notify the adapter that the backing list has changed
+		if (removed && adapter != null) {
 			adapter.notifyDataSetChanged();
 		}
-		return isChanged;
+		return removed;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class DataManager {
 	 * @param statusVo
 	 */
 	public boolean add(PNRStatusVo statusVo) {
-		// Add to the dataSource
+		// Add a new PNR Number, note that we are not checking for duplicates
 		long result = mDbHelper.addPnrNumber(statusVo.getPnrNumber());
 		if (result > -1) {
 			statusVo.setRowId(result);

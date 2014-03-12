@@ -29,7 +29,7 @@ import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.v3.R;
 
 /**
- * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary sections of the app.
+ * A FragmentPagerAdapter that returns a fragment corresponding to one of the primary sections of the app.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

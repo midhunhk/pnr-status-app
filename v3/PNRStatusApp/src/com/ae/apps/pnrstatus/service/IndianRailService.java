@@ -48,12 +48,9 @@ public class IndianRailService implements IStatusService {
 	private static final String	PARAM_PNR			= "lccp_pnrno1";
 	private static final String	REFERRER_URL		= "http://www.indianrail.gov.in/pnr_stat.html";
 	private static final String	PNR_ENQ_URL			= "http://www.indianrail.gov.in/pnr_Enq.html";
-	// private static final String url1 = "http://www.indianrail.gov.in/cgi_bin/inet_pnrstat_cgi.cgi";
-	// 690
-	// private static final String INDIAN_RAIL_URL = "http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_12536.cgi";
 	private static final String	SERVICE_NAME		= "IndianRail";
 
-	private String				mServiceUrl			= null;
+	private static String		mServiceUrl			= null;
 
 	@Override
 	public String getServiceName() {
@@ -76,7 +73,7 @@ public class IndianRailService implements IStatusService {
 
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
-		Logger.d(TAG, "enter getResponse()");
+		Logger.d(TAG, "enter getResponse " + SERVICE_NAME);
 
 		// Here, ahem we generate a random captcha for the server
 		String randomCaptcha = getRandomCaptcha();
@@ -149,7 +146,7 @@ public class IndianRailService implements IStatusService {
 			String ticketClass = elements.get(7).trim();
 			pnrStatusVo.setTrainNo(PNRUtils.getTrainNo(elements.get(0)));
 			pnrStatusVo.setTrainName(elements.get(1));
-			pnrStatusVo.setTrainJourney(elements.get(2));
+			pnrStatusVo.setTrainJourneyDate(elements.get(2));
 			pnrStatusVo.setBoardingPoint(elements.get(6));
 			pnrStatusVo.setDestination(elements.get(4));
 			pnrStatusVo.setEmbarkPoint(elements.get(5));
@@ -167,9 +164,9 @@ public class IndianRailService implements IStatusService {
 
 				// Create the PassengerDataVo
 				PassengerDataVo passengerDataVo = new PassengerDataVo();
-				passengerDataVo.setTrainPassenger(elements.get(passengerDataIndex));
-				passengerDataVo.setTrainBookingBerth(bookingBerth);
-				passengerDataVo.setTrainCurrentStatus(currentStatus);
+				passengerDataVo.setPassenger(elements.get(passengerDataIndex));
+				passengerDataVo.setBookingBerth(bookingBerth);
+				passengerDataVo.setCurrentStatus(currentStatus);
 
 				// Try to calculate the berth position
 				String berthPosition = "";
@@ -180,7 +177,7 @@ public class IndianRailService implements IStatusService {
 					Logger.e(TAG, "Exception in parseResponse() " + e.getMessage());
 				}
 				passengerDataVo.setBerthPosition(berthPosition);
-				passengerDataVo.setTrainBookingBerth(bookingBerth.trim());
+				passengerDataVo.setBookingBerth(bookingBerth.trim());
 
 				// Update some values in the main vo based on the first passenger
 				if (i == 1) {

@@ -171,3 +171,4 @@ PNRStatusAppV3 3.2.25 [March 2013]
  - [CHANGED]	No highlight color when list is highlighted 
  - [CHANGED]	Text resources and layouts
  - [ADDED]		Logger wrapper to log data only in development mode
+ - [CHANGED]	Code Cleanup

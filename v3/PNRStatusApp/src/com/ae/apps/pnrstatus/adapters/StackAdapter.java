@@ -36,9 +36,9 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  */
 public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 
-	private List<PNRStatusVo>	items;
-	private Context				context;
-	private int					xmlResourceId;
+	private final List<PNRStatusVo>	items;
+	private final Context			context;
+	private final int				xmlResourceId;
 
 	public StackAdapter(Context context, int textViewResourceId, List<PNRStatusVo> objects) {
 		super(context, textViewResourceId, objects);
@@ -94,7 +94,6 @@ public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 		TextView	date;
 		TextView	journey;
 		TextView	count;
-		// TextView trainInfo;
 	}
 
 }

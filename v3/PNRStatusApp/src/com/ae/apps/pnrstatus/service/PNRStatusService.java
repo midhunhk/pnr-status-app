@@ -96,7 +96,7 @@ public class PNRStatusService implements IStatusService {
 			statusVo.setChartStatus(charting);
 			statusVo.setTrainNo(journeyDetails.getString("Train Number"));
 			statusVo.setTrainName(journeyDetails.getString("Train Name"));
-			statusVo.setTrainJourney(journeyDetails.getString("Boarding Date"));
+			statusVo.setTrainJourneyDate(journeyDetails.getString("Boarding Date"));
 			// statusVo.setTrainJourney(journeyObject.getString("From"));
 			statusVo.setEmbarkPoint(journeyDetails.getString("To"));
 			statusVo.setDestination(journeyDetails.getString("Reserved Upto"));
@@ -118,9 +118,9 @@ public class PNRStatusService implements IStatusService {
 				berthPosition = PNRUtils.getBerthPosition(currentStatus, bookingStatus, ticketClass, ",");
 
 				passengerDataVo = new PassengerDataVo();
-				passengerDataVo.setTrainPassenger("Passenger " + i);
-				passengerDataVo.setTrainBookingBerth(bookingStatus);
-				passengerDataVo.setTrainCurrentStatus(currentStatus);
+				passengerDataVo.setPassenger("Passenger " + i);
+				passengerDataVo.setBookingBerth(bookingStatus);
+				passengerDataVo.setCurrentStatus(currentStatus);
 				passengerDataVo.setBerthPosition(berthPosition);
 
 				passengers.add(passengerDataVo);
@@ -130,7 +130,7 @@ public class PNRStatusService implements IStatusService {
 			if (passengers.size() > 0) {
 				PassengerDataVo dataVo = (passengers.get(0));
 				statusVo.setFirstPassengerData(dataVo);
-				firstPassengerStatus = dataVo.getTrainCurrentStatus();
+				firstPassengerStatus = dataVo.getCurrentStatus();
 			}
 			statusVo.setCurrentStatus(firstPassengerStatus);
 			statusVo.setPassengers(passengers);

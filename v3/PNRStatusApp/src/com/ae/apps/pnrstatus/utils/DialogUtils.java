@@ -62,7 +62,7 @@ public class DialogUtils {
 		Resources resources = context.getResources();
 		String line1Text = resources.getString(R.string.str_train_name_no, pnrStatusVo.getTrainName(),
 				pnrStatusVo.getTrainNo());
-		String line2Text = resources.getString(R.string.str_journey_date, pnrStatusVo.getTrainJourney());
+		String line2Text = resources.getString(R.string.str_journey_date, pnrStatusVo.getTrainJourneyDate());
 		String line3Text = resources.getString(R.string.str_current_status, pnrStatusVo.getCurrentStatus());
 		String line4Text = resources.getString(R.string.str_journey_from_to, pnrStatusVo.getBoardingPoint(),
 				pnrStatusVo.getEmbarkPoint());

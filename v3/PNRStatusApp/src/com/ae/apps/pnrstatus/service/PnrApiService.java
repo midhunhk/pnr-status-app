@@ -127,9 +127,9 @@ public class PnrApiService implements IStatusService {
 					berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth, ticketClass, ",");
 
 					PassengerDataVo dataVo = new PassengerDataVo();
-					dataVo.setTrainBookingBerth(trainBookingBerth);
-					dataVo.setTrainCurrentStatus(trainCurrentStatus);
-					dataVo.setTrainPassenger(trainPassenger);
+					dataVo.setBookingBerth(trainBookingBerth);
+					dataVo.setCurrentStatus(trainCurrentStatus);
+					dataVo.setPassenger(trainPassenger);
 					dataVo.setBerthPosition(berthPosition);
 
 					passengers.add(dataVo);
@@ -139,7 +139,7 @@ public class PnrApiService implements IStatusService {
 				if (passengers.size() > 0) {
 					PassengerDataVo dataVo = (passengers.get(0));
 					statusVo.setFirstPassengerData(dataVo);
-					firstPassengerStatus = dataVo.getTrainCurrentStatus();
+					firstPassengerStatus = dataVo.getCurrentStatus();
 				}
 
 				// Set the values for the StatusVo
@@ -147,7 +147,7 @@ public class PnrApiService implements IStatusService {
 				statusVo.setBoardingPoint(trainBoard);
 				statusVo.setDestination(trainDest);
 				statusVo.setEmbarkPoint(trainEmbark);
-				statusVo.setTrainJourney(trainJourney);
+				statusVo.setTrainJourneyDate(trainJourney);
 				statusVo.setTrainName(trainName);
 				statusVo.setTrainNo(trainNo);
 				statusVo.setTicketClass(ticketClass);

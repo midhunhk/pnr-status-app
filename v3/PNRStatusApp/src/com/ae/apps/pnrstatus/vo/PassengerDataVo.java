@@ -19,61 +19,61 @@ package com.ae.apps.pnrstatus.vo;
 import java.io.Serializable;
 
 /**
- * Represents a Passenger data
+ * Represents a Passenger's data
  * 
  * @author midhun_harikumar
  * 
  */
 public class PassengerDataVo implements Serializable {
 	private static final long	serialVersionUID	= 2264807366835227895L;
-	private String				trainPassenger;
-	private String				trainBookingBerth;
-	private String				trainCurrentStatus;
+	private String				passengerName;
+	private String				bookingBerth;
+	private String				currentStatus;
 	private String				berthPosition;
 
 	/**
 	 * @return the trainBookingBerth
 	 */
-	public String getTrainBookingBerth() {
-		return trainBookingBerth;
+	public String getBookingBerth() {
+		return bookingBerth;
 	}
 
 	/**
 	 * @param trainBookingBerth
 	 *            the trainBookingBerth to set
 	 */
-	public void setTrainBookingBerth(String trainBookingBerth) {
-		this.trainBookingBerth = trainBookingBerth;
+	public void setBookingBerth(String trainBookingBerth) {
+		this.bookingBerth = trainBookingBerth;
 	}
 
 	/**
 	 * @return the trainPassenger
 	 */
-	public String getTrainPassenger() {
-		return trainPassenger;
+	public String getPassenger() {
+		return passengerName;
 	}
 
 	/**
 	 * @param trainPassenger
 	 *            the trainPassenger to set
 	 */
-	public void setTrainPassenger(String trainPassenger) {
-		this.trainPassenger = trainPassenger;
+	public void setPassenger(String trainPassenger) {
+		this.passengerName = trainPassenger;
 	}
 
 	/**
 	 * @return the trainCurrentStatus
 	 */
-	public String getTrainCurrentStatus() {
-		return trainCurrentStatus;
+	public String getCurrentStatus() {
+		return currentStatus;
 	}
 
 	/**
 	 * @param trainCurrentStatus
 	 *            the trainCurrentStatus to set
 	 */
-	public void setTrainCurrentStatus(String trainCurrentStatus) {
-		this.trainCurrentStatus = trainCurrentStatus;
+	public void setCurrentStatus(String trainCurrentStatus) {
+		this.currentStatus = trainCurrentStatus;
 	}
 
 	public void setBerthPosition(String berthPosition) {
@@ -94,9 +94,9 @@ public class PassengerDataVo implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((berthPosition == null) ? 0 : berthPosition.hashCode());
-		result = prime * result + ((trainBookingBerth == null) ? 0 : trainBookingBerth.hashCode());
-		result = prime * result + ((trainCurrentStatus == null) ? 0 : trainCurrentStatus.hashCode());
-		result = prime * result + ((trainPassenger == null) ? 0 : trainPassenger.hashCode());
+		result = prime * result + ((bookingBerth == null) ? 0 : bookingBerth.hashCode());
+		result = prime * result + ((currentStatus == null) ? 0 : currentStatus.hashCode());
+		result = prime * result + ((passengerName == null) ? 0 : passengerName.hashCode());
 		return result;
 	}
 
@@ -119,20 +119,20 @@ public class PassengerDataVo implements Serializable {
 				return false;
 		} else if (!berthPosition.equals(other.berthPosition))
 			return false;
-		if (trainBookingBerth == null) {
-			if (other.trainBookingBerth != null)
+		if (bookingBerth == null) {
+			if (other.bookingBerth != null)
 				return false;
-		} else if (!trainBookingBerth.equals(other.trainBookingBerth))
+		} else if (!bookingBerth.equals(other.bookingBerth))
 			return false;
-		if (trainCurrentStatus == null) {
-			if (other.trainCurrentStatus != null)
+		if (currentStatus == null) {
+			if (other.currentStatus != null)
 				return false;
-		} else if (!trainCurrentStatus.equals(other.trainCurrentStatus))
+		} else if (!currentStatus.equals(other.currentStatus))
 			return false;
-		if (trainPassenger == null) {
-			if (other.trainPassenger != null)
+		if (passengerName == null) {
+			if (other.passengerName != null)
 				return false;
-		} else if (!trainPassenger.equals(other.trainPassenger))
+		} else if (!passengerName.equals(other.passengerName))
 			return false;
 		return true;
 	}

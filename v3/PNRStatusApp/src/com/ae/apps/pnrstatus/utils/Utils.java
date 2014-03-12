@@ -59,7 +59,6 @@ public class Utils {
 		return true;
 	}
 
-	// TODO: Read this array from locale file
 	public static String[]	monthsArray		= { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
 			"Nov", "Dec"					};
 	public static String[]	dayNamesArray	= { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
@@ -135,7 +134,7 @@ public class Utils {
 		String shareSubject = context.getResources().getString(R.string.str_share_status_subject,
 				pnrStatusVo.getPnrNumber());
 		String shareBody = context.getResources().getString(R.string.str_share_status_detail,
-				dataVo.getTrainCurrentStatus(), dataVo.getTrainBookingBerth())
+				dataVo.getCurrentStatus(), dataVo.getBookingBerth())
 				+ AppConstants.APP_HASH_TAG;
 
 		// Put the extras
@@ -157,7 +156,7 @@ public class Utils {
 	}
 
 	/**
-	 * Return an Adapter View implementation based on the OS version
+	 * Return an Adapter View implementation based on the platform version
 	 * 
 	 * @param context
 	 * @param adapter

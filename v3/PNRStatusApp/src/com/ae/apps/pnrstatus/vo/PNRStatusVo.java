@@ -108,7 +108,7 @@ public class PNRStatusVo implements Serializable, Comparable<PNRStatusVo> {
 	/**
 	 * @return the trainJourney
 	 */
-	public String getTrainJourney() {
+	public String getTrainJourneyDate() {
 		return journeyDate;
 	}
 
@@ -116,7 +116,7 @@ public class PNRStatusVo implements Serializable, Comparable<PNRStatusVo> {
 	 * @param trainJourney
 	 *            the trainJourney to set
 	 */
-	public void setTrainJourney(String trainJourney) {
+	public void setTrainJourneyDate(String trainJourney) {
 		this.journeyDate = trainJourney;
 	}
 

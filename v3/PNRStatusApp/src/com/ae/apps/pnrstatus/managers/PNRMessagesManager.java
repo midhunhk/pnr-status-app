@@ -33,7 +33,7 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  */
 public class PNRMessagesManager {
 
-	private List<PNRStatusVo>	list;
+	private final List<PNRStatusVo>	list;
 
 	/**
 	 * 
@@ -69,19 +69,21 @@ public class PNRMessagesManager {
 			return list;
 		} else {
 			// Filter the list and return only future ticket dates
-			// TODO : Since the list is already sorted, find the position of difference and return the sublist
-			List<PNRStatusVo> tempList = new ArrayList<PNRStatusVo>();
+			// TODO : Since the list is already sorted, find the position of difference and return the sublist, which
+			// should be faster
+			List<PNRStatusVo> pnrNumbers = new ArrayList<PNRStatusVo>();
 			if (list != null) {
 				Calendar calendar = Calendar.getInstance();
-				calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE) - 1);
+				calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
+						calendar.get(Calendar.DATE) - 1);
 				long now = calendar.getTimeInMillis();
 				for (PNRStatusVo statusVo : list) {
 					if (statusVo.getJourneyDateTimeStamp() > now) {
-						tempList.add(statusVo);
+						pnrNumbers.add(statusVo);
 					}
 				}
 			}
-			return tempList;
+			return pnrNumbers;
 		}
 	}
 }

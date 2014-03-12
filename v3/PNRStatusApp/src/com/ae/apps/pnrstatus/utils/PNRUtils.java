@@ -256,7 +256,7 @@ public class PNRUtils {
 					pnrStatusVo = new PNRStatusVo();
 					pnrStatusVo.setPnrNumber(contents[1].split(",")[0]);
 					pnrStatusVo.setTrainNo(contents[2].split(",")[0]);
-					pnrStatusVo.setTrainJourney(trainJourney);
+					pnrStatusVo.setTrainJourneyDate(trainJourney);
 					pnrStatusVo.setDateOfJourneyText(dateWithMonthText + " (" + Utils.getDayName(trainJourney) + ")");
 					pnrStatusVo.setJourneyDateTimeStamp(timeStamp);
 
@@ -273,8 +273,8 @@ public class PNRUtils {
 
 					// Create a PassengerDataVo
 					PassengerDataVo passengerDataVo = new PassengerDataVo();
-					passengerDataVo.setTrainPassenger(tempData[3]);
-					passengerDataVo.setTrainBookingBerth(tempData[4]);
+					passengerDataVo.setPassenger(tempData[3]);
+					passengerDataVo.setBookingBerth(tempData[4]);
 					passengerDataVo.setBerthPosition(berthPosition);
 
 					// Set as first passenger and place in the list of passengers also

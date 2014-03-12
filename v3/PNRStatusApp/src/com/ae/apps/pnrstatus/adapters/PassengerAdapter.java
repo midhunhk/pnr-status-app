@@ -31,12 +31,12 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 public class PassengerAdapter extends BaseAdapter {
 
-	private Context							context;
-	private LayoutInflater					inflater;
+	private final Context					context;
+	private final LayoutInflater			inflater;
 	private static List<PassengerDataVo>	arrayList;
 
 	/**
-	 * 2 arg constructor
+	 * Creates an instance of PassengerAdapter
 	 * 
 	 * @param context
 	 * @param list
@@ -86,21 +86,15 @@ public class PassengerAdapter extends BaseAdapter {
 		if (null != dataVo) {
 			// Show the strings with the help of localization
 			Resources resources = context.getResources();
-			holder.txtLine1.setText(resources.getString(R.string.str_passengner_name, dataVo.getTrainPassenger()));
-			holder.txtLine2.setText(resources.getString(R.string.str_booking_status, dataVo.getTrainBookingBerth()));
-			holder.txtLine3.setText(resources.getString(R.string.str_current_status, dataVo.getTrainCurrentStatus()));
+			holder.txtLine1.setText(resources.getString(R.string.str_passengner_name, dataVo.getPassenger()));
+			holder.txtLine2.setText(resources.getString(R.string.str_booking_status, dataVo.getBookingBerth()));
+			holder.txtLine3.setText(resources.getString(R.string.str_current_status, dataVo.getCurrentStatus()));
 			holder.txtLine4.setText(resources.getString(R.string.str_berth_position, dataVo.getBerthPosition()));
 		}
 
 		return convertView;
 	}
 
-	/**
-	 * Helper class that denotes the elements inside the layout
-	 * 
-	 * @author Midhun_Harikumar
-	 * 
-	 */
 	private static class ViewHolder {
 		TextView	txtLine1;
 		TextView	txtLine2;

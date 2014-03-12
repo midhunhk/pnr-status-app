@@ -75,8 +75,6 @@ public class MessagesFragment extends Fragment {
 			ADDRESS = "11";
 		}
 
-		Logger.d(AppConstants.TAG, "onCreateView");
-
 		// Initialize the activity
 		initActivity();
 
@@ -211,7 +209,7 @@ public class MessagesFragment extends Fragment {
 			mCurrentPnr = pnrStatusVo.getPnrNumber();
 			Resources resources = context.getResources();
 			mPassengerName.setText(resources.getString(R.string.str_passengner_name,
-					passengerDataVo.getTrainPassenger()));
+					passengerDataVo.getPassenger()));
 			mTrainInfo.setText(context.getString(R.string.str_train_no, pnrStatusVo.getTrainNo()));
 			String position = pnrStatusVo.getCurrentStatus();
 			if (position.equals(AppConstants.BERTH_DEFAULT) == false) {

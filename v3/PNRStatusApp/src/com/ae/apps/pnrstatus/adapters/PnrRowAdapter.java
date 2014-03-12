@@ -16,13 +16,14 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
+import static com.ae.apps.pnrstatus.utils.AppConstants.TICKET_STATUS_CONFIRM;
+
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,34 +110,33 @@ public class PnrRowAdapter extends BaseAdapter {
 		// Show the FirstPassenger Booking Berth if its available
 		PassengerDataVo passengerDataVo = arrayList.get(position).getFirstPassengerData();
 		if (null != passengerDataVo) {
-			String message = "Update " + holder.txtName.getText() + " with " + passengerDataVo.getTrainCurrentStatus();
+			String message = "Update " + holder.txtName.getText() + " with " + passengerDataVo.getCurrentStatus();
 			Logger.d(AppConstants.TAG, message);
 
 			holder.btnInfo.setEnabled(true);
 			// holder.btnInfo.setImageResource(R.drawable.ic_info);
-			String currentStatus = passengerDataVo.getTrainCurrentStatus();
-			if (currentStatus.contains("CNF") && passengerDataVo.getTrainBookingBerth() != null) {
-				holder.txtStatus.setText(passengerDataVo.getTrainBookingBerth());
+			String currentStatus = passengerDataVo.getCurrentStatus();
+			if (currentStatus.contains(TICKET_STATUS_CONFIRM) && passengerDataVo.getBookingBerth() != null) {
+				holder.txtStatus.setText(passengerDataVo.getBookingBerth());
 			} else {
 				holder.txtStatus.setText(currentStatus);
 			}
 		} else {
 			// Disable the Extra Info Button
 			holder.btnInfo.setEnabled(false);
-			// holder.btnInfo.setImageResource(R.drawable.ic_info_disabled);
+			// Clear the status as well
 			holder.txtStatus.setText("");
 		}
 
 		// Get the PNRStatusVo object
 		final PNRStatusVo pnrStatusVo = arrayList.get(position);
 
-		// Check the status of the PNR Number
+		// Check the status of a PNR Number
 		holder.btnCheck.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				Logger.d(AppConstants.TAG, "PnrRowAdapter :: Check Button Clicked");
 				holder.txtStatus.setText("");
 				parentFragment.checkStatus(pnrStatusVo);
 			}
@@ -148,7 +148,6 @@ public class PnrRowAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				Log.d(AppConstants.TAG, "PnrRowAdapter :: Remove Button Clicked");
 				Activity activity = parentFragment.getActivity();
 				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				builder.setCancelable(true);
@@ -186,19 +185,12 @@ public class PnrRowAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				Logger.d(AppConstants.TAG, "PnrRowAdapter :: Info Button Clicked");
 				parentFragment.showPNRStatusDetail(pnrStatusVo);
 			}
 		});
 		return convertView;
 	}
 
-	/**
-	 * Inner Class that describes the contents of a PNR Status Row
-	 * 
-	 * @author Midhun
-	 * 
-	 */
 	private static class ViewHolder {
 		TextView	txtName;
 		TextView	txtStatus;

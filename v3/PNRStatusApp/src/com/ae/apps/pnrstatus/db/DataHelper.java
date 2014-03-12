@@ -59,8 +59,8 @@ public class DataHelper {
 																+ " TEXT NOT NULL," + KEY_DATA2 + " TEXT);";
 
 	private OpenHelper			mDbHelper;
-	private SQLiteDatabase		mDb;
-	private final Context		mCtx;
+	private SQLiteDatabase		mDatabase;
+	private final Context		mContext;
 
 	/**
 	 * Constructor
@@ -68,7 +68,7 @@ public class DataHelper {
 	 * @param ctx
 	 */
 	public DataHelper(Context ctx) {
-		this.mCtx = ctx;
+		this.mContext = ctx;
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class DataHelper {
 	 * @throws SQLException
 	 */
 	public DataHelper open() throws SQLException {
-		mDbHelper = new OpenHelper(mCtx);
-		mDb = mDbHelper.getWritableDatabase();
+		mDbHelper = new OpenHelper(mContext);
+		mDatabase = mDbHelper.getWritableDatabase();
 		return this;
 	}
 
@@ -90,26 +90,29 @@ public class DataHelper {
 		mDbHelper.close();
 	}
 
-	// ---------------------------------
-	// Database Operations
-	// ---------------------------------
-
 	/**
-	 * Add a PNRRow to the database
+	 * Add a PNRNumber with a note to the database
 	 */
 	public long addPnrNumber(String pnrNumber, String data2) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_DATA1, pnrNumber);
 		initialValues.put(KEY_DATA2, data2);
 
-		return mDb.insert(TABLE_PNR, null, initialValues);
+		// Really insert the data
+		return mDatabase.insert(TABLE_PNR, null, initialValues);
 	}
 
+	/**
+	 * Add a PNRNumber to the database
+	 * 
+	 * @param pnrNumber
+	 * @return
+	 */
 	public long addPnrNumber(String pnrNumber) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_DATA1, pnrNumber);
 
-		return mDb.insert(TABLE_PNR, null, initialValues);
+		return mDatabase.insert(TABLE_PNR, null, initialValues);
 	}
 
 	/**
@@ -119,14 +122,14 @@ public class DataHelper {
 	 * @return true if successful, false if failed
 	 */
 	public boolean deletePnrNumber(long rowId) {
-		return mDb.delete(TABLE_PNR, KEY_ID + "=" + rowId, null) > 0;
+		return mDatabase.delete(TABLE_PNR, KEY_ID + "=" + rowId, null) > 0;
 	}
 
 	/**
 	 * Fetch results
 	 */
 	public Cursor fetchAllPnrNumbers() {
-		return mDb.query(TABLE_PNR, new String[] { KEY_ID, KEY_DATA1, KEY_DATA2 }, null, null, null, null, null);
+		return mDatabase.query(TABLE_PNR, new String[] { KEY_ID, KEY_DATA1, KEY_DATA2 }, null, null, null, null, null);
 	}
 
 	/**
@@ -139,8 +142,8 @@ public class DataHelper {
 	 *             if note could not be found/retrieved
 	 */
 	public Cursor fetchPnrNumber(long rowId) throws SQLException {
-		Cursor mCursor = mDb.query(true, TABLE_PNR, new String[] { KEY_ID, KEY_DATA1, KEY_DATA2 },
-				KEY_ID + "=" + rowId, null, null, null, null, null);
+		Cursor mCursor = mDatabase.query(true, TABLE_PNR, new String[] { KEY_ID, KEY_DATA1, KEY_DATA2 }, KEY_ID + "="
+				+ rowId, null, null, null, null, null);
 
 		if (mCursor != null) {
 			mCursor.moveToFirst();
@@ -149,15 +152,8 @@ public class DataHelper {
 
 	}
 
-	// ---------------------------------
-	// Inner Class
-	// ---------------------------------
-
 	/**
 	 * Helper class that extends the SQLiteOpenHelper class to do database operations
-	 * 
-	 * @author Midhun_Harikumar
-	 * 
 	 */
 	private static class OpenHelper extends SQLiteOpenHelper {
 

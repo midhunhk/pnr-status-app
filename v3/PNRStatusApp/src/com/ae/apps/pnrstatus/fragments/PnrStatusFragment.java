@@ -47,7 +47,6 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  */
 public class PnrStatusFragment extends ListFragment {
 
-	// http://developer.android.com/guide/components/fragments.html
 	private static final String		TAG	= "PnrStatusFragment";
 
 	private View					layout;
@@ -79,10 +78,9 @@ public class PnrStatusFragment extends ListFragment {
 	}
 
 	/**
-	 * Do initialisations
+	 * Initialize stuff
 	 */
 	private void initActivity() {
-
 		try {
 			// Get the data list from the db and set the data adapter
 			List<PNRStatusVo> pnrList = mCallback.getListData();
@@ -94,11 +92,9 @@ public class PnrStatusFragment extends ListFragment {
 
 			// Read the length of a valid PNR
 			final int validPNRLength = Integer.valueOf(context.getResources().getString(R.string.pnr_number_length));
-
-			// Get a reference to the EditText Object
 			final EditText txtPnrNumber = (EditText) layout.findViewById(R.id.new_pnr_text);
 
-			// Fix the textbox text color for lesser android versions
+			// Fix the textbox text color for lower android versions
 			if (android.os.Build.VERSION.SDK_INT < 11) {
 				txtPnrNumber.setTextColor(Color.GRAY);
 			}
@@ -111,14 +107,13 @@ public class PnrStatusFragment extends ListFragment {
 				public void onClick(View v) {
 					// Create a PNRStatusVo object
 					String pnrNumber = txtPnrNumber.getText().toString();
-					Logger.i(TAG, "Add a pnr " + pnrNumber);
+					Logger.i(TAG, "Add new pnr " + pnrNumber);
 					if (pnrNumber != null && pnrNumber.trim().length() == validPNRLength) {
 						PNRStatusVo statusVo = PNRUtils.getEmptyPNRStatusObject();
 						statusVo.setPnrNumber(pnrNumber);
 
 						// Clear the input
 						txtPnrNumber.setText("");
-						txtPnrNumber.requestFocus();
 						btnAdd.requestFocus();
 
 						// Add the PNRStatusVo to the list
