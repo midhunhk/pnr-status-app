@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.service;
 
 import java.io.IOException;
@@ -38,30 +54,32 @@ public class IxigoService implements IStatusService {
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber) throws JSONException, StatusException, IOException {
+	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		String searchUrl = getServiceUrl(pnrNumber);
 		Log.i(AppConstants.TAG, "Using " + getServiceName());
 		Log.d(AppConstants.TAG, "SearchURL :  " + searchUrl);
 
-		String response = PNRUtils.getWebResult(searchUrl);
-		// String response = pnrService.getStubResponse();
+		String response = null;
+		PNRStatusVo pnrStatusVo = null;
+
+		try {
+			response = PNRUtils.getWebResult(searchUrl);
+			pnrStatusVo = parseResponse(response);
+		} catch (IOException e) {
+			throw new StatusException("IO Error occured");
+		}
 
 		Log.d(AppConstants.TAG, "WebResultResponse : " + response);
-		return parseResponse(response);
+		return pnrStatusVo;
 	}
 
 	@Override
-	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws JSONException, StatusException,
-			IOException {
+	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
 		if (stubResponse == true) {
 			return parseResponse(getStubResponse());
 		}
 		return getResponse(pnrNumber);
 	}
-
-	/**
-	 * Returns the
-	 */
 
 	private String getServiceUrl(String pnrNumber) {
 		if (null != pnrNumber && !pnrNumber.equals("")) {
@@ -76,65 +94,69 @@ public class IxigoService implements IStatusService {
 	/**
 	 * This function parses the response
 	 */
-	protected PNRStatusVo parseResponse(String responseString) throws JSONException, StatusException {
+	protected PNRStatusVo parseResponse(String responseString) throws StatusException {
 		PNRStatusVo statusVo = new PNRStatusVo();
+		try {
 
-		JSONTokener jsonTokener = new JSONTokener(responseString);
-		JSONObject object = (JSONObject) jsonTokener.nextValue();
+			JSONTokener jsonTokener = new JSONTokener(responseString);
+			JSONObject object = (JSONObject) jsonTokener.nextValue();
 
-		JSONArray passengersArray = object.getJSONArray("passengers");
+			JSONArray passengersArray = object.getJSONArray("passengers");
 
-		String firstPassengerStatus = "";
-		String trainDest = object.getString("trainDest");
-		String trainJourney = object.getString("trainJourney");
-		String trainName = object.getString("trainName");
-		String trainNo = PNRUtils.getTrainNo(object.getString("trainNo"));
-		String trainBoard = object.getString("trainBoard");
-		String trainEmbark = object.getString("trainEmbark");
-		String ticketClass = object.getString("trainFareClass");
+			String firstPassengerStatus = "";
+			String trainDest = object.getString("trainDest");
+			String trainJourney = object.getString("trainJourney");
+			String trainName = object.getString("trainName");
+			String trainNo = PNRUtils.getTrainNo(object.getString("trainNo"));
+			String trainBoard = object.getString("trainBoard");
+			String trainEmbark = object.getString("trainEmbark");
+			String ticketClass = object.getString("trainFareClass");
 
-		// Read the PassengerDataVos
-		List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
+			// Read the PassengerDataVos
+			List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
 
-		for (int i = 0; i < passengersArray.length(); i++) {
-			JSONObject object2 = passengersArray.getJSONObject(i);
-			String trainBookingBerth = object2.getString("trainBookingBerth").trim();
-			String trainCurrentStatus = object2.getString("trainCurrentStatus").trim();
-			String trainPassenger = object2.getString("trainPassenger");
-			String berthPosition = "";
+			for (int i = 0; i < passengersArray.length(); i++) {
+				JSONObject object2 = passengersArray.getJSONObject(i);
+				String trainBookingBerth = object2.getString("trainBookingBerth").trim();
+				String trainCurrentStatus = object2.getString("trainCurrentStatus").trim();
+				String trainPassenger = object2.getString("trainPassenger");
+				String berthPosition = "";
 
-			// Calculate the BerthPosition
-			berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth,
-					AppConstants.CLASS_UNKNOWN, ",");
+				// Calculate the BerthPosition
+				berthPosition = PNRUtils.getBerthPosition(trainCurrentStatus, trainBookingBerth,
+						AppConstants.CLASS_UNKNOWN, ",");
 
-			PassengerDataVo dataVo = new PassengerDataVo();
-			dataVo.setTrainBookingBerth(trainBookingBerth);
-			dataVo.setTrainCurrentStatus(trainCurrentStatus);
-			dataVo.setTrainPassenger(trainPassenger);
-			dataVo.setBerthPosition(berthPosition);
+				PassengerDataVo dataVo = new PassengerDataVo();
+				dataVo.setBookingBerth(trainBookingBerth);
+				dataVo.setCurrentStatus(trainCurrentStatus);
+				dataVo.setPassenger(trainPassenger);
+				dataVo.setBerthPosition(berthPosition);
 
-			passengers.add(dataVo);
+				passengers.add(dataVo);
+			}
+
+			// Get the first passenger status
+			if (passengers.size() > 0) {
+				PassengerDataVo dataVo = (passengers.get(0));
+				statusVo.setFirstPassengerData(dataVo);
+				firstPassengerStatus = dataVo.getCurrentStatus();
+			}
+
+			// Set the values for the StatusVo
+			statusVo.setBoardingPoint(trainBoard);
+			statusVo.setDestination(trainDest);
+			statusVo.setEmbarkPoint(trainEmbark);
+			statusVo.setTrainJourneyDate(trainJourney);
+			statusVo.setTrainName(trainName);
+			statusVo.setTrainNo(trainNo);
+			statusVo.setTicketClass(ticketClass);
+			statusVo.setCurrentStatus(firstPassengerStatus);
+
+			statusVo.setPassengers(passengers);
+		} catch (JSONException exception) {
+			throw new StatusException("Json Exception");
 		}
-
-		// Get the first passenger status
-		if (passengers.size() > 0) {
-			PassengerDataVo dataVo = (passengers.get(0));
-			statusVo.setFirstPassengerData(dataVo);
-			firstPassengerStatus = dataVo.getTrainCurrentStatus();
-		}
-
-		// Set the values for the StatusVo
-		statusVo.setTrainBoard(trainBoard);
-		statusVo.setDestination(trainDest);
-		statusVo.setTrainEmbark(trainEmbark);
-		statusVo.setTrainJourney(trainJourney);
-		statusVo.setTrainName(trainName);
-		statusVo.setTrainNo(trainNo);
-		statusVo.setTicketClass(ticketClass);
-		statusVo.setCurrentStatus(firstPassengerStatus);
-
-		statusVo.setPassengers(passengers);
-
 		return statusVo;
+
 	}
 }

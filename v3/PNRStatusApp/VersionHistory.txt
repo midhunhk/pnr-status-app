@@ -45,3 +45,130 @@ PNRStatusAppV3 3.0.20 [September 2012]
  - [CHANGED]	Added an additonal layout for landscape for Messages View
  - [CHANGED]	The about text
  - [ADDED]		Closed some cursors
+ - [ADDED]		Better icon for facebook and the ae logo in about page
+ - [FIXED]		Reservation Upto was mapped wrongly.
+ 
+PNRStatusAppV3 3.0.28 [November 2012]
+ - [ADDED]		Added confirmation dialog on deleting a PNR Entry
+ - [CHANGED]	PNR Number is formatted for readability.
+ - [CHANGED]	Layout changes for Ticket Info page
+ 
+PNRStatusAppV3 3.0.30 [December 2012]
+ - [ADDED]		Added date and berth type fields to the Message details in Message View
+ - [ADDED]		Click on the PNR Number in the PNRNumber view to copy that number to the clipboard.
+ - [FIXED]		Sorting of messages based on travel date in Messages view
+
+PNRStatusAppV3 3.0.35 [January 2013]
+ - [ADDED]		Display Chart status in PNR Status
+ - [CHANGED]	Lint optimizations
+ - [ADDED]		ProgressBar while we check for a PNR Status
+
+=============================
+Version 3.1 Code named Marvin
+=============================
+ 
+PNRStatusAppV3 3.1.10 [January 2013]
+ - [ADDED]		Application now supports Android 2.2 and up
+ - [FIXED]		Null Pointer fix for Messages landscape view
+ - [FIXED]		Missing divider in Messages Lansdcape View
+ - [FIXED]		Change Add PNR Text color for lesser versions of android
+ 
+PNRStatusAppV3 3.1.22 [January 2013]
+ - [CHANGED]	Localization of strings with the help of format strings
+ - [CHANGED]	Code Cleanup
+ - [CHANGED]	Code Optimization
+ - [ADDED]		Click on the additonal details layout in Messages View to copy the PNR to clipboard
+ - [FIXED]		Code for Copy to Clipboard on earlier versions of Android
+ 
+PNRStatusAppV3 3.1.24 [January 2013]
+ - [CHANGED]	Code Optimization
+ - [CHANGED]	Modifications to Message Details View
+ 
+PNRStatusAppV3 3.1.34 [February 2013]
+ - [CHANGED]	More Localization strings
+ - [CHANGED]	Reference to API11 and above are specified using fully classified name rather than import 
+ - [ADDED]		Added Settings Activity
+ - [FIXED]		Berth position calculation for AC3 Class
+ - [FIXED]		Trim to get the class from the webservice correctly
+ - [FIXED]		Berth position for RAC
+ - [OPTIMIZED]	MessagesFragment
+ - [ADDED]		Detect and show appropriate error message for error on parsing (invalid pnr)
+ - [CHANGED]	Rewrote strings in settings
+ - [FIXED]		Messages not showing current day's message if set to hide past messages
+ 
+PNRStatusAppV3 3.1.52 [May 2013]
+ - [CHANGED]	Better images for Share Icon
+ - [ADDED]		Day name along with journey date for tickets from inbox 
+ - [CHANGED]	ShareIcon is an ImageButton now
+ - [CHANGED]	ShareIcon sizing issue fixed
+ - [ADDED]		Select service to be used in Preferences
+ - [ADDED]		Choose between PNRAPI or IndianRail as service
+ - [FIXED]		Changes to parsing for new PNRAPI service
+ - [FIXED]		Day name for journey date was incorrect
+ - [ADDED]		Show the selected service in the Preferences Page
+ - [OPTIMIZED]	Code Cleanup
+ - [ADDED]		Style value for Dialog based on OS Version
+ - [FIXED]		Translation spelling correction
+
+ PNRStatusAppV3 3.1.60 [June 2013]
+ - [CHANGED]	Built with Android 4.2.2 SDK
+ - [CHANGED]	Implemented themes properly pre honeycomb and post (Holo)
+ - [FIXED]		Divider image on Messages list was visible when there was no messages to show
+ - [OPTIMIZED]	Optimized MessagesFragment View
+ - [ADDED]		Indicate to teh user in case there are no messages in Message View
+ 
+ PNRStatusAppV3 3.1.68 [July 2013]
+ - [ADDED]		Added utility class DialogUtils for utility methods for displaying Dialogs
+ - [ADDED]		Added strings for License
+ - [OPTIMIZED]	Removed unused code
+ - [ADDED]		One more dialog style added with titlebar
+ - [ADDED]		Added layout and text for License Dialog
+ - [OPTIMIZED]	Improved the way of showing License Dialog
+ 
+PNRStatusAppV3 3.1.86 [August 2013]
+ - [CHANGED]	Able to reflect settings changes for 
+ - [OPTIMIZED]	Layout Optimizations
+ - [ADDED]		Dark Message image for no PNR messages found
+ - [CHANGED]	PNR Buttons are now image buttons
+ - [ADDED]		Settings with icon moved to actionbar if supported 
+ 
+PNRStatusAppV3 3.1.92 [October 2013]
+ - [ADDED]		Add icon for the add prn button
+ - [CHANGED]	Moved resources to XMLs
+ - [CHANGED]	Hero screen layout
+ - [ADDED]		Disabled state for the Info button
+ - [CHANGED]	The Ticket details Popup is standardized
+ 
+PNRStatusAppV3 3.1.95 "marvin" [November 2013]
+ - [CHANGED]	Build target API is 18
+ - [CHANGED]	Minor layout tweaks
+ - [CHANGED]	Minor message change
+ 
+PNRStatusAppV3 3.1.97 "marvin" [December 2013]
+ - [CHANGED]	File organization
+ - [CHANGED]	App Icon change
+ 
+PNRStatusAppV3 3.1.98 "marvin" [December 2013]
+ - [CHANGED]	Workarounds to work with indianrail
+
+ =============================
+Version 3.2 Code named Marvin2
+==============================
+ 
+PNRStatusAppV3 3.2.10 [March 2013]
+ - [CHANGED]	Using apache http client for network
+ - [CHANGED]	Exception handling
+ - [CHANGED]	UI Tweaks
+ 
+PNRStatusAppV3 3.2.18 [March 2013]
+ - [ADDED]		Custom header for ticket info dialog, which includes the share icon
+ - [CHANGED]	Reset status when check button is clicked
+ - [OPTIMIZED]	Code cleanup
+ - [ADDED]		Apache HttpClient for http operations
+
+PNRStatusAppV3 3.2.25 [March 2013]
+ - [ADDED]		PNRStatusService
+ - [CHANGED]	No highlight color when list is highlighted 
+ - [CHANGED]	Text resources and layouts
+ - [ADDED]		Logger wrapper to log data only in development mode
+ - [CHANGED]	Code Cleanup

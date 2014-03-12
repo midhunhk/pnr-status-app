@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- disabled -->
+    <item android:drawable="@drawable/ic_info_disabled" android:state_enabled="false"/>
+    <!-- pressed -->
+    <item android:drawable="@drawable/ic_info" android:state_pressed="true"/>
+    <!-- focused -->
+    <item android:drawable="@drawable/ic_info" android:state_focused="true"/>
+    <!-- default -->
+    <item android:drawable="@drawable/ic_info" android:state_enabled="true"/>
+
+</selector>

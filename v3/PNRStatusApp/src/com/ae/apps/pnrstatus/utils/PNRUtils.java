@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.utils;
 
 import java.io.BufferedReader;
@@ -7,7 +23,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.util.Log;
 
@@ -15,6 +33,12 @@ import com.ae.apps.pnrstatus.vo.MessageVo;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
+/**
+ * Utility methods that deal with PNR Numbers and related scenarios
+ * 
+ * @author midhun_harikumar
+ * 
+ */
 public class PNRUtils {
 	/**
 	 * Connects with the url as a GET request and retrieves the response
@@ -89,44 +113,52 @@ public class PNRUtils {
 			return berthPos;
 		}
 
-		// If at the time of booking, status was W/L, then we can get the
-		// berth status if only CHART IS PREPARED, at what time,
-		// currentBookingStatus will be the berth data, if not return --
+		// If at the time of booking, status was W/L, then we can get the berth status if only CHART IS PREPARED,
+		// at what time, currentBookingStatus will be the berth data, if not return --
 		if (trainBookingBerth.equals(AppConstants.STATUS_WL) && trainCurrentStatus.equals(AppConstants.STATUS_CNF)) {
+			return berthPos;
+		}
+
+		if (trainBookingBerth.contains(AppConstants.STATUS_RAC)) {
 			return berthPos;
 		}
 
 		// Data seems to be good to calculate the Berth position
 		try {
-			int modValue = 1;
-			int berthNumber = Integer.parseInt(values[1].trim());
-			values[0] = values[0].toUpperCase();
-			if (values[0].charAt(0) == 'S') {
-				modValue = berthNumber % AppConstants.SEATS_IN_SLEEPER_COMPARTMENT;
-			}
+			if (null != values[1] && values[1].trim().length() > 0) {
+				int modValue = 1;
+				int berthNumber = Integer.valueOf(values[1].trim());
+				if (values[0].toUpperCase(Locale.getDefault()).charAt(0) == 'S') {
+					modValue = berthNumber % AppConstants.SEATS_IN_SLEEPER_COMPARTMENT;
+				}
+				if (values[0].toUpperCase(Locale.getDefault()).charAt(0) == 'B'
+						&& ticketClass.toUpperCase(Locale.getDefault()).equals("3A")) {
+					// ticket is for 3rd ac compartment
+					modValue = berthNumber % AppConstants.SEATS_IN_SLEEPER_COMPARTMENT;
+				}
 
-			switch (modValue) {
-			case 0:
-				berthPos = AppConstants.BERTH_SIDE_UPPER;
-				break;
-			case 7:
-				berthPos = AppConstants.BERTH_SIDE_LOWER;
-				break;
-			case 1:
-			case 4:
-				berthPos = AppConstants.BERTH_LOWER;
-				break;
-			case 2:
-			case 5:
-				berthPos = AppConstants.BERTH_MIDDLE;
-				break;
-			case 3:
-			case 6:
-				berthPos = AppConstants.BERTH_UPPER;
+				switch (modValue) {
+				case 0:
+					berthPos = AppConstants.BERTH_SIDE_UPPER;
+					break;
+				case 7:
+					berthPos = AppConstants.BERTH_SIDE_LOWER;
+					break;
+				case 1:
+				case 4:
+					berthPos = AppConstants.BERTH_LOWER;
+					break;
+				case 2:
+				case 5:
+					berthPos = AppConstants.BERTH_MIDDLE;
+					break;
+				case 3:
+				case 6:
+					berthPos = AppConstants.BERTH_UPPER;
+				}
 			}
-
 		} catch (Exception e) {
-			Log.e(AppConstants.TAG, e.getMessage());
+			Logger.e(AppConstants.TAG, "PNRUtils " + e.getMessage());
 		}
 
 		return berthPos;
@@ -200,6 +232,7 @@ public class PNRUtils {
 	private static String	PNR	= "PNR";
 
 	/**
+	 * Parse a message vo and convert to PNRSatus Vo
 	 * 
 	 * @param messageVo
 	 * @return
@@ -208,18 +241,24 @@ public class PNRUtils {
 		PNRStatusVo pnrStatusVo = null;
 		if (messageVo != null && messageVo.getMessage() != null) {
 			String message = messageVo.getMessage();
-			message = message.toUpperCase();
+			message = message.toUpperCase(Locale.getDefault());
 
 			if (message.startsWith(PNR)) {
 				try {
 					String[] contents = message.split(":");
 					String trainJourney = contents[3].split(",")[0];
+					String dateWithMonthText = Utils.getDateWithMonthString(trainJourney);
+					long timeStamp = Utils.getTimeStampFromDateString(trainJourney);
+
+					Calendar c = Calendar.getInstance();
+					c.setTimeInMillis(timeStamp);
 
 					pnrStatusVo = new PNRStatusVo();
 					pnrStatusVo.setPnrNumber(contents[1].split(",")[0]);
 					pnrStatusVo.setTrainNo(contents[2].split(",")[0]);
-					pnrStatusVo.setTrainJourney(trainJourney);
-					pnrStatusVo.setDateOfJourneyText(Utils.getDateWithMonthString(trainJourney));
+					pnrStatusVo.setTrainJourneyDate(trainJourney);
+					pnrStatusVo.setDateOfJourneyText(dateWithMonthText + " (" + Utils.getDayName(trainJourney) + ")");
+					pnrStatusVo.setJourneyDateTimeStamp(timeStamp);
 
 					String[] tempData = contents[5].split(",");
 					String ticketClass = tempData[1];
@@ -230,12 +269,12 @@ public class PNRUtils {
 					pnrStatusVo.setCurrentStatus(ticketStatus);
 					pnrStatusVo.setTicketClass(ticketClass);
 					pnrStatusVo.setTicketStatus(ticketStatus);
-					pnrStatusVo.setTrainBoard(tempData[2]);
+					pnrStatusVo.setBoardingPoint(tempData[2]);
 
 					// Create a PassengerDataVo
 					PassengerDataVo passengerDataVo = new PassengerDataVo();
-					passengerDataVo.setTrainPassenger(tempData[3]);
-					passengerDataVo.setTrainBookingBerth(tempData[4]);
+					passengerDataVo.setPassenger(tempData[3]);
+					passengerDataVo.setBookingBerth(tempData[4]);
 					passengerDataVo.setBerthPosition(berthPosition);
 
 					// Set as first passenger and place in the list of passengers also
@@ -250,6 +289,33 @@ public class PNRUtils {
 			}
 		}
 		return pnrStatusVo;
+	}
+
+	/**
+	 * Beautifies the PNRNumber string with additional spacing for readability
+	 * 
+	 * @param boringNum
+	 * @return
+	 */
+	public static String formatPNRString(String boringNum) {
+		if (boringNum != null && boringNum.length() == 10) {
+			return boringNum.substring(0, 3) + " " + boringNum.substring(3, 6) + " " + boringNum.substring(6, 10);
+		}
+		return boringNum;
+	}
+
+	/**
+	 * Returns an empty PNRStatusVo Object
+	 * 
+	 * @return
+	 */
+	public static PNRStatusVo getEmptyPNRStatusObject() {
+		PNRStatusVo statusVo = new PNRStatusVo();
+		statusVo.setCurrentStatus("");
+		statusVo.setFirstPassengerData(null);
+		statusVo.setPassengers(null);
+
+		return statusVo;
 	}
 
 }

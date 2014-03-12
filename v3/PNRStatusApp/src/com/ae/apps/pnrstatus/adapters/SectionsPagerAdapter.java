@@ -1,4 +1,22 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.adapters;
+
+import java.util.Locale;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -11,34 +29,34 @@ import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.v3.R;
 
 /**
- * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary sections of the app.
+ * A FragmentPagerAdapter that returns a fragment corresponding to one of the primary sections of the app.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	private Context		context;
+	private final Context	context;
+	private final Fragment	mMessagesFragment;
+	private final Fragment	mPnrStatusFragment;
+	private final Fragment	mAboutFragment;
 
 	public SectionsPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		this.context = context;
+		mMessagesFragment = new MessagesFragment();
+		mPnrStatusFragment = new PnrStatusFragment();
+		mAboutFragment = new AboutFragment();
 	}
 
 	@Override
 	public Fragment getItem(int i) {
 		Fragment fragment = null;
 		if (i == 0) {
-			fragment = new MessagesFragment();
+			fragment = mMessagesFragment;
 		} else if (i == 1) {
-			fragment = new PnrStatusFragment();
+			fragment = mPnrStatusFragment;
 		} else if (i == 2) {
-			fragment = new AboutFragment();
+			fragment = mAboutFragment;
 		} else {
-			fragment = new AboutFragment();
-			/*
-			 * fragment = new DummySectionFragment();
-			 * 
-			 * Bundle args = new Bundle(); args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-			 * fragment.setArguments(args);
-			 */
+			fragment = mAboutFragment;
 		}
 		return fragment;
 	}
@@ -52,11 +70,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	public CharSequence getPageTitle(int position) {
 		switch (position) {
 		case 0:
-			return context.getString(R.string.title_section1).toUpperCase();
+			return context.getString(R.string.title_section1).toUpperCase(Locale.getDefault());
 		case 1:
-			return context.getString(R.string.title_section2).toUpperCase();
+			return context.getString(R.string.title_section2).toUpperCase(Locale.getDefault());
 		case 2:
-			return context.getString(R.string.title_section3).toUpperCase();
+			return context.getString(R.string.title_section3).toUpperCase(Locale.getDefault());
 		}
 		return null;
 	}

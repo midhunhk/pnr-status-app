@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.adapters;
 
 import java.util.List;
@@ -20,9 +36,9 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  */
 public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 
-	private List<PNRStatusVo>	items;
-	private Context				context;
-	private int					xmlResourceId;
+	private final List<PNRStatusVo>	items;
+	private final Context			context;
+	private final int				xmlResourceId;
 
 	public StackAdapter(Context context, int textViewResourceId, List<PNRStatusVo> objects) {
 		super(context, textViewResourceId, objects);
@@ -60,13 +76,15 @@ public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 		}
 
 		// Read the data
-		PNRStatusVo statusVo = items.get(position);
-		if (statusVo != null) {
-			holder.pnr.setText(statusVo.getPnrNumber());
-			holder.date.setText(statusVo.getDateOfJourneyText());
-			holder.journey.setText(statusVo.getTrainBoard());
-			String posStr = String.valueOf(position + 1);
-			holder.count.setText(posStr);
+		if (items.size() > 0) {
+			PNRStatusVo statusVo = items.get(position);
+			if (statusVo != null) {
+				holder.pnr.setText(statusVo.getPnrNumber());
+				holder.date.setText(statusVo.getDateOfJourneyText());
+				holder.journey.setText(statusVo.getBoardingPoint());
+				String posStr = String.valueOf(position + 1);
+				holder.count.setText(posStr);
+			}
 		}
 		return convertView;
 	}

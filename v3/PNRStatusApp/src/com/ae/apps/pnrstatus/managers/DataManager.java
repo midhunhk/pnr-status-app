@@ -1,13 +1,29 @@
+/*
+ * Copyright 2012 Midhun Harikumar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.ae.apps.pnrstatus.managers;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.util.Log;
 import android.widget.BaseAdapter;
 
 import com.ae.apps.pnrstatus.db.DataHelper;
+import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 
 /**
@@ -20,11 +36,11 @@ public class DataManager {
 
 	private Cursor					mCursor;
 	private DataHelper				mDbHelper;
-	private Activity				activity;
+	private final Activity			activity;
 	private BaseAdapter				adapter;
 	private ArrayList<PNRStatusVo>	dataList;
 
-	private static final String		TAG	= "DataManager";
+	private static final String		TAG	= "PNR_DataManager";
 
 	public DataManager(Activity activity) {
 		this.activity = activity;
@@ -77,7 +93,7 @@ public class DataManager {
 	 * @param statusVo
 	 */
 	public boolean remove(PNRStatusVo statusVo) {
-		boolean isChanged = false;
+		boolean removed = false;
 		for (int i = 0; i < dataList.size(); i++) {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
 			String pnrNumber = pnrStatusVo.getPnrNumber();
@@ -86,16 +102,16 @@ public class DataManager {
 				// Delete from the database
 				mDbHelper.deletePnrNumber(pnrStatusVo.getRowId());
 				dataList.remove(i);
-				isChanged = true;
+				removed = true;
 				break;
 			}
 		}
 
-		// Update the list
-		if (isChanged && adapter != null) {
+		// Notify the adapter that the backing list has changed
+		if (removed && adapter != null) {
 			adapter.notifyDataSetChanged();
 		}
-		return isChanged;
+		return removed;
 	}
 
 	/**
@@ -104,7 +120,7 @@ public class DataManager {
 	 * @param statusVo
 	 */
 	public boolean add(PNRStatusVo statusVo) {
-		// Add to the dataSource
+		// Add a new PNR Number, note that we are not checking for duplicates
 		long result = mDbHelper.addPnrNumber(statusVo.getPnrNumber());
 		if (result > -1) {
 			statusVo.setRowId(result);
@@ -114,10 +130,10 @@ public class DataManager {
 			if (adapter != null) {
 				adapter.notifyDataSetChanged();
 			}
-			Log.i(TAG, "Added " + statusVo.getPnrNumber());
+			Logger.i(TAG, "Added " + statusVo.getPnrNumber());
 			return true;
 		} else {
-			Log.e(TAG, "Error in inserting row.");
+			Logger.e(TAG, "Error in inserting row.");
 		}
 		return false;
 	}
