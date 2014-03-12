@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mx:Object xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml">
-	
-	<mx:RemoteObject id="ixigoService" source="http://www.ixigo.com/train/pnr_status?"/>
-	
-	<mx:HTTPService id="webService" url="http://www.ixigo.com/train/pnr_status" method="GET"/>
-	
-</mx:Object>
