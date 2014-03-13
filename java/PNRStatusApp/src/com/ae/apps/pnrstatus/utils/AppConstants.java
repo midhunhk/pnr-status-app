@@ -21,7 +21,9 @@ public interface AppConstants {
 	 * Constant used for log tag for the application
 	 */
 	String	TAG								= "PNRStatusApp";
-	boolean	IS_DEV_MODE						= Boolean.valueOf("true");
+	
+	// flag to indicate running in development mode
+	boolean	IS_DEV_MODE						= Boolean.valueOf("false");
 
 	String	APP_ACTION						= "action";
 	String	PNR_NUMBER						= "pnr_number";
