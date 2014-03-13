@@ -18,4 +18,4 @@ Major Milestones
 
 More Information: http://midhunhk.github.io/pnrstatusapp
 
-This project is an unofficial and not related to Indian Rail.
+This project is an unofficial app and not related to Indian Rail.
