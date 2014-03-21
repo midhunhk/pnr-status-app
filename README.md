@@ -6,8 +6,8 @@ PNRStatusApp
 This repository holds the Android project that can be used to check the PNRStatus of a ticket. Third party services or open APIs are used in order to show the status.
 
 The following services are used at present
-* PNRAPI implementation (https://github.com/midhunhk/pnrapi-ruby)
-* IndianRailService (http://www.indianrail.gov.in/)
+* PNRAPI by @alagu (https://github.com/alagu/pnrapi-ruby)
+* Indian Rail Service (http://www.indianrail.gov.in/)
 * PNRStatus (http://www.pnrstatus.in)
 
 Major Milestones
@@ -18,4 +18,4 @@ Major Milestones
 
 More Information: http://midhunhk.github.io/pnrstatusapp
 
-This project is an unofficial app and not related to Indian Rail.
+This project is an unofficial app and not related or endorsed by Indian Rail.
