@@ -45,5 +45,13 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
         android:text="@string/app_disclaimer" />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="@string/app_tip" />
 
 </LinearLayout>

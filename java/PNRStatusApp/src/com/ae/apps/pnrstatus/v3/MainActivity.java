@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -53,7 +54,7 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 public class MainActivity extends FragmentActivity implements PnrStatusFragment.OnCheckStatusListener {
 
 	private static final String	PREF_KEY_SERVICE	= "pref_service";
-	private static final String	DEFAULT_SERVICE		= StatusServiceFactory.INDIAN_RAIL_SERVICE + "";
+	private static final String	DEFAULT_SERVICE		= StatusServiceFactory.PNR_STATUS_SERVICE + "";
 	private static final int	SETTINGS_REQUEST	= 1001;
 	private static Context		mContext			= null;
 
@@ -76,8 +77,12 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pagerAdapter);
 
-		// Show the 2nd page as current time
+		// Show the 2nd screen as current
 		viewPager.setCurrentItem(1);
+
+		// Set the tab indicator color to default blue
+		PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.pager_tab_strip);
+		tabStrip.setTabIndicatorColorResource(R.color.default_blue);
 
 		// Create a new Handler object in the main thread
 		mHandler = new Handler();
@@ -194,7 +199,21 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
 
 	@Override
 	public void addPnr(PNRStatusVo pnrStatusVo) {
-		mDataManager.add(pnrStatusVo);
+		boolean pnrNumberExists = false;
+		// Lets see if this pnrNum is already present
+		String pnrNumber = pnrStatusVo.getPnrNumber();
+		for (PNRStatusVo statusVo : mDataManager.getDataList()) {
+			if (pnrNumber.equals(statusVo.getPnrNumber())) {
+				pnrNumberExists = true;
+				break;
+			}
+		}
+		// Only add this pnrNum if new
+		if (pnrNumberExists) {
+			Toast.makeText(getApplicationContext(), R.string.str_error_existing_pnr, Toast.LENGTH_LONG).show();
+		} else {
+			mDataManager.add(pnrStatusVo);
+		}
 	}
 
 	@Override

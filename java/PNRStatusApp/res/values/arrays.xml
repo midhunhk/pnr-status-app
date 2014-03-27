@@ -3,14 +3,14 @@
     <!-- display name of the service -->
     <string-array name="serviceNames">
         <item>PNR Status</item>
-        <item>Indian Rail</item>
         <item>PNR API</item>
+        <item>Indian Rail</item>
     </string-array>
     <!-- internal value that we use for each service -->
     <string-array name="serviceValues">
         <item>4</item>
-        <item>3</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
 </resources>

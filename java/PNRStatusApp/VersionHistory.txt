@@ -172,6 +172,11 @@ PNRStatusAppV3 3.2.25 [March 2014]
  - [CHANGED]	Text resources and layouts
  - [ADDED]		Logger wrapper to log data only in development mode
  - [CHANGED]	Code Cleanup
-== 
-Merge changes into master
-==
+
+PNRStatusAppV3 3.2.30 [March 2014]
+ - [ADDED]		Tips section in about screen
+ - [CHANGED]	to PagerTabStrip
+ - [CHANGED]	Default service to PNR Status Service
+ - [CHANGED]	Order of status services in preference page
+ - [ADDED]		Prevent adding same pnr number again
+ - [ADDED]		Basic support for tablet screen
