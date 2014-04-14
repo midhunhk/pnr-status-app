@@ -22,14 +22,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -45,25 +48,23 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
  * @author midhun_harikumar
  * 
  */
-public class PnrStatusFragment extends ListFragment {
+public class PnrStatusFragment extends Fragment {
 
 	private static final String		TAG	= "PnrStatusFragment";
 
-	private View					layout;
 	private Context					context;
 	private PnrRowAdapter			mCustomAdapter;
 	private FragmentActivity		activity;
 	private OnCheckStatusListener	mCallback;
-	// private View mHiddenFocusLayout;
+	private AbsListView				listView;
 	private ProgressBar				progressBar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		activity = super.getActivity();
-		layout = inflater.inflate(R.layout.pnr_list_view, null);
+		View layout = inflater.inflate(R.layout.pnr_list_view, null);
 		context = activity.getApplicationContext();
-		// mHiddenFocusLayout = layout.findViewById(R.id.hiddenFocusLayout);
-		initActivity();
+		initActivity(layout);
 		return layout;
 	}
 
@@ -80,14 +81,19 @@ public class PnrStatusFragment extends ListFragment {
 	/**
 	 * Initialize stuff
 	 */
-	private void initActivity() {
+	private void initActivity(View layout) {
 		try {
 			// Get the data list from the db and set the data adapter
 			List<PNRStatusVo> pnrList = mCallback.getListData();
 			mCustomAdapter = new PnrRowAdapter(context, this, pnrList);
 
-			// set the adapter for the list and the data manager
-			setListAdapter(mCustomAdapter);
+			// set the adapter for the list and the data manager. setAdapter for AbsListView was introduced in API 11
+			listView = (AbsListView) layout.findViewById(R.id.pnrListView);
+			if (listView instanceof ListView) {
+				((ListView) listView).setAdapter(mCustomAdapter);
+			} else {
+				((GridView) listView).setAdapter(mCustomAdapter);
+			}
 			mCallback.setPNRStatusAdapter(mCustomAdapter);
 
 			// Read the length of a valid PNR
@@ -118,8 +124,6 @@ public class PnrStatusFragment extends ListFragment {
 
 						// Add the PNRStatusVo to the list
 						mCallback.addPnr(statusVo);
-						// hide the keyboard
-						// mHiddenFocusLayout.requestFocus();
 					} else {
 						String message = context.getResources().getString(R.string.str_invalid_pnr_message, pnrNumber);
 						Toast.makeText(context, message, Toast.LENGTH_LONG).show();

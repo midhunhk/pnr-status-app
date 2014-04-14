@@ -54,7 +54,7 @@
     <string name="str_share_status_detail">PNR Status is %1$s, %2$s</string>
     <string name="str_share_via">Share Via</string>
     
-    <string name="str_error_no_internet">Are an internet connection available?</string>
+    <string name="str_error_no_internet">Is an internet connection available?</string>
     <string name="str_error_parse_error">The PNR Number seems invalid</string>
     <string name="str_error_generic_error">Hmmm, a problem has occurred, please try again later</string>
     <string name="str_error_existing_pnr">That PNR Number already exists</string>

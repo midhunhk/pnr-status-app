@@ -60,14 +60,16 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <ListView
+        <GridView
             android:id="@+id/pnrListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:cacheColorHint="@color/cache_hint_color"
             android:gravity="center_vertical|center_horizontal"
-            tools:listitem="@android:layout/simple_list_item_1" />
+            android:horizontalSpacing="5dip"
+            android:numColumns="auto_fit"
+            tools:listitem="@layout/pnr_row_item" />
 
         <TextView
             android:id="@android:id/empty"
