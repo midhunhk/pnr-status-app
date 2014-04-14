@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top" >
+    android:gravity="center_vertical" >
 
     <LinearLayout
         android:id="@+id/listViewHolder"
@@ -15,7 +15,7 @@
     <LinearLayout
         android:id="@+id/noMessagesHolder"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dip"
         android:gravity="center_vertical"
@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawableBottom="@drawable/message_icon"
+        	android:drawablePadding="8dip"
             android:text="@string/empty_messages" />
     </LinearLayout>
 
