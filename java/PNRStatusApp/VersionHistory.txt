@@ -180,3 +180,6 @@ PNRStatusAppV3 3.2.30 [March 2014]
  - [CHANGED]	Order of status services in preference page
  - [ADDED]		Prevent adding same pnr number again
  - [ADDED]		Basic support for tablet screen
+ 
+PNRStatusAppV3 3.2.40 [April 2014]
+ - [ADDED]		Tablet screen optimizations

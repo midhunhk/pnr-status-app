@@ -67,7 +67,7 @@
             android:layout_margin="5dp"
             android:cacheColorHint="@color/cache_hint_color"
             android:gravity="center_vertical|center_horizontal"
-            tools:listitem="@android:layout/simple_list_item_1" />
+            tools:listitem="@layout/pnr_row_item" />
 
         <TextView
             android:id="@android:id/empty"
