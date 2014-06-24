@@ -183,3 +183,6 @@ PNRStatusAppV3 3.2.30 [March 2014]
  
 PNRStatusAppV3 3.2.40 [April 2014]
  - [ADDED]		Tablet screen optimizations
+ 
+PNRStatusAppV3 3.2.44 [June 2014]
+ - [CHANGED]	PNR Message display corrections

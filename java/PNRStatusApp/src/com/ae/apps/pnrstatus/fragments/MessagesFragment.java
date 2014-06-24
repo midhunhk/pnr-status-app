@@ -52,7 +52,7 @@ public class MessagesFragment extends Fragment {
 	private String				mCurrentPnr;
 	private boolean				mCachedSettingsValue;
 
-	private String				ADDRESS					= "IRCTC";
+	private String				ADDRESS					= "VM-IRCTCi";
 	private List<PNRStatusVo>	mPnrMessagesList		= null;
 	private PNRMessagesManager	messagesManager			= null;
 	private StackAdapter		adapter					= null;
@@ -208,8 +208,7 @@ public class MessagesFragment extends Fragment {
 			// Get the values from the vo and update on the Message Details Pane
 			mCurrentPnr = pnrStatusVo.getPnrNumber();
 			Resources resources = context.getResources();
-			mPassengerName.setText(resources.getString(R.string.str_passengner_name,
-					passengerDataVo.getPassenger()));
+			mPassengerName.setText(resources.getString(R.string.str_passengner_name, passengerDataVo.getPassenger()));
 			mTrainInfo.setText(context.getString(R.string.str_train_no, pnrStatusVo.getTrainNo()));
 			String position = pnrStatusVo.getCurrentStatus();
 			if (position.equals(AppConstants.BERTH_DEFAULT) == false) {

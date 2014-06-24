@@ -261,20 +261,23 @@ public class PNRUtils {
 					pnrStatusVo.setJourneyDateTimeStamp(timeStamp);
 
 					String[] tempData = contents[5].split(",");
-					String ticketClass = tempData[1];
-					String ticketStatus = tempData[4];
+					String[] tempData3 = contents[3].split(",");
+					String ticketClass = tempData3[1];
+
+					// ticket status value not coming
+					String ticketStatus = ""; // tempData[4];
 					// Here Compartment and seat are separated with a space
 					String berthPosition = getBerthPosition(ticketStatus, ticketStatus, ticketClass, " ");
 
 					pnrStatusVo.setCurrentStatus(ticketStatus);
 					pnrStatusVo.setTicketClass(ticketClass);
 					pnrStatusVo.setTicketStatus(ticketStatus);
-					pnrStatusVo.setBoardingPoint(tempData[2]);
+					pnrStatusVo.setBoardingPoint(tempData3[2]);
 
 					// Create a PassengerDataVo
 					PassengerDataVo passengerDataVo = new PassengerDataVo();
-					passengerDataVo.setPassenger(tempData[3]);
-					passengerDataVo.setBookingBerth(tempData[4]);
+					passengerDataVo.setPassenger(tempData[1]);
+					passengerDataVo.setBookingBerth(tempData[2]);
 					passengerDataVo.setBerthPosition(berthPosition);
 
 					// Set as first passenger and place in the list of passengers also

@@ -47,9 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/dividerImage"
-        android:layout_margin="3dip"
+        android:layout_margin="4dip"
         android:orientation="vertical"
-        android:padding="3dip" >
+        android:padding="6dip" >
 
         <TextView
             android:id="@+id/detailsPassengerName"

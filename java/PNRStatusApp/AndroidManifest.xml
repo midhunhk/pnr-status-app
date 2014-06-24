@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ae.apps.pnrstatus.v3"
-    android:versionCode="146"
+    android:versionCode="148"
     android:versionName="3.2" >
 
     <uses-sdk

@@ -16,7 +16,11 @@
 
 package com.ae.apps.pnrstatus.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.ClipData;
@@ -81,6 +85,8 @@ public class Utils {
 		return dateString;
 	}
 
+	private static String	MESSAGE_DATE_FORMAT	= "dd-M-yy";
+
 	/**
 	 * Returns the Day name for the day represented by this timestamp
 	 * 
@@ -90,8 +96,14 @@ public class Utils {
 	public static String getDayName(String dateString) {
 		String dayOfWeek = "";
 		if (dateString != null && dateString.trim().length() > 0) {
-			Calendar calendar = getCalendarFromDateString(dateString);
-			dayOfWeek = dayNamesArray[calendar.get(Calendar.DAY_OF_WEEK)];
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat(MESSAGE_DATE_FORMAT, Locale.getDefault());
+				Date date = dateFormat.parse(dateString);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				dayOfWeek = dayNamesArray[calendar.get(Calendar.DAY_OF_WEEK)];
+			} catch (ParseException e) {
+			}
 		}
 		return dayOfWeek;
 	}
