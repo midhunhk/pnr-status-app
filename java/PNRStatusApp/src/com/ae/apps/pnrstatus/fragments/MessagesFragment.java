@@ -52,7 +52,7 @@ public class MessagesFragment extends Fragment {
 	private String				mCurrentPnr;
 	private boolean				mCachedSettingsValue;
 
-	private String				ADDRESS					= "VM-IRCTCi";
+	private String				ADDRESS					= "IRCTC";
 	private List<PNRStatusVo>	mPnrMessagesList		= null;
 	private PNRMessagesManager	messagesManager			= null;
 	private StackAdapter		adapter					= null;

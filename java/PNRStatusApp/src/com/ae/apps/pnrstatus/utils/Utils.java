@@ -174,7 +174,7 @@ public class Utils {
 	 * @param adapter
 	 * @return
 	 */
-	@TargetApi(11)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static AdapterView<?> getAdapterView(Context context, StackAdapter adapter) {
 		AdapterView<?> adapterView = null;
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
@@ -198,7 +198,7 @@ public class Utils {
 	 * @param data
 	 */
 	@SuppressWarnings("deprecation")
-	@TargetApi(11)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void copyTextToClipboard(Context context, String data) {
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 			android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context
@@ -218,7 +218,7 @@ public class Utils {
 	 * 
 	 * @return
 	 */
-	@TargetApi(11)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static int getDialogStyle() {
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 			return android.R.style.Theme_Black_NoTitleBar;
@@ -227,7 +227,7 @@ public class Utils {
 		}
 	}
 
-	@TargetApi(11)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static int getDialogWithTitleStyle() {
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
 			return android.R.style.Theme_Black;
