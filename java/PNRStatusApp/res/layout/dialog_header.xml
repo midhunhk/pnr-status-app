@@ -25,7 +25,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/empty_text"
         android:hapticFeedbackEnabled="true"
-        android:src="@drawable/share_button_drawable" >
+        android:src="@drawable/ic_share" >
     </ImageButton>
 
 </RelativeLayout>

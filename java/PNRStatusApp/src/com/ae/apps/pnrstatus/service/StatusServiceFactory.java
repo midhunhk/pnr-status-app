@@ -25,10 +25,11 @@ import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
  * 
  */
 public class StatusServiceFactory {
-	public static final int	IXIGO_SERVICE		= 1;
-	public static final int	PNRAPI_SERVICE		= 2;
-	public static final int	INDIAN_RAIL_SERVICE	= 3;
-	public static final int	PNR_STATUS_SERVICE	= 4;
+	public static final int	IXIGO_SERVICE				= 1;
+	public static final int	PNRAPI_SERVICE				= 2;
+	public static final int	INDIAN_RAIL_SERVICE			= 3;
+	public static final int	PNR_STATUS_SERVICE			= 4;
+	public static final int	IRCTC_PNR_STATUS_SERVICE	= 5;
 
 	/**
 	 * Returns an IStatusService implementation based on the value of the type
@@ -54,6 +55,9 @@ public class StatusServiceFactory {
 			break;
 		case PNR_STATUS_SERVICE:
 			statusService = new PNRStatusService();
+			break;
+		case IRCTC_PNR_STATUS_SERVICE:
+			statusService = new IrctcPnrStatusService();
 			break;
 		}
 		if (null == statusService) {

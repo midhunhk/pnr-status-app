@@ -31,6 +31,13 @@ import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
+/**
+ * 
+ * https://github.com/alagu/pnrapi-ruby
+ * 
+ * @author Midhun
+ *
+ */
 public class PnrApiService implements IStatusService {
 
 	private static final String	FIELD_NAME		= "name";

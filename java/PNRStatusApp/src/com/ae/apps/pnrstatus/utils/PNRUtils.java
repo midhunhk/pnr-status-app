@@ -40,6 +40,9 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
  * 
  */
 public class PNRUtils {
+	private static final String	TD_END	= "</td>";
+	private static final String	TD_START	= "<td";
+
 	/**
 	 * Connects with the url as a GET request and retrieves the response
 	 * 
@@ -227,6 +230,81 @@ public class PNRUtils {
 
 		}
 		return elements;
+	}
+	
+	public static PNRStatusVo parseIrctcPnrStatusResponse(String html) {
+		PNRStatusVo pnrStatusVo = null;
+		if(null != html && html.length() > 0){
+			pnrStatusVo = new PNRStatusVo();
+			// First table has Journey Details
+			int startIndex = html.indexOf("<tbody>");
+			int endIndex = html.indexOf("</tbody>");
+			
+			String journeyDetails = html.substring(startIndex, endIndex);
+			List<String> journeyDetailsList = getCellDataAsItems(journeyDetails);
+			
+			if(journeyDetailsList.size() > 7){
+				pnrStatusVo.setTrainNo(getTrainNo(journeyDetailsList.get(0)));
+				pnrStatusVo.setTrainName(journeyDetailsList.get(1));
+				pnrStatusVo.setDateOfJourneyText(journeyDetailsList.get(2));
+				pnrStatusVo.setTrainJourneyDate(journeyDetailsList.get(2));
+				pnrStatusVo.setDestination(journeyDetailsList.get(4));
+				pnrStatusVo.setEmbarkPoint(journeyDetailsList.get(5));
+				pnrStatusVo.setBoardingPoint(journeyDetailsList.get(6));
+				pnrStatusVo.setTicketClass(journeyDetailsList.get(7));
+			}
+			
+			// We need to skip a <table> to reach the Passenger Details
+			int passengerTable = html.indexOf("Booking Status", endIndex);
+			
+			startIndex = html.indexOf("<tbody>", passengerTable);
+			endIndex = html.indexOf("</tbody>", passengerTable);
+			
+			String passengerDetails = html.substring(startIndex, endIndex);
+			// each <tr represents a passenger
+			
+			int passengerStartIndex = passengerDetails.indexOf("<tr");
+			int passengerEndIndex = 0;
+			List<String> passengerDetailsList = null;
+			
+			List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
+			pnrStatusVo.setPassengers(passengers);
+			PassengerDataVo passengerDataVo = null;
+			while(passengerStartIndex > -1){
+				passengerEndIndex = passengerDetails.indexOf("</tr>", passengerStartIndex);
+				passengerDetailsList = getCellDataAsItems(passengerDetails.substring(passengerStartIndex, passengerEndIndex));
+				if(passengerDetailsList.size() > 2){
+					passengerDataVo = new PassengerDataVo();
+					passengerDataVo.setPassenger(passengerDetailsList.get(0));
+					passengerDataVo.setBerthPosition(passengerDetailsList.get(1));
+					passengerDataVo.setCurrentStatus(passengerDetailsList.get(2));
+					passengerDataVo.setBookingBerth(passengerDetailsList.get(2));
+					passengers.add(passengerDataVo);
+				}
+				passengerStartIndex = passengerDetails.indexOf("<tr", passengerEndIndex);
+			}
+			
+			if(!passengers.isEmpty()){
+				pnrStatusVo.setFirstPassengerData(passengers.get(0));
+				pnrStatusVo.setCurrentStatus(passengers.get(0).getCurrentStatus());
+			}
+		}
+		return pnrStatusVo;
+	}
+
+	private static List<String> getCellDataAsItems(String journeyDetails) {
+		List<String> journeyDetailsList = new ArrayList<String>();
+		int itemStartIndex = journeyDetails.indexOf(TD_START);
+		int itemEndIndex = 0;
+		String data = null;
+		while(itemStartIndex > -1){
+			itemStartIndex = journeyDetails.indexOf(">", itemStartIndex);
+			itemEndIndex = journeyDetails.indexOf(TD_END, itemStartIndex);
+			data = journeyDetails.substring(itemStartIndex + 1, itemEndIndex);
+			journeyDetailsList.add(data);
+			itemStartIndex = journeyDetails.indexOf(TD_START, itemEndIndex);
+		}
+		return journeyDetailsList;
 	}
 
 	private static String	PNR	= "PNR";

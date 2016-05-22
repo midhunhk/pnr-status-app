@@ -1,14 +1,16 @@
 <resources>
-
     <!-- display name of the service -->
     <string-array name="serviceNames">
-        <item>PNR Status</item>
+        <!-- <item>PNR Status</item> -->
+        <item>IRCTC PNR Status</item>
         <item>PNR API</item>
         <item>Indian Rail</item>
     </string-array>
+    
     <!-- internal value that we use for each service -->
     <string-array name="serviceValues">
-        <item>4</item>
+        <!-- <item>4</item> -->
+        <item>5</item>
         <item>2</item>
         <item>3</item>
     </string-array>

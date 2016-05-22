@@ -186,3 +186,7 @@ PNRStatusAppV3 3.2.40 [April 2014]
  
 PNRStatusAppV3 3.2.44 [June 2014]
  - [CHANGED]	PNR Message display corrections
+ 
+PNRStatusAppV3 3.2.5 [May 2016]
+ - [ADDED]		IRCTCPNRService
+ - [CHANGED]	UI Tweaks
