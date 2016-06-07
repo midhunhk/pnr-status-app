@@ -1,1 +1,7 @@
-{"name":"PNRStausApp","tagline":"The PNRStatus Application","body":"pnrstatusapp\r\n============\r\n\r\nThe PNR Status Application can be used to keep track of your PNR Number (for trains in India) instead of  entering it each time you want to check the status. \r\n\r\nYou can see a sorted list of ticket message details sent as confirmation for easy access.","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
+{
+  "name":"PNRStausApp",
+  "tagline":"The PNRStatus Application",
+  "body":"pnrstatusapp\r\n============\r\n\r\nThe PNR Status Application can be used to keep track of your PNR Number (for trains in India) instead of  entering it each time you want to check the status. \r\n\r\nYou can see a sorted list of ticket message details sent as confirmation for easy access.",
+  "google":"",
+  "note":"Don't delete this file! It's used internally to help with page regeneration."
+}
