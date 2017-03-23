@@ -21,3 +21,7 @@ Major Milestones
 More Information: http://midhunhk.github.io/pnrstatusapp
 
 This project is an unofficial app and not related or endorsed by Indian Rail.
+
+Links
+====
+First version created as Flex desktop app [PNRStatusApp1](https://github.com/midhunhk/pnrstatusapp-v1)
