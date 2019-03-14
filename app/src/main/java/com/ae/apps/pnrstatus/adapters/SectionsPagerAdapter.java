@@ -16,17 +16,16 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.ae.apps.pnrstatus.fragments.AboutFragment;
-import com.ae.apps.pnrstatus.fragments.MessagesFragment;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.v3.R;
+
+import java.util.Locale;
 
 /**
  * A FragmentPagerAdapter that returns a fragment corresponding to one of the primary sections of the app.
@@ -34,26 +33,24 @@ import com.ae.apps.pnrstatus.v3.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 	private final Context	context;
-	private final Fragment	mMessagesFragment;
+	// Removing MessagesFragment
+	// private final Fragment	mMessagesFragment;
 	private final Fragment	mPnrStatusFragment;
 	private final Fragment	mAboutFragment;
 
 	public SectionsPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		this.context = context;
-		mMessagesFragment = new MessagesFragment();
 		mPnrStatusFragment = new PnrStatusFragment();
 		mAboutFragment = new AboutFragment();
 	}
 
 	@Override
 	public Fragment getItem(int i) {
-		Fragment fragment = null;
+		Fragment fragment;
 		if (i == 0) {
-			fragment = mMessagesFragment;
-		} else if (i == 1) {
 			fragment = mPnrStatusFragment;
-		} else if (i == 2) {
+		} else if (i == 1) {
 			fragment = mAboutFragment;
 		} else {
 			fragment = mAboutFragment;
@@ -63,18 +60,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return 3;
+		return 2;
 	}
 
 	@Override
 	public CharSequence getPageTitle(int position) {
 		switch (position) {
 		case 0:
-			return context.getString(R.string.title_section1).toUpperCase(Locale.getDefault());
-		case 1:
 			return context.getString(R.string.title_section2).toUpperCase(Locale.getDefault());
-		case 2:
+		case 1:
 			return context.getString(R.string.title_section3).toUpperCase(Locale.getDefault());
+
 		}
 		return null;
 	}

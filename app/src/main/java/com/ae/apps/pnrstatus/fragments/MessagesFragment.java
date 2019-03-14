@@ -16,9 +16,6 @@
 
 package com.ae.apps.pnrstatus.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -43,6 +40,9 @@ import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.MessageVo;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessagesFragment extends Fragment {
 
@@ -83,14 +83,14 @@ public class MessagesFragment extends Fragment {
 
 	private void initActivity() {
 		// Find the UI components from the layout's view
-		mTrainInfo = (TextView) layout.findViewById(R.id.detailsTrain);
-		mBerthType = (TextView) layout.findViewById(R.id.detailsBerthType);
-		mTravelDate = (TextView) layout.findViewById(R.id.detailsTravelDate);
-		mListViewHolder = (LinearLayout) layout.findViewById(R.id.listViewHolder);
-		mPassengerName = (TextView) layout.findViewById(R.id.detailsPassengerName);
-		mCurrentStatus = (TextView) layout.findViewById(R.id.detailsCurrentStatus);
-		mNoMessageHolder = (LinearLayout) layout.findViewById(R.id.noMessagesHolder);
-		mMessageDetailsHolder = (LinearLayout) layout.findViewById(R.id.messageDetailsLayout);
+		mTrainInfo =  layout.findViewById(R.id.detailsTrain);
+		mBerthType =  layout.findViewById(R.id.detailsBerthType);
+		mTravelDate =  layout.findViewById(R.id.detailsTravelDate);
+		mListViewHolder =  layout.findViewById(R.id.listViewHolder);
+		mPassengerName =  layout.findViewById(R.id.detailsPassengerName);
+		mCurrentStatus =  layout.findViewById(R.id.detailsCurrentStatus);
+		mNoMessageHolder =  layout.findViewById(R.id.noMessagesHolder);
+		mMessageDetailsHolder =  layout.findViewById(R.id.messageDetailsLayout);
 
 		// Create a MessageManager instance
 		SMSManager smsManager = new SMSManager(context);
@@ -104,7 +104,7 @@ public class MessagesFragment extends Fragment {
 		// Cache the current value of the settings
 		mCachedSettingsValue = getHidePastMessagePref();
 
-		mPnrMessagesList = new ArrayList<PNRStatusVo>();
+		mPnrMessagesList = new ArrayList();
 		// Update the list data for the view
 		updateMessagesList();
 
@@ -200,7 +200,7 @@ public class MessagesFragment extends Fragment {
 	/**
 	 * Update the details on the message pane
 	 * 
-	 * @param messageVo
+	 * @param pnrStatusVo
 	 */
 	private void updateMessageDetails(PNRStatusVo pnrStatusVo) {
 		PassengerDataVo passengerDataVo = pnrStatusVo.getFirstPassengerData();
