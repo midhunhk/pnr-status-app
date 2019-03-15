@@ -1,5 +1,4 @@
-PNRStatusApp
-============
+## PNRStatusApp
 
 This repository holds the Android project that can be used to check the PNRStatus of a ticket. Third party services or open APIs are used in order to show the status.
 
@@ -11,17 +10,16 @@ The following services are used at present
 
 The striken out services do not seem to be working at present.
 
-Major Milestones
-================
-* PNRStatusApp 3.0.00 [August 2012]
-* PNRStatusApp 3.1.10 [January 2013]
-* PNRStatusApp 3.2.25 [March 2014]
-* PNRStatusApp 3.2.5  [May 2016]
+### Major Milestones
+- PNRStatusApp 3.0.00 [August 2012]
+- PNRStatusApp 3.1.10 [January 2013]
+- PNRStatusApp 3.2.25 [March 2014]
+- PNRStatusApp 3.2.5  [May 2016]
+- Version 4.0.0 [March 2019]
 
 More Information: http://midhunhk.github.io/pnrstatusapp
 
 This project is an unofficial app and not related or endorsed by Indian Rail.
 
-Links
-====
+## Links
 First version created as Flex desktop app [PNRStatusApp1](https://github.com/midhunhk/pnrstatusapp-v1)
