@@ -50,7 +50,8 @@ import java.util.List;
 /**
  * @author Midhun
  */
-public class MainActivity extends FragmentActivity implements PnrStatusFragment.OnCheckStatusListener {
+public class MainActivity extends FragmentActivity
+        implements PnrStatusFragment.OnCheckStatusListener {
 
     private static final String PREF_KEY_SERVICE = "pref_service";
     private static final String DEFAULT_SERVICE = StatusServiceFactory.PNR_STATUS_SERVICE + "";
@@ -70,12 +71,10 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
         // Create the adapter that will return a fragment for each sections
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
 
-        // Show the 2nd screen as current
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
         // Set the tab indicator color to default blue
         PagerTabStrip tabStrip = findViewById(R.id.pager_tab_strip);
@@ -134,14 +133,16 @@ public class MainActivity extends FragmentActivity implements PnrStatusFragment.
                             // Get an instance of the service object using the factory
                             service = StatusServiceFactory.getService(serviceTypePref);
                             Logger.i(AppConstants.TAG, "Using service " + service.getServiceName());
-                            final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), false);
+
+                            boolean useStub = preferences.getBoolean(AppConstants.PREF_KEY_DEV_STUB, false);
+                            final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), useStub);
 
                             // Update the UI from the main thread using the handler
                             mHandler.post(new Runnable() {
 
                                 @Override
                                 public void run() {
-                                    Log.d(AppConstants.TAG, "About to upate the ui");
+                                    Log.d(AppConstants.TAG, "About to update the ui");
                                     mDataManager.update(result);
                                 }
                             });

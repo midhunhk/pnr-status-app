@@ -36,7 +36,6 @@ public interface IStatusService {
 	 * Returns a PNRStatusVo object after parsing the JSON response
 	 * 
 	 * @param pnrNumber
-	 * @param responseString
 	 * @return
 	 */
 	PNRStatusVo getResponse(String pnrNumber) throws StatusException;

@@ -36,7 +36,6 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 
-		// Get the current prefernce for service
 		final ListPreference servicePreference = (ListPreference) findPreference("pref_service");
 		if (servicePreference.getValue() == null) {
 			servicePreference.setValueIndex(0);

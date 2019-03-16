@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ae.apps.pnrstatus.service;
+package com.ae.apps.pnrstatus.service.status;
 
 /**
  * Defines constants that define the status from the service.

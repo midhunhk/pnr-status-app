@@ -17,6 +17,11 @@
 package com.ae.apps.pnrstatus.service;
 
 import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
+import com.ae.apps.pnrstatus.service.status.IndianRailService;
+import com.ae.apps.pnrstatus.service.status.IrctcPnrStatusService;
+import com.ae.apps.pnrstatus.service.status.IxigoService;
+import com.ae.apps.pnrstatus.service.status.PNRStatusService;
+import com.ae.apps.pnrstatus.service.status.PnrApiService;
 
 /**
  * The StatusServiceFactory returns an implementation of the IStatusService class based on the request.

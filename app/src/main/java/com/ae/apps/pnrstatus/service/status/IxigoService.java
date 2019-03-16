@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ae.apps.pnrstatus.service;
+package com.ae.apps.pnrstatus.service.status;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import org.json.JSONTokener;
 import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
+import com.ae.apps.pnrstatus.service.IStatusService;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;

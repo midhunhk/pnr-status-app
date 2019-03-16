@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.ae.apps.pnrstatus.service;
+package com.ae.apps.pnrstatus.service.status;
 
 import java.util.HashMap;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
+import com.ae.apps.pnrstatus.service.IStatusService;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.Logger;
