@@ -26,6 +26,7 @@ public class TrainPnrStatusService implements IStatusService {
     private static final String REFERRER_URL = "https://www.trainspnrstatus.com/";
     private static final String ORIGIN_URL = "https://www.trainspnrstatus.com";
     private static final String SEPARATOR_COMMA = ",";
+    private static final String SEPARATOR_SLASH = "/";
 
     @Override
     public String getServiceName() {
@@ -50,7 +51,9 @@ public class TrainPnrStatusService implements IStatusService {
         // invoke the post method and get the response
         String webResponse;
         try {
-            webResponse = NetworkService.getInstance().doPostRequest(SERVICE_URL, headers, params);
+            webResponse = NetworkService
+                    .getInstance()
+                    .doPostRequest(SERVICE_URL, headers, params);
             if (webResponse == null) {
                 throw new StatusException("responseObject is null", StatusException.ErrorCodes.EMPTY_RESPONSE);
             }
@@ -84,7 +87,7 @@ public class TrainPnrStatusService implements IStatusService {
         PNRStatusVo pnrStatusVo = new PNRStatusVo();
         List<String> elements;
         try {
-            elements = PNRUtils.parseIndianRailHtml(html);
+            elements = PNRUtils.parseTrainPnrStatusResponse(html);
         } catch (Exception e) {
             // If PNR Number is invalid, we might get an exception while parsing
             throw new StatusException("Unable to Parse the response", StatusException.ErrorCodes.PARSE_ERROR);
@@ -95,13 +98,15 @@ public class TrainPnrStatusService implements IStatusService {
         int infoDataCount = 8;
         if (elements.size() > infoDataCount) {
             // Seems to be a valid ticket data
-            String ticketClass = elements.get(7).trim();
+            String ticketClass = elements.get(3).trim();
             pnrStatusVo.setTrainNo(PNRUtils.getTrainNo(elements.get(0)));
             pnrStatusVo.setTrainName(elements.get(1));
             pnrStatusVo.setTrainJourneyDate(elements.get(2));
-            pnrStatusVo.setBoardingPoint(elements.get(6));
-            pnrStatusVo.setDestination(elements.get(4));
-            pnrStatusVo.setEmbarkPoint(elements.get(5));
+            // FromStation, ToStation, ReservedUpTo,BoardingPoint
+
+            pnrStatusVo.setDestination(elements.get(5));
+            pnrStatusVo.setEmbarkPoint(elements.get(6));
+            pnrStatusVo.setBoardingPoint(elements.get(7));
             pnrStatusVo.setTicketClass(ticketClass);
 
             // Populate the passenger datas
@@ -124,7 +129,7 @@ public class TrainPnrStatusService implements IStatusService {
                 String berthPosition = "";
                 try {
                     berthPosition = PNRUtils
-                            .getBerthPosition(currentStatus, bookingBerth, ticketClass, SEPARATOR_COMMA);
+                            .getBerthPosition(currentStatus, bookingBerth, ticketClass, SEPARATOR_SLASH);
                 } catch (Exception e) {
                     Logger.e(TAG, "Exception in parseResponse() " + e.getMessage());
                 }

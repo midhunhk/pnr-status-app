@@ -132,7 +132,7 @@ public class IndianRailService implements IStatusService {
      */
     private PNRStatusVo parseResponse(String html) throws StatusException {
         PNRStatusVo pnrStatusVo = new PNRStatusVo();
-        List<String> elements = null;
+        List<String> elements;
         try {
             elements = PNRUtils.parseIndianRailHtml(html);
         } catch (Exception e) {

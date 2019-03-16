@@ -42,6 +42,8 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 public class PNRUtils {
 	private static final String	TD_END	= "</td>";
 	private static final String	TD_START	= "<td";
+	private static final String TABLE_START = "<table";
+	private static final String TABLE_END = "</table>";
 
 	/**
 	 * Connects with the url as a GET request and retrieves the response
@@ -200,7 +202,7 @@ public class PNRUtils {
 
 	public static List<String> parseIndianRailHtml(String html) {
 		int endPos = 0;
-		List<String> elements = new ArrayList<String>();
+		List<String> elements = new ArrayList();
 		// Find the location of <body> tag
 		int startPos = html.indexOf(MATCH_BODY);
 
@@ -230,6 +232,53 @@ public class PNRUtils {
 
 		}
 		return elements;
+	}
+
+	public static List<String> parseTrainPnrStatusResponse(final String html){
+		final String DATA_BLOCK_STYLE = "table table-striped table-bordered";
+        List<String> elements = new ArrayList();
+        if(null != html && html.length() > 0) {
+            int startIndex = html.indexOf(DATA_BLOCK_STYLE);
+            int endIndex = html.indexOf(TABLE_END, startIndex);
+
+            String journeyDetails = html.substring(startIndex, endIndex);
+            List<String> journeyDetailsList = getCellDataAsItems(journeyDetails);
+            if(journeyDetailsList.isEmpty() || journeyDetailsList.size() != 17){
+                return elements;
+            }
+            // TrainNo, TrainName, TravelDate, TicketClass
+            elements.add(getInnerValue( journeyDetailsList.get(5), "a"));
+            elements.add(getInnerValue( journeyDetailsList.get(6), "a"));
+            elements.add(journeyDetailsList.get(7));
+            elements.add(journeyDetailsList.get(8));
+            // FromStation, ToStation, ReservedUpTo,BoardingPoint
+            elements.add(journeyDetailsList.get(13));
+            elements.add(journeyDetailsList.get(14));
+            elements.add(journeyDetailsList.get(15));
+            elements.add(journeyDetailsList.get(16));
+
+            // Process passengers table
+            startIndex = html.indexOf(DATA_BLOCK_STYLE, endIndex);
+            endIndex = html.indexOf(TABLE_END, startIndex);
+
+            String passengerDetails = html.substring(startIndex, endIndex);
+            List<String> passengerDetailsList = getCellDataAsItems(passengerDetails);
+            int NUM_HEADER_ROWS = 3;
+            int NUM_TRAILER_ROWS = 2;
+            int NUM_ROWS_PER_PASSENGER = 3;
+            int numPassengers = (passengerDetailsList.size() - NUM_HEADER_ROWS - NUM_TRAILER_ROWS) / NUM_ROWS_PER_PASSENGER;
+            int offset;
+            for(int i = 0; i < numPassengers; i++) {
+                offset = NUM_HEADER_ROWS + (i * NUM_ROWS_PER_PASSENGER);
+                elements.add(getInnerValue(passengerDetailsList.get( offset ), "strong"));
+                elements.add(passengerDetailsList.get( offset + 1));
+                elements.add(passengerDetailsList.get( offset + 2));
+            }
+            // ChartPrepareStatus
+            int last = NUM_HEADER_ROWS + numPassengers * NUM_ROWS_PER_PASSENGER + 1;
+            elements.add( passengerDetailsList.get(last) );
+        }
+        return elements;
 	}
 	
 	public static PNRStatusVo parseIrctcPnrStatusResponse(String html) {
@@ -292,13 +341,23 @@ public class PNRUtils {
 		return pnrStatusVo;
 	}
 
+	private static String getInnerValue(final String formatted, final String element){
+	    int startIndex = formatted.indexOf("<" + element);
+	    if(startIndex > -1){
+	        startIndex = formatted.indexOf(">");
+	        int endIndex = formatted.indexOf("</" + element + ">");
+	        return formatted.substring(startIndex + 1, endIndex);
+        }
+        return formatted;
+    }
+
 	private static List<String> getCellDataAsItems(String journeyDetails) {
-		List<String> journeyDetailsList = new ArrayList<String>();
+		List<String> journeyDetailsList = new ArrayList<>();
 		int itemStartIndex = journeyDetails.indexOf(TD_START);
-		int itemEndIndex = 0;
-		String data = null;
+		int itemEndIndex;
+		String data;
 		while(itemStartIndex > -1){
-			itemStartIndex = journeyDetails.indexOf(">", itemStartIndex);
+ 			itemStartIndex = journeyDetails.indexOf(">", itemStartIndex);
 			itemEndIndex = journeyDetails.indexOf(TD_END, itemStartIndex);
 			data = journeyDetails.substring(itemStartIndex + 1, itemEndIndex);
 			journeyDetailsList.add(data);
