@@ -66,7 +66,7 @@ public class NetworkService {
     public String doPostRequest(final String targetUrl,
                                 final Map<String, String> headers,
                                 final Map<String, String> params) throws StatusException {
-        RequestBody requestBody = RequestBody.create(WEB_FORM, "");
+        //RequestBody requestBody = RequestBody.create(WEB_FORM, "");
         try {
             Request.Builder requestBuilder = new Request.Builder()
                     .url(targetUrl);

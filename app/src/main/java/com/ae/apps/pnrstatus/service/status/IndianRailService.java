@@ -47,6 +47,8 @@ public class IndianRailService implements IStatusService {
     private static final String PARAM_SUBMIT = "submitpnr";
     private static final String PARAM_PNR = "lccp_pnrno1";
     private static final String REFERRER_URL = "http://www.indianrail.gov.in/pnr_stat.html";
+    // New Url
+    // http://www.indianrail.gov.in/enquiry/PNR/PnrEnquiry.html?locale=en
     private static final String PNR_ENQ_URL = "http://www.indianrail.gov.in/pnr_Enq.html";
     private static final String SERVICE_NAME = "IndianRail";
 

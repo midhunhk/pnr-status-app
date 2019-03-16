@@ -14,7 +14,7 @@
     <PreferenceCategory android:title="@string/str_pref_service">
         <ListPreference 
             android:key="pref_service"
-            android:defaultValue="5"
+            android:defaultValue="3"
             android:summary="@string/str_pref_service_summary"
             android:title="@string/str_pref_select_service"
             android:entries="@array/serviceNames"

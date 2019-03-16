@@ -184,8 +184,8 @@ public class PNRStatusService implements IStatusService {
 
     @Override
     public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
-        PNRStatusVo statusVo = null;
-        if (stubResponse == true) {
+        PNRStatusVo statusVo;
+        if (stubResponse) {
             // Return from the stub response
             statusVo = parseResponse(getStubResponse());
         } else {
