@@ -7,4 +7,7 @@
     <color name="cache_hint_color">#182128</color>
     <color name="list_selector">#255D89</color>
 
+    <color name="colorPrimary">@color/default_blue</color>
+    <color name="colorPrimaryDark">@color/app_blue</color>
+    <color name="colorAccent">#ff8833</color>
 </resources>

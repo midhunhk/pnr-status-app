@@ -21,9 +21,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +50,7 @@ import java.util.List;
 /**
  * @author Midhun
  */
-public class MainActivity extends FragmentActivity
+public class MainActivity extends AppCompatActivity
         implements PnrStatusFragment.OnCheckStatusListener {
 
     private static final String PREF_KEY_SERVICE = "pref_service";

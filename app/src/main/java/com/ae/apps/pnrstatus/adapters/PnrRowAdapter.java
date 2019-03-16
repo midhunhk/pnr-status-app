@@ -16,14 +16,10 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
-import static com.ae.apps.pnrstatus.utils.AppConstants.TICKET_STATUS_CONFIRM;
-
-import java.util.List;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +37,10 @@ import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import java.util.List;
+
+import static com.ae.apps.pnrstatus.utils.AppConstants.TICKET_STATUS_CONFIRM;
 
 /**
  * Adapter for displaying PNR Rows
@@ -149,7 +149,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				Activity activity = parentFragment.getActivity();
-				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+				android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				builder.setCancelable(true);
 				builder.setMessage(activity.getString(R.string.message_delete_pnr));
 

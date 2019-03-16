@@ -16,15 +16,15 @@
 
 package com.ae.apps.pnrstatus.managers;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
 import android.database.Cursor;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.BaseAdapter;
 
 import com.ae.apps.pnrstatus.db.DataHelper;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+
+import java.util.ArrayList;
 
 /**
  * Does the operation on the device Database with the help of DataHelper
@@ -36,13 +36,13 @@ public class DataManager {
 
 	private Cursor					mCursor;
 	private DataHelper				mDbHelper;
-	private final Activity			activity;
+	private final AppCompatActivity activity;
 	private BaseAdapter				adapter;
 	private ArrayList<PNRStatusVo>	dataList;
 
 	private static final String		TAG	= "PNR_DataManager";
 
-	public DataManager(Activity activity) {
+	public DataManager(AppCompatActivity activity) {
 		this.activity = activity;
 
 		// Read the data from the database

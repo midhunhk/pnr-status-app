@@ -16,12 +16,10 @@
 
 package com.ae.apps.pnrstatus.utils;
 
-import java.util.List;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -32,6 +30,8 @@ import com.ae.apps.pnrstatus.adapters.PassengerAdapter;
 import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import java.util.List;
 
 /**
  * Utility class for managing Dialogs for the application
@@ -91,7 +91,7 @@ public class DialogUtils {
 		lv.setAdapter(adapter);
 
 		// Ask the system to create an Alert dialog for us
-		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
+		android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
 				.setTitle(R.string.ticket_info_title)
 				.setView(inflatedView)
 				.setCustomTitle(header)
@@ -113,7 +113,7 @@ public class DialogUtils {
 	 * @param context
 	 */
 	public static void showLicenseDialog(final Context context) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context)
+		android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context)
 			.setCancelable(true)
 			.setTitle(R.string.menu_licence)
 			.setMessage(R.string.str_license_text)
