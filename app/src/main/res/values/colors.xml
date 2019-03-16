@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="default_blue">#33b5e5</color>
+    <color name="app_blue">#1B4F8D</color>
+    <color name="white">#ffffff</color>
+    <color name="cache_hint_color">#182128</color>
+    <color name="list_selector">#255D89</color>
+
+    <color name="colorPrimary">@color/default_blue</color>
+    <color name="colorPrimaryDark">@color/app_blue</color>
+    <color name="colorAccent">#D23B05</color>
+</resources>

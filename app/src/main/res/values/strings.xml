@@ -1,0 +1,92 @@
+<resources>
+
+    <string name="app_name">PNRStatusApp</string>
+    <string name="title_section3">About</string>
+    <string name="title_section2">PNR Status</string>
+    <string name="title_section1">Messages</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_licence">License</string>
+    <string name="title_activity_main">PNRStatusApp</string>
+    <string name="message_delete_pnr">Delete this PNR number?</string>
+
+    <!-- No need to translate these -->
+    <string name="empty_text"></string>
+    <string name="line1">line1</string>
+    <string name="line2">line2</string>
+    <string name="line3">line3</string>
+    <string name="line4">line4</string>
+    <string name="pnr_number_length">10</string>
+
+    <string name="app_version">Version 4.0.1 - Notan (March 2019)</string>
+    <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
+	<string name="app_disclaimer">DISCLAIMER: No portion of PNRStatus data retrieved is persisted by this app.\n
+	The PNR Status is retrieved using third party services.\n 
+	The availability of third party services is not guaranteed at a given time.
+	</string>
+    <string name="app_developer_info">Designed &amp; developed at ae labs</string>
+    <string name="app_tip">TIP: Tap on a PNR Number to copy it to the clipboard</string>
+    
+    <string name="add_pnr_hint">Enter a PNR Number</string>
+    <string name="add_pnr">Add</string>
+    <string name="empty_set">Add a PNR Number to begin</string>
+    <string name="empty_messages">No valid PNR messages found in your inbox</string>
+    <string name="pnr_check_button">Check</string>
+    <string name="pnr_delete_button">Delete</string>
+    <string name="pnr_info_button">Info</string>
+
+    <!-- Titles and About Page -->
+    <string name="ticket_info_title">Ticket Info</string>
+    <string name="passenger_info_title">PASSENGER DETAILS</string>
+
+    <!-- Localization Strings -->
+    <string name="str_passengner_name">Passenger : %s</string>
+    <string name="str_invalid_pnr_message">%s doesn\'t seem to be a valid PNR Number</string>
+    <string name="str_train_name_no">Train : %1$s ( %2$s )</string>
+    <string name="str_journey_date">Journey Date : %s</string>
+    <string name="str_current_status">Current Status : %s</string>
+    <string name="str_booking_status">Booking Status : %s</string>
+    <string name="str_berth_position">Berth Position : %s</string>
+    <string name="str_journey_from_to">Journey : %1$s to %2$s</string>
+    <string name="str_pnr_copied_to_clip">PNR Number copied to Clipboard</string>
+    <string name="str_train_no">Train No : %s</string>
+    <string name="str_ticket_class">Ticket Class : %s</string>
+    <string name="str_share_status_subject">PNR Status for %s</string>
+    <string name="str_share_status_detail">PNR Status is %1$s, %2$s</string>
+    <string name="str_share_via">Share Via</string>
+    
+    <string name="str_error_no_internet">Is an internet connection available?</string>
+    <string name="str_error_parse_error">The PNR Number seems invalid</string>
+    <string name="str_error_generic_error">Hmmm, a problem has occurred, please try again later</string>
+    <string name="str_error_existing_pnr">That PNR Number already exists</string>
+    
+    <string name="str_pref_messages">Messages</string>
+    <string name="str_pref_hide_past_messages">Hide Past Messages</string>
+    <string name="str_pref_hide_past_summary_on">Hide ticket details which are past journey date</string>
+    <string name="str_pref_hide_past_summary_off">Show all ticket details from message inbox</string>
+    <string name="str_pref_service">Service</string>
+    <string name="str_pref_service_summary">Select the service to use for fetching the status</string>
+    <string name="str_pref_select_service">Select Service</string>
+    
+    <string name="str_license_text">Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at\n\n
+http://www.apache.org/licenses/LICENSE-2.0\n\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+
+    <!-- v4.0.1-->
+    <string name="str_pref_dev_stub">Stub Service Response</string>
+    <string name="str_pref_dev_stub_off">Real Service</string>
+    <string name="str_pref_dev_stub_on">Stub Response</string>
+
+    <string name="ticket_info_line_1">Ticket Info Line 1</string>
+    <string name="ticket_info_line_2">Ticket Info Line 2</string>
+    <string name="ticket_info_line_3">Ticket Info Line 3</string>
+    <string name="ticket_info_line_4">Ticket Info Line 4</string>
+    <string name="ticket_info_line_5">Ticket Info Line 5</string>
+    <string name="str_dialog_train_details">Train Details</string>
+
+</resources>
