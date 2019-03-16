@@ -16,7 +16,7 @@ This is an Android App that can check the PNR Status of Train tickets in India. 
 The list of API Services and their status is listed [here](https://github.com/midhunhk/pnr-status-app/wiki/Services)
 
 ### Screenshots
-<img alt="PNR Status App" src="https://github.com/midhunhk/pnr-status-app/blob/resources/v4/screenshots/001.png" width="250"/>
+<img alt="PNR Status App" src="https://github.com/midhunhk/pnr-status-app/blob/master/resources/v4/screenshots/001.png" width="250"/>
 
 ## Installation
 Clone this repo and import the project as an existing Android project in Android Studio.
