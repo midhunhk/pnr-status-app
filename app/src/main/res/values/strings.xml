@@ -82,4 +82,11 @@ limitations under the License.</string>
     <string name="str_pref_dev_stub_off">Real Service</string>
     <string name="str_pref_dev_stub_on">Stub Response</string>
 
+    <string name="ticket_info_line_1">Ticket Info Line 1</string>
+    <string name="ticket_info_line_2">Ticket Info Line 2</string>
+    <string name="ticket_info_line_3">Ticket Info Line 3</string>
+    <string name="ticket_info_line_4">Ticket Info Line 4</string>
+    <string name="ticket_info_line_5">Ticket Info Line 5</string>
+    <string name="str_dialog_train_details">Train Details</string>
+
 </resources>

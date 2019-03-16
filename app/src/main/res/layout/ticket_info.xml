@@ -5,51 +5,49 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="@dimen/padding_large" >
+    android:padding="@dimen/padding_medium" >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_train_black_24dp"/>
 
     <TextView
         android:id="@+id/ticket_info_line1"
+        android:text="@string/ticket_info_line_1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/ticket_info_line2"
+        android:text="@string/ticket_info_line_2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/ticket_info_line3"
+        android:text="@string/ticket_info_line_3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/ticket_info_line4"
+        android:text="@string/ticket_info_line_4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/ticket_info_line5"
+        android:text="@string/ticket_info_line_5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-    
-<!--     <View 
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_margin="2dip"
-        android:background="@color/app_blue"/>
 
-    <TextView
-        android:id="@+id/passenger_info_title"
-        android:layout_width="fill_parent"
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginBottom="2dp"
-        android:textSize="14sp"
-        android:text="@string/passenger_info_title"
-        android:textStyle="bold" >
-
-    </TextView> -->
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_person_black_24dp"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

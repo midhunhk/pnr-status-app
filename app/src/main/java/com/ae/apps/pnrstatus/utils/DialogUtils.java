@@ -52,11 +52,11 @@ public class DialogUtils {
 		View header = LayoutInflater.from(context).inflate(R.layout.dialog_header, null);
 
 		// Get reference to the textviews
-		TextView line1 = (TextView) inflatedView.findViewById(R.id.ticket_info_line1);
-		TextView line2 = (TextView) inflatedView.findViewById(R.id.ticket_info_line2);
-		TextView line3 = (TextView) inflatedView.findViewById(R.id.ticket_info_line3);
-		TextView line4 = (TextView) inflatedView.findViewById(R.id.ticket_info_line4);
-		TextView line5 = (TextView) inflatedView.findViewById(R.id.ticket_info_line5);
+		TextView line1 =  inflatedView.findViewById(R.id.ticket_info_line1);
+		TextView line2 =  inflatedView.findViewById(R.id.ticket_info_line2);
+		TextView line3 =  inflatedView.findViewById(R.id.ticket_info_line3);
+		TextView line4 =  inflatedView.findViewById(R.id.ticket_info_line4);
+		TextView line5 =  inflatedView.findViewById(R.id.ticket_info_line5);
 
 		// Get the localized strings for the corresponding texts
 		Resources resources = context.getResources();
@@ -75,7 +75,7 @@ public class DialogUtils {
 		line5.setText(pnrStatusVo.getChartStatus());
 
 		// Handle the Share button click
-		ImageButton shareButton = (ImageButton) header.findViewById(R.id.share_button);
+		ImageButton shareButton =  header.findViewById(R.id.share_button);
 		shareButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -87,7 +87,7 @@ public class DialogUtils {
 		// Create the passenger adapter with the list of apssemgers
 		List<PassengerDataVo> passengersList = pnrStatusVo.getPassengers();
 		PassengerAdapter adapter = new PassengerAdapter(context, passengersList);
-		ListView lv = (ListView) inflatedView.findViewById(android.R.id.list);
+		ListView lv =  inflatedView.findViewById(android.R.id.list);
 		lv.setAdapter(adapter);
 
 		// Ask the system to create an Alert dialog for us

@@ -1,14 +1,12 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:android="http://schemas.android.com/apk/res/android" >
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_settings"
-        android:icon="@drawable/action_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:title="@string/menu_settings"/>
     <item
         android:id="@+id/menu_licence"
         android:title="@string/menu_licence"/>
-
 </menu>

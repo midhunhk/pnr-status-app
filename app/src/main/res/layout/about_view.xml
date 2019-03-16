@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,18 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dip"
+        android:textSize="16sp"
+        android:layout_margin="@dimen/margin_small"
         android:text="@string/app_version" />
-
-    <ImageView
-        android:id="@+id/appIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_large"
-        android:contentDescription="@string/empty_text"
-        android:padding="@dimen/padding_small"
-        app:srcCompat="@drawable/ic_ae_logo_inv" />
 
     <TextView
         android:layout_width="wrap_content"

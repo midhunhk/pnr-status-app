@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/activity_vertical_margin"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/hiddenFocusLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="true"
-        android:focusableInTouchMode="true" >
+        android:focusableInTouchMode="true">
 
-        <requestFocus />
+        <requestFocus/>
     </LinearLayout>
 
     <ProgressBar
@@ -23,12 +23,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_small"
-        android:visibility="visible" />
+        android:visibility="visible"/>
+
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/new_pnr_text"
@@ -42,33 +43,34 @@
             android:imeOptions="actionNext|flagNoEnterAction"
             android:inputType="number"
             android:maxLength="10"
-            android:textColor="@color/white" >
+            android:textColor="@color/white">
         </EditText>
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/add_pnr_btn"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:contentDescription="@string/empty_text"
-            app:srcCompat="@drawable/ic_new"
-            android:text="@string/add_pnr" />
+            android:text="@string/add_pnr"
+            app:srcCompat="@drawable/ic_new"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/listContainer"
+        android:layout_marginTop="5dp"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <ListView
             android:id="@+id/pnrListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:cacheColorHint="@color/cache_hint_color"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="4dip"
             android:gravity="center_vertical|center_horizontal"
-            tools:listitem="@layout/pnr_row_item" />
+            tools:listitem="@layout/pnr_row_item"/>
 
         <TextView
             android:id="@android:id/empty"
@@ -78,7 +80,7 @@
             android:layout_margin="@dimen/margin_large"
             android:gravity="center"
             android:padding="@dimen/padding_small"
-            android:text="@string/empty_set" />
+            android:text="@string/empty_set"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="@string/ticket_info_title"
-        android:textColor="@color/default_blue"
+        android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:textStyle="bold" >
     </TextView>
