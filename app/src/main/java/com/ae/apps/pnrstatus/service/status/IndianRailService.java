@@ -60,7 +60,7 @@ public class IndianRailService implements IStatusService {
     @Override
     public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
         PNRStatusVo pnrStatusVo;
-        if (stubResponse == true) {
+        if (stubResponse) {
             pnrStatusVo = parseResponse(getStubResponse());
         } else {
             pnrStatusVo = getResponse(pnrNumber);

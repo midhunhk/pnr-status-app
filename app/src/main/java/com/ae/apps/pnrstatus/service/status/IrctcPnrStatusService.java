@@ -16,16 +16,16 @@
 
 package com.ae.apps.pnrstatus.service.status;
 
-import java.util.HashMap;
-
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.service.IStatusService;
+import com.ae.apps.pnrstatus.service.NetworkService;
 import com.ae.apps.pnrstatus.utils.AppConstants;
-import com.ae.apps.pnrstatus.utils.HttpUtils;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+
+import java.util.HashMap;
 
 /**
  * Unofficial service that consumes IRCTC PNR Status Service to fetch the PNR Status for us
@@ -49,17 +49,17 @@ public class IrctcPnrStatusService implements IStatusService {
 	public PNRStatusVo getResponse(String pnrNumber) throws StatusException {
 		Logger.i(AppConstants.TAG, "Using " + getServiceName());
 
-		PNRStatusVo pnrStatusVo = null;
+		PNRStatusVo pnrStatusVo;
 
 		// Create the headers and params for request
-		HashMap<String, String> params = new HashMap<String, String>();
-		HashMap<String, String> headers = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap();
+		HashMap<String, String> headers = new HashMap();
 
 		headers.put(CONTENT_TYPE, "application/x-www-form-urlencoded");
 		params.put(PARAM_PNR, pnrNumber);
 
 		try {
-			String response = HttpUtils.sendPost(SERVICE_URL, headers, params);
+			String response = NetworkService.getInstance().doPostRequest(SERVICE_URL, headers, params);
 			if (response == null) {
 				throw new StatusException("responseObject is null", ErrorCodes.EMPTY_RESPONSE);
 			}
@@ -73,8 +73,8 @@ public class IrctcPnrStatusService implements IStatusService {
 
 	@Override
 	public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
-		PNRStatusVo statusVo = null;
-		if (stubResponse == true) {
+		PNRStatusVo statusVo;
+		if (stubResponse) {
 			// Return from the stub response
 			statusVo = parseResponse(getStubResponse());
 		} else {
@@ -89,11 +89,7 @@ public class IrctcPnrStatusService implements IStatusService {
 	}
 	
 	private PNRStatusVo parseResponse(String html) throws StatusException {
-		PNRStatusVo pnrStatusVo = new PNRStatusVo();
-		
-		pnrStatusVo = PNRUtils.parseIrctcPnrStatusResponse(html);
-		
-		return pnrStatusVo;
+		return PNRUtils.parseIrctcPnrStatusResponse(html);
 	}
 
 	private static String getStubResponse() {
