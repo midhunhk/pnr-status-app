@@ -44,6 +44,10 @@ import com.ae.apps.pnrstatus.utils.DialogUtils;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -68,7 +72,15 @@ public class MainActivity extends AppCompatActivity
 
         mDataManager = new DataManager(this);
 
-        // Create the adapter that will return a fragment for each sections
+        initViewPager();
+
+        initAds();
+
+        // Create a new Handler object in the main thread
+        mHandler = new Handler();
+    }
+
+    private void initViewPager() {
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.pager);
@@ -76,12 +88,14 @@ public class MainActivity extends AppCompatActivity
 
         viewPager.setCurrentItem(0);
 
-        // Set the tab indicator color to default blue
         PagerTabStrip tabStrip = findViewById(R.id.pager_tab_strip);
         tabStrip.setTabIndicatorColorResource(R.color.default_blue);
+    }
 
-        // Create a new Handler object in the main thread
-        mHandler = new Handler();
+    private void initAds() {
+        MobileAds.initialize(this, getString(R.string.google_admob_app_id) );
+        AdView mAdView = findViewById(R.id.adView);
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     @Override

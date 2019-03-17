@@ -89,4 +89,7 @@ limitations under the License.</string>
     <string name="ticket_info_line_5">Ticket Info Line 5</string>
     <string name="str_dialog_train_details">Train Details</string>
 
+    <!-- google sample admob app id in vcs -->
+    <string name="google_admob_app_id">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>
