@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Midhun Harikumar
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.ae.apps.pnrstatus.service.status;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
@@ -19,14 +43,18 @@ public class TrainPnrStatusService implements IStatusService {
 
     private static final String SERVICE_NAME = "TrainPnrStatusService";
     private static final String PARAM_PNR = "lccp_pnrno1";
-    private static final String CONTENT_TYPE = "Content-Type";
     private static final String SERVICE_URL = "https://www.trainspnrstatus.com/pnrformcheck.php";
     private static final String PARAM_REFERER = "referer";
     private static final String PARAM_ORIGIN = "origin";
     private static final String REFERRER_URL = "https://www.trainspnrstatus.com/";
     private static final String ORIGIN_URL = "https://www.trainspnrstatus.com";
-    private static final String SEPARATOR_COMMA = ",";
     private static final String SEPARATOR_SLASH = "/";
+    private static final String PARAM_DNT = "dnt";
+    private static final String PARAM_SCHEME = "scheme";
+    private static final String PARAM_CONTENT_TYPE = "content-type";
+    private static final String VALUE_ONE = "1";
+    private static final String VALUE_HTTPS = "https";
+    private static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
     @Override
     public String getServiceName() {
@@ -42,10 +70,11 @@ public class TrainPnrStatusService implements IStatusService {
         // Creating the headers
         headers.put(PARAM_REFERER, REFERRER_URL);
         headers.put(PARAM_ORIGIN, ORIGIN_URL);
-        headers.put("dnt", "1");
-        headers.put("content-type", "application/x-www-form-urlencoded");
+        headers.put(PARAM_DNT, VALUE_ONE);
+        headers.put(PARAM_SCHEME, VALUE_HTTPS);
+        headers.put(PARAM_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED);
 
-        // Create the parameters for the request
+        // Form Data for the request
         params.put(PARAM_PNR, pnrNumber);
 
         // invoke the post method and get the response
@@ -109,12 +138,11 @@ public class TrainPnrStatusService implements IStatusService {
             pnrStatusVo.setBoardingPoint(elements.get(7));
             pnrStatusVo.setTicketClass(ticketClass);
 
-            // Populate the passenger datas
             int passengersCount = (elements.size() - infoDataCount - 1) / 3;
             Logger.d(AppConstants.TAG, "passengersCount : " + passengersCount);
 
             int passengerDataIndex = infoDataCount;
-            List<PassengerDataVo> passengersList = new ArrayList<PassengerDataVo>();
+            List<PassengerDataVo> passengersList = new ArrayList();
             for (int i = 1; i <= passengersCount; i++) {
                 String currentStatus = elements.get(passengerDataIndex + 2);
                 String bookingBerth = elements.get(passengerDataIndex + 1);

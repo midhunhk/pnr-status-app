@@ -20,3 +20,4 @@ local.properties
 .gradle/
 import-summary.txt
 projectFilesBackup/
+admob_ids.txt

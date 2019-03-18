@@ -1,17 +1,25 @@
 /*
- * Copyright 2014 Midhun Harikumar
+ * MIT License
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2019 Midhun Harikumar
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 package com.ae.apps.pnrstatus.v3;
@@ -44,6 +52,9 @@ import com.ae.apps.pnrstatus.utils.DialogUtils;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.Utils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -54,9 +65,9 @@ public class MainActivity extends AppCompatActivity
         implements PnrStatusFragment.OnCheckStatusListener {
 
     private static final String PREF_KEY_SERVICE = "pref_service";
-    private static final String DEFAULT_SERVICE = StatusServiceFactory.PNR_STATUS_SERVICE + "";
+    private static final String DEFAULT_SERVICE =
+            String.valueOf(StatusServiceFactory.TRAIN_PNR_STATUS_SERVICE);
     private static final int SETTINGS_REQUEST = 1001;
-    //private  Context		mContext			= null;
 
     private Handler mHandler;
     private DataManager mDataManager;
@@ -68,7 +79,15 @@ public class MainActivity extends AppCompatActivity
 
         mDataManager = new DataManager(this);
 
-        // Create the adapter that will return a fragment for each sections
+        initViewPager();
+
+        initAds();
+
+        // Create a new Handler object in the main thread
+        mHandler = new Handler();
+    }
+
+    private void initViewPager() {
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.pager);
@@ -76,12 +95,14 @@ public class MainActivity extends AppCompatActivity
 
         viewPager.setCurrentItem(0);
 
-        // Set the tab indicator color to default blue
         PagerTabStrip tabStrip = findViewById(R.id.pager_tab_strip);
         tabStrip.setTabIndicatorColorResource(R.color.default_blue);
+    }
 
-        // Create a new Handler object in the main thread
-        mHandler = new Handler();
+    private void initAds() {
+        MobileAds.initialize(this, getString(R.string.google_admob_app_id) );
+        AdView mAdView = findViewById(R.id.adView);
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     @Override
