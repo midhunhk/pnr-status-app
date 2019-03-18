@@ -21,13 +21,13 @@
             android:entryValues="@array/serviceValues"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/str_pref_dev_stub" >
+    <PreferenceCategory android:title="@string/str_pref_dev_settings" android:enabled="false">
         <CheckBoxPreference
             android:key="pref_key_dev_stub"
             android:defaultValue="false"
-            android:summaryOff="@string/str_pref_dev_stub_off"
-            android:summaryOn="@string/str_pref_dev_stub_on"
-            android:title="@string/str_pref_dev_stub" />
+            android:summaryOff="@string/str_pref_dev_stub_service_off"
+            android:summaryOn="@string/str_pref_dev_stub_service_on"
+            android:title="@string/str_pref_dev_stub_service" />
     </PreferenceCategory>
 
 </PreferenceScreen>
