@@ -25,6 +25,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "pnr-status-app-${variant.name}-${variant.versionName}-build-${variant.versionCode}.apk"
