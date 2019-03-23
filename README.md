@@ -1,5 +1,6 @@
 <img alt="pnr status app" src="https://github.com/midhunhk/pnr-status-app/blob/notan/resources/v4/promotional/fg-notan-02.png"/> 
 
+[![Build Status](https://travis-ci.org/midhunhk/pnr-status-app.svg?branch=master)](https://travis-ci.org/midhunhk/pnr-status-app) 
 [![Release](https://img.shields.io/github/release/midhunhk/pnr-status-app.svg)](https://github.com/midhunhk/pnr-status-app/releases) 
 [![GitHub commits](https://img.shields.io/github/commits-since/midhunhk/pnr-status-app/v3.2.5.svg)](https://github.com/midhunhk/pnr-status-app) 
 [![Issues](https://img.shields.io/github/issues/midhunhk/pnr-status-app.svg)](https://github.com/midhunhk/pnr-status-app/issues) 
