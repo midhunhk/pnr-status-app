@@ -118,10 +118,6 @@ public class MainActivity extends AppCompatActivity
                 // Start the Settings Activity
                 startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS_REQUEST);
                 return true;
-            case R.id.menu_licence:
-                // Show the License as a Dialog
-                DialogUtils.showLicenseDialog(this);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

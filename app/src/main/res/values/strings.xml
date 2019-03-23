@@ -76,6 +76,10 @@
     <string name="ticket_info_line_5">Ticket Info Line 5</string>
     <string name="str_dialog_train_details">Train Details</string>
 
+    <string name="str_about_view_source">View Source</string>
+    <string name="github_source_visible_url">https://github.com/midhunhk/pnr-status-app</string>
+    <string name="str_about_view_license">Open Source Licenses</string>
+
     <!-- NOTE: The below Ids are Google Admob Test Ids. Replace with the app's values for release -->
     <string name="google_admob_app_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="google_admob_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>

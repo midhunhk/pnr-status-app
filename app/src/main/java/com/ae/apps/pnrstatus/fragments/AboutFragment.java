@@ -24,24 +24,53 @@
 
 package com.ae.apps.pnrstatus.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ae.apps.pnrstatus.utils.DialogUtils;
 import com.ae.apps.pnrstatus.v3.R;
 
 /**
  * Fragment for the About application page
- * 
+ *
  * @author midhun_harikumar
- * 
  */
 public class AboutFragment extends Fragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.about_view, null);
-	}
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View layout = inflater.inflate(R.layout.about_view, null);
+        final Context context = getActivity();
+
+        View license = layout.findViewById(R.id.viewLicense);
+        license.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                DialogUtils.showLicenseDialog(context);
+            }
+        });
+
+        // View the application's source
+        View viewSource = layout.findViewById(R.id.viewSourceCode);
+        viewSource.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String url = getString(R.string.github_source_visible_url);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
+        return layout;
+    }
 }

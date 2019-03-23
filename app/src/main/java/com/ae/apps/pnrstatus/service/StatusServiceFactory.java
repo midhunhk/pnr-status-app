@@ -49,7 +49,7 @@ public class StatusServiceFactory {
      * Returns an IStatusService implementation based on the value of the type
      *
      * @param type the type of service requested
-     * @return
+     * @return an instance of StatusService based on the requested type
      * @throws InvalidServiceException if the value of type is invalid
      */
     public static IStatusService getService(int type) throws InvalidServiceException {
@@ -85,9 +85,9 @@ public class StatusServiceFactory {
     /**
      * Returns an instance of IStatusService based on the type
      *
-     * @param type
-     * @return
-     * @throws InvalidServiceException
+     * @param type requested type
+     * @return returns an instance of StatusService based on teh requested type
+     * @throws InvalidServiceException if the value of type is invalid
      */
     public static IStatusService getService(String type) throws InvalidServiceException {
         return getService(Integer.valueOf(type));
