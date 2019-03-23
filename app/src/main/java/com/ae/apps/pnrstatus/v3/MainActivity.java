@@ -146,10 +146,9 @@ public class MainActivity extends AppCompatActivity
                         Logger.d(AppConstants.TAG, "Check the status in a new thread");
                         IStatusService service;
                         try {
-                            // Read from the preference what service we should use
-                            SharedPreferences preferences = PreferenceManager
-                                    .getDefaultSharedPreferences(getBaseContext());
-                            String serviceTypePref = preferences.getString(PREF_KEY_SERVICE, DEFAULT_SERVICE);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+                            String serviceTypePref = getServiceTypePref(preferences);
 
                             // Get an instance of the service object using the factory
                             service = StatusServiceFactory.getService(serviceTypePref);
@@ -209,6 +208,27 @@ public class MainActivity extends AppCompatActivity
         } else {
             Toast.makeText(getApplicationContext(), R.string.str_error_no_internet, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private String getServiceTypePref(final SharedPreferences preferences) {
+        String serviceTypePref = preferences.getString(PREF_KEY_SERVICE, DEFAULT_SERVICE);
+
+        String validServiceIds[] = getResources().getStringArray(R.array.serviceValues);
+        boolean isValidServiceSelected = false;
+        for(String validServiceId: validServiceIds){
+            if(validServiceId.equals(serviceTypePref)){
+                isValidServiceSelected = true;
+                break;
+            }
+        }
+        if(!isValidServiceSelected){
+            serviceTypePref = DEFAULT_SERVICE;
+            preferences
+                    .edit()
+                    .putString(PREF_KEY_SERVICE, DEFAULT_SERVICE)
+                    .apply();
+        }
+        return serviceTypePref;
     }
 
     @Override

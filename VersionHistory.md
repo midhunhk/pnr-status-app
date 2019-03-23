@@ -4,6 +4,9 @@ PNRStatusApp 4.1.0 [TBD]
 
 ## Version 4.0 (Notan)
 
+PNRStatusApp 4.0.2 [March 2019]
+ - [CHANGED]    Check if valid service type is selected and update preference with default
+
 PNRStatusApp 4.0.1 [March 2019]
  - [CHANGED]    Use OkHttp for network calls
  - [ADDED]      Dev debug option in settings
@@ -20,7 +23,6 @@ PNRStatusApp 3.2.5 [May 2016]
  - [ADDED]		IRCTCPNRService
  - [CHANGED]	UI Tweaks
  
-
 PNRStatusApp 3.2.44 [June 2014]
  - [CHANGED]	PNR Message display corrections
  
