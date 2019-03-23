@@ -6,7 +6,4 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:title="@string/menu_settings"/>
-    <item
-        android:id="@+id/menu_licence"
-        android:title="@string/menu_licence"/>
 </menu>

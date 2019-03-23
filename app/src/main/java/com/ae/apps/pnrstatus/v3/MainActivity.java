@@ -100,9 +100,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initAds() {
-        MobileAds.initialize(this, getString(R.string.google_admob_app_id) );
-        AdView mAdView = findViewById(R.id.adView);
-        mAdView.loadAd(new AdRequest.Builder().build());
+        String packageName = getApplicationContext().getPackageName();
+        // Do not load ads for debug version
+        if(!packageName.contains(".debug")){
+            MobileAds.initialize(this, getString(R.string.google_admob_app_id) );
+            AdView mAdView = findViewById(R.id.adView);
+            mAdView.loadAd(new AdRequest.Builder().build());
+        }
     }
 
     @Override
