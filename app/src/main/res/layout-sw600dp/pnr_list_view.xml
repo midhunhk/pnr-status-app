@@ -68,7 +68,8 @@
             android:layout_margin="5dp"
             android:cacheColorHint="@color/cache_hint_color"
             android:gravity="center_vertical|center_horizontal"
-            android:horizontalSpacing="5dip"
+            android:horizontalSpacing="@dimen/margin_small"
+            android:verticalSpacing="@dimen/margin_small"
             android:numColumns="auto_fit"
             tools:listitem="@layout/pnr_row_item" />
 

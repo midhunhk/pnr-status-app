@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">PNRStatusApp</string>
-    <string name="app_version">Version 4.0.1 - Notan (March 2019)</string>
+    <string name="app_version">Version 4.0.2 - Notan (March 2019)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 
     <string name="title_section3">About</string>
@@ -75,6 +75,10 @@
     <string name="ticket_info_line_4">Ticket Info Line 4</string>
     <string name="ticket_info_line_5">Ticket Info Line 5</string>
     <string name="str_dialog_train_details">Train Details</string>
+
+    <string name="str_about_view_source">View Source</string>
+    <string name="github_source_visible_url">https://github.com/midhunhk/pnr-status-app</string>
+    <string name="str_about_view_license">Open Source Licenses</string>
 
     <!-- NOTE: The below Ids are Google Admob Test Ids. Replace with the app's values for release -->
     <string name="google_admob_app_id">ca-app-pub-3940256099942544/6300978111</string>
