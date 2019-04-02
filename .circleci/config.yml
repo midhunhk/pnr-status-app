@@ -10,14 +10,14 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run: yes | sdkmanager --licenses
+      - run: yes | sdkmanager --update || exit 0
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - run: yes | sdkmanager --licenses
-      - run: yes | sdkmanager --update || exit 0
       - save_cache:
           paths:
             - ~/.gradle
