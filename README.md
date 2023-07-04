@@ -1,3 +1,5 @@
+_*This project is not in active development or support*_
+
 <img alt="pnr status app" src="https://github.com/midhunhk/pnr-status-app/blob/notan/resources/v4/promotional/fg-notan-02.png"/> 
 
 [![Travis-CI](https://img.shields.io/travis/midhunhk/pnr-status-app/master.svg?label=Travis-CI)](https://travis-ci.org/midhunhk/pnr-status-app) 
