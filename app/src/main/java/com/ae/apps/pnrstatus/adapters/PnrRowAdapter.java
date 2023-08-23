@@ -24,10 +24,11 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
+import static com.ae.apps.pnrstatus.utils.AppConstants.TICKET_STATUS_CONFIRM;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,18 +38,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.utils.Utils;
-import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 import java.util.List;
-
-import static com.ae.apps.pnrstatus.utils.AppConstants.TICKET_STATUS_CONFIRM;
 
 /**
  * Adapter for displaying PNR Rows
@@ -88,7 +89,7 @@ public class PnrRowAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
-		final String normalPNR = arrayList.get(position).getPnrNumber();
+		final String normalPNR = arrayList.get(position).pnrNumber;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.pnr_row_item, null);
 			holder = new ViewHolder();
@@ -124,6 +125,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			holder.btnInfo.setEnabled(true);
 			// holder.btnInfo.setImageResource(R.drawable.ic_info);
 			String currentStatus = passengerDataVo.getCurrentStatus();
+			assert currentStatus != null;
 			if (currentStatus.contains(TICKET_STATUS_CONFIRM) && passengerDataVo.getBookingBerth() != null) {
 				holder.txtStatus.setText(passengerDataVo.getBookingBerth());
 			} else {
@@ -157,7 +159,7 @@ public class PnrRowAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				Activity activity = parentFragment.getActivity();
-				android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				builder.setCancelable(true);
 				builder.setMessage(activity.getString(R.string.message_delete_pnr));
 

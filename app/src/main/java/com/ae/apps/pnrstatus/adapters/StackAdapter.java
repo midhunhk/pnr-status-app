@@ -24,8 +24,6 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +31,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.ae.apps.pnrstatus.v3.R;
+import androidx.annotation.NonNull;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+
+import java.util.List;
 
 /**
  * Data Adapter for StackView
@@ -56,7 +58,7 @@ public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
 			// Infalte the view
@@ -87,9 +89,9 @@ public class StackAdapter extends ArrayAdapter<PNRStatusVo> {
 		if (items.size() > 0) {
 			PNRStatusVo statusVo = items.get(position);
 			if (statusVo != null) {
-				holder.pnr.setText(statusVo.getPnrNumber());
-				holder.date.setText(statusVo.getDateOfJourneyText());
-				holder.journey.setText(statusVo.getBoardingPoint());
+				holder.pnr.setText(statusVo.pnrNumber);
+				holder.date.setText(statusVo.dateOfJourneyText);
+				holder.journey.setText(statusVo.boardingPoint);
 				String posStr = String.valueOf(position + 1);
 				holder.count.setText(posStr);
 			}

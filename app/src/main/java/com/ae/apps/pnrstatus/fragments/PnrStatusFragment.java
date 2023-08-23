@@ -24,14 +24,10 @@
 
 package com.ae.apps.pnrstatus.fragments;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,11 +40,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.adapters.PnrRowAdapter;
 import com.ae.apps.pnrstatus.utils.Logger;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
-import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+
+import java.util.List;
 
 /**
  * The PNRStatus Fragment
@@ -124,7 +125,7 @@ public class PnrStatusFragment extends Fragment {
 					Logger.i(TAG, "Add new pnr " + pnrNumber);
 					if (pnrNumber != null && pnrNumber.trim().length() == validPNRLength) {
 						PNRStatusVo statusVo = PNRUtils.getEmptyPNRStatusObject();
-						statusVo.setPnrNumber(pnrNumber);
+						statusVo.pnrNumber = pnrNumber;
 
 						// Clear the input
 						txtPnrNumber.setText("");

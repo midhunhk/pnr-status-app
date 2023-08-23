@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class NetworkService {
 
-    private OkHttpClient client;
+    private final OkHttpClient client;
 
     private static NetworkService sService;
 

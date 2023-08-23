@@ -25,8 +25,9 @@
 package com.ae.apps.pnrstatus.managers;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.BaseAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ae.apps.pnrstatus.db.DataHelper;
 import com.ae.apps.pnrstatus.utils.Logger;
@@ -76,8 +77,8 @@ public class DataManager {
 		if (null != mCursor) {
 			while (mCursor.moveToNext()) {
 				statusVo = new PNRStatusVo();
-				statusVo.setPnrNumber(mCursor.getString(1));
-				statusVo.setRowId(mCursor.getLong(0));
+				statusVo.pnrNumber = mCursor.getString(1);
+				statusVo.rowId = mCursor.getLong(0);
 				statusVo.setCurrentStatus("");
 				dataList.add(statusVo);
 			}
@@ -103,11 +104,11 @@ public class DataManager {
 		boolean removed = false;
 		for (int i = 0; i < dataList.size(); i++) {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
-			String pnrNumber = pnrStatusVo.getPnrNumber();
-			String pnrNumber2 = statusVo.getPnrNumber();
+			String pnrNumber = pnrStatusVo.pnrNumber;
+			String pnrNumber2 = statusVo.pnrNumber;
 			if (pnrNumber.equals(pnrNumber2)) {
 				// Delete from the database
-				mDbHelper.deletePnrNumber(pnrStatusVo.getRowId());
+				mDbHelper.deletePnrNumber(pnrStatusVo.rowId);
 				dataList.remove(i);
 				removed = true;
 				break;
@@ -128,16 +129,16 @@ public class DataManager {
 	 */
 	public boolean add(PNRStatusVo statusVo) {
 		// Add a new PNR Number, note that we are not checking for duplicates
-		long result = mDbHelper.addPnrNumber(statusVo.getPnrNumber());
+		long result = mDbHelper.addPnrNumber(statusVo.pnrNumber);
 		if (result > -1) {
-			statusVo.setRowId(result);
+			statusVo.rowId = result;
 			dataList.add(statusVo);
 
 			// refresh the ListAdapter
 			if (adapter != null) {
 				adapter.notifyDataSetChanged();
 			}
-			Logger.i(TAG, "Added " + statusVo.getPnrNumber());
+			Logger.i(TAG, "Added " + statusVo.pnrNumber);
 			return true;
 		} else {
 			Logger.e(TAG, "Error in inserting row.");
@@ -154,8 +155,8 @@ public class DataManager {
 		boolean isUpdated = false;
 		for (int i = 0; i < dataList.size(); i++) {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
-			String pnrNumber = pnrStatusVo.getPnrNumber();
-			String pnrNumber2 = statusVo.getPnrNumber();
+			String pnrNumber = pnrStatusVo.pnrNumber;
+			String pnrNumber2 = statusVo.pnrNumber;
 			if (pnrNumber.equals(pnrNumber2)) {
 				dataList.set(i, statusVo);
 				isUpdated = true;

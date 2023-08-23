@@ -29,9 +29,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +37,10 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.adapters.SectionsPagerAdapter;
 import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
 import com.ae.apps.pnrstatus.exceptions.StatusException;
@@ -55,6 +56,8 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -79,7 +82,11 @@ public class MainActivity extends AppCompatActivity
 
         mDataManager = new DataManager(this);
 
-        initViewPager();
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager2 pager = findViewById(R.id.pager);
+
+        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
+        new TabLayoutMediator(tabLayout, pager, (tab, pos) -> tab.setText("Hello"));
 
         initAds();
 
@@ -87,23 +94,11 @@ public class MainActivity extends AppCompatActivity
         mHandler = new Handler();
     }
 
-    private void initViewPager() {
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
-
-        ViewPager viewPager = findViewById(R.id.pager);
-        viewPager.setAdapter(pagerAdapter);
-
-        viewPager.setCurrentItem(0);
-
-        PagerTabStrip tabStrip = findViewById(R.id.pager_tab_strip);
-        tabStrip.setTabIndicatorColorResource(R.color.default_blue);
-    }
-
     private void initAds() {
         String packageName = getApplicationContext().getPackageName();
         // Do not load ads for debug version
-        if(!packageName.contains(".debug")){
-            MobileAds.initialize(this, getString(R.string.google_admob_app_id) );
+        if (!packageName.contains(".debug")) {
+            MobileAds.initialize(this);
             AdView mAdView = findViewById(R.id.adView);
             mAdView.loadAd(new AdRequest.Builder().build());
         }
@@ -117,13 +112,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                // Start the Settings Activity
-                startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS_REQUEST);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_settings) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS_REQUEST);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -151,11 +144,11 @@ public class MainActivity extends AppCompatActivity
                             String serviceTypePref = getServiceTypePref(preferences);
 
                             // Get an instance of the service object using the factory
-                            service = StatusServiceFactory.getService(serviceTypePref);
+                            service = StatusServiceFactory.INSTANCE.getService(Integer.parseInt(serviceTypePref));
                             Logger.i(AppConstants.TAG, "Using service " + service.getServiceName());
 
                             boolean useStub = preferences.getBoolean(AppConstants.PREF_KEY_DEV_STUB, false);
-                            final PNRStatusVo result = service.getResponse(pnrStatusVo.getPnrNumber(), useStub);
+                            final PNRStatusVo result = service.getResponse(pnrStatusVo.pnrNumber, useStub);
 
                             // Update the UI from the main thread using the handler
                             mHandler.post(new Runnable() {
@@ -213,15 +206,15 @@ public class MainActivity extends AppCompatActivity
     private String getServiceTypePref(final SharedPreferences preferences) {
         String serviceTypePref = preferences.getString(PREF_KEY_SERVICE, DEFAULT_SERVICE);
 
-        String validServiceIds[] = getResources().getStringArray(R.array.serviceValues);
+        String[] validServiceIds = getResources().getStringArray(R.array.serviceValues);
         boolean isValidServiceSelected = false;
-        for(String validServiceId: validServiceIds){
-            if(validServiceId.equals(serviceTypePref)){
+        for (String validServiceId : validServiceIds) {
+            if (validServiceId.equals(serviceTypePref)) {
                 isValidServiceSelected = true;
                 break;
             }
         }
-        if(!isValidServiceSelected){
+        if (!isValidServiceSelected) {
             serviceTypePref = DEFAULT_SERVICE;
             preferences
                     .edit()
@@ -240,9 +233,9 @@ public class MainActivity extends AppCompatActivity
     public void addPnr(PNRStatusVo pnrStatusVo) {
         boolean pnrNumberExists = false;
         // Lets see if this pnrNum is already present
-        String pnrNumber = pnrStatusVo.getPnrNumber();
+        String pnrNumber = pnrStatusVo.pnrNumber;
         for (PNRStatusVo statusVo : mDataManager.getDataList()) {
-            if (pnrNumber.equals(statusVo.getPnrNumber())) {
+            if (pnrNumber.equals(statusVo.pnrNumber)) {
                 pnrNumberExists = true;
                 break;
             }

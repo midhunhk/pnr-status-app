@@ -27,15 +27,16 @@ package com.ae.apps.pnrstatus.utils;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.adapters.PassengerAdapter;
-import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
@@ -68,11 +69,11 @@ public class DialogUtils {
 
 		// Get the localized strings for the corresponding texts
 		Resources resources = context.getResources();
-		String line1Text = resources.getString(R.string.str_train_name_no, pnrStatusVo.getTrainName(),
-				pnrStatusVo.getTrainNo());
+		String line1Text = resources.getString(R.string.str_train_name_no, pnrStatusVo.trainName,
+                pnrStatusVo.trainNo);
 		String line2Text = resources.getString(R.string.str_journey_date, pnrStatusVo.getTrainJourneyDate());
 		String line3Text = resources.getString(R.string.str_current_status, pnrStatusVo.getCurrentStatus());
-		String line4Text = resources.getString(R.string.str_journey_from_to, pnrStatusVo.getBoardingPoint(),
+		String line4Text = resources.getString(R.string.str_journey_from_to, pnrStatusVo.boardingPoint,
 				pnrStatusVo.getEmbarkPoint());
 
 		// Finally set the text to the textviews
@@ -92,14 +93,14 @@ public class DialogUtils {
 			}
 		});
 
-		// Create the passenger adapter with the list of apssemgers
-		List<PassengerDataVo> passengersList = pnrStatusVo.getPassengers();
+		// Create the passenger adapter with the list of passengers
+		List<PassengerDataVo> passengersList = pnrStatusVo.passengers;
 		PassengerAdapter adapter = new PassengerAdapter(context, passengersList);
 		ListView lv =  inflatedView.findViewById(android.R.id.list);
 		lv.setAdapter(adapter);
 
 		// Ask the system to create an Alert dialog for us
-		android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
+		AlertDialog.Builder builder = new AlertDialog.Builder(context).setCancelable(true)
 				.setTitle(R.string.ticket_info_title)
 				.setView(inflatedView)
 				.setCustomTitle(header)
@@ -121,7 +122,7 @@ public class DialogUtils {
 	 * @param context
 	 */
 	public static void showLicenseDialog(final Context context) {
-		android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context)
+		AlertDialog.Builder builder = new AlertDialog.Builder(context)
 			.setCancelable(true)
 			.setTitle(R.string.menu_licence)
 			.setMessage(R.string.str_license_text)

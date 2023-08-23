@@ -24,13 +24,6 @@
 
 package com.ae.apps.pnrstatus.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -42,10 +35,16 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.adapters.StackAdapter;
-import com.ae.apps.pnrstatus.v3.R;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 	/**
@@ -64,9 +63,9 @@ public class Utils {
 		// Check the current state of the Network Information
 		if (networkInfo == null)
 			return false;
-		if (networkInfo.isConnected() == false)
+		if (!networkInfo.isConnected())
 			return false;
-		if (networkInfo.isAvailable() == false)
+		if (!networkInfo.isAvailable())
 			return false;
 		return true;
 	}
@@ -84,9 +83,9 @@ public class Utils {
 	 */
 	public static String getDateWithMonthString(String dateString) {
 		if (dateString != null && dateString.trim().length() > 0) {
-			String tempArray[] = dateString.split("-");
+			String[] tempArray = dateString.split("-");
 			String monthStr = tempArray[1];
-			int monthInt = Integer.valueOf(monthStr);
+			int monthInt = Integer.parseInt(monthStr);
 			String monthText = "-" + monthsArray[monthInt - 1];
 			return dateString.replace("-" + monthStr, monthText);
 		}
@@ -98,7 +97,6 @@ public class Utils {
 	/**
 	 * Returns the Day name for the day represented by this timestamp
 	 * 
-	 * @param timestamp
 	 * @return
 	 */
 	public static String getDayName(String dateString) {
@@ -127,9 +125,9 @@ public class Utils {
 	public static Calendar getCalendarFromDateString(String dateString) {
 		Calendar calendar = Calendar.getInstance();
 		if (dateString != null && dateString.trim().length() > 0) {
-			String tempArray[] = dateString.split("-");
-			calendar.set(Integer.valueOf(tempArray[2]), Integer.valueOf(tempArray[1]) - 1,
-					Integer.valueOf(tempArray[0]));
+			String[] tempArray = dateString.split("-");
+			calendar.set(Integer.parseInt(tempArray[2]), Integer.parseInt(tempArray[1]) - 1,
+					Integer.parseInt(tempArray[0]));
 		}
 		return calendar;
 	}
@@ -152,7 +150,7 @@ public class Utils {
 
 		PassengerDataVo dataVo = pnrStatusVo.getFirstPassengerData();
 		String shareSubject = context.getResources().getString(R.string.str_share_status_subject,
-				pnrStatusVo.getPnrNumber());
+				pnrStatusVo.pnrNumber);
 		String shareBody = context.getResources().getString(R.string.str_share_status_detail,
 				dataVo.getCurrentStatus(), dataVo.getBookingBerth())
 				+ AppConstants.APP_HASH_TAG;
@@ -182,18 +180,11 @@ public class Utils {
 	 * @param adapter
 	 * @return
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static AdapterView<?> getAdapterView(Context context, StackAdapter adapter) {
 		AdapterView<?> adapterView = null;
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-			android.widget.ListView listView = new android.widget.ListView(context);
-			listView.setAdapter(adapter);
-			adapterView = listView;
-		} else {
-			android.widget.StackView stackView = new android.widget.StackView(context);
-			stackView.setAdapter(adapter);
-			adapterView = stackView;
-		}
+		android.widget.StackView stackView = new android.widget.StackView(context);
+		stackView.setAdapter(adapter);
+		adapterView = stackView;
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		adapterView.setLayoutParams(params);
 		return adapterView;
@@ -206,18 +197,11 @@ public class Utils {
 	 * @param data
 	 */
 	@SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void copyTextToClipboard(Context context, String data) {
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-			android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context
-					.getSystemService(Context.CLIPBOARD_SERVICE);
-			clipboard.setText(data);
-		} else {
-			android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
-					.getSystemService(Context.CLIPBOARD_SERVICE);
-			ClipData clipData = ClipData.newPlainText("pnrnumber", data);
-			clipboard.setPrimaryClip(clipData);
-		}
+		android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
+				.getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipData clipData = ClipData.newPlainText("pnrnumber", data);
+		clipboard.setPrimaryClip(clipData);
 		Toast.makeText(context, R.string.str_pnr_copied_to_clip, Toast.LENGTH_SHORT).show();
 	}
 
@@ -226,22 +210,12 @@ public class Utils {
 	 * 
 	 * @return
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static int getDialogStyle() {
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-			return android.R.style.Theme_Black_NoTitleBar;
-		} else {
-			return android.R.style.Theme_Holo_Dialog_NoActionBar;
-		}
+		return android.R.style.Theme_Holo_Dialog_NoActionBar;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static int getDialogWithTitleStyle() {
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-			return android.R.style.Theme_Black;
-		} else {
-			return android.R.style.Theme_Holo_Dialog;
-		}
+		return android.R.style.Theme_Holo_Dialog;
 	}
 
 }

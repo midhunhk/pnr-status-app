@@ -24,6 +24,8 @@
 
 package com.ae.apps.pnrstatus.service.status;
 
+import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
+
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.exceptions.StatusException.ErrorCodes;
 import com.ae.apps.pnrstatus.service.IStatusService;
@@ -37,8 +39,6 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
 
 /**
  * Indian Rail service
@@ -70,13 +70,13 @@ public class IndianRailService implements IStatusService {
     @Override
     public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
         PNRStatusVo pnrStatusVo;
-        if (stubResponse) {
+        if (Boolean.TRUE.equals(stubResponse)) {
             pnrStatusVo = parseResponse(getStubResponse());
         } else {
             pnrStatusVo = getResponse(pnrNumber);
         }
         if (pnrStatusVo != null) {
-            pnrStatusVo.setPnrNumber(pnrNumber);
+            pnrStatusVo.pnrNumber = pnrNumber;
         }
         return pnrStatusVo;
     }
@@ -110,9 +110,6 @@ public class IndianRailService implements IStatusService {
                 mServiceUrl = getServiceUrl(webResponse);
             }
             // See if we got the url for accessing the service
-            if (mServiceUrl == null) {
-                throw new RuntimeException("service url is null for indian rail service");
-            }
 
             // now, fire the request for finding the pnrstatus
             webResponse = NetworkService.getInstance().doPostRequest(mServiceUrl, headers, params);
@@ -133,10 +130,6 @@ public class IndianRailService implements IStatusService {
 
     /**
      * Parse the response html and create the PNRStatusVo object
-     *
-     * @param html
-     * @return
-     * @throws StatusException
      */
     private PNRStatusVo parseResponse(String html) throws StatusException {
         PNRStatusVo pnrStatusVo = new PNRStatusVo();
@@ -154,15 +147,15 @@ public class IndianRailService implements IStatusService {
         if (elements.size() > infoDataCount) {
             // Seems to be a valid ticket data
             String ticketClass = elements.get(7).trim();
-            pnrStatusVo.setTrainNo(PNRUtils.getTrainNo(elements.get(0)));
-            pnrStatusVo.setTrainName(elements.get(1));
+            pnrStatusVo.trainNo = PNRUtils.getTrainNo(elements.get(0));
+            pnrStatusVo.trainName =elements.get(1);
             pnrStatusVo.setTrainJourneyDate(elements.get(2));
-            pnrStatusVo.setBoardingPoint(elements.get(6));
+            pnrStatusVo.boardingPoint = elements.get(6);
             pnrStatusVo.setDestination(elements.get(4));
             pnrStatusVo.setEmbarkPoint(elements.get(5));
             pnrStatusVo.setTicketClass(ticketClass);
 
-            // Populate the passenger datas
+            // Populate the passenger data
             int passengersCount = (elements.size() - infoDataCount - 1) / 3;
             Logger.d(AppConstants.TAG, "passengersCount : " + passengersCount);
 
@@ -200,7 +193,7 @@ public class IndianRailService implements IStatusService {
             }
             String chartStatus = elements.get(elements.size() - 1);
             pnrStatusVo.setChartStatus(chartStatus);
-            pnrStatusVo.setPassengers(passengersList);
+            pnrStatusVo.passengers = passengersList;
         } else {
             throw new StatusException("Empty response from server", ErrorCodes.EMPTY_RESPONSE);
         }
@@ -208,10 +201,6 @@ public class IndianRailService implements IStatusService {
         return pnrStatusVo;
     }
 
-    /**
-     * @param response
-     * @return
-     */
     private String getServiceUrl(String response) {
         // response =
         // "<form id=\"form3\" name=\"pnr_stat\" method=\"post\" action=\"http://www.indianrail.gov.in/cgi_bin/inet_pnstat_cgi_26163.cgi\" onsubmit=\"return checkform(this);\"> ";

@@ -91,7 +91,7 @@ public class IrctcPnrStatusService implements IStatusService {
 		}
 		// Set the pnrnumber to the vo so that the ui can update the correct one in the list
 		if (statusVo != null) {
-			statusVo.setPnrNumber(pnrNumber);
+			statusVo.pnrNumber = pnrNumber;
 		}
 		return statusVo;
 	}

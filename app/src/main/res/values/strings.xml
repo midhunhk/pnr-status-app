@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">PNRStatusApp</string>
-    <string name="app_version">Version 4.0.2 - Notan (March 2019)</string>
+    <string name="app_version">Version 4.1.0 - Orbitron (August 2023)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 
     <string name="title_section3">About</string>

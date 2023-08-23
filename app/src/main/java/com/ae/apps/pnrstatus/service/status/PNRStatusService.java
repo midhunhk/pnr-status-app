@@ -102,13 +102,13 @@ public class PNRStatusService implements IStatusService {
 
             String ticketClass = journeyDetails.getString("Class");
             statusVo.setChartStatus(charting);
-            statusVo.setTrainNo(journeyDetails.getString("Train Number"));
-            statusVo.setTrainName(journeyDetails.getString("Train Name"));
+            statusVo.trainNo = journeyDetails.getString("Train Number");
+            statusVo.trainName = journeyDetails.getString("Train Name");
             statusVo.setTrainJourneyDate(journeyDetails.getString("Boarding Date"));
             // statusVo.setTrainJourney(journeyObject.getString("From"));
             statusVo.setEmbarkPoint(journeyDetails.getString("To"));
             statusVo.setDestination(journeyDetails.getString("Reserved Upto"));
-            statusVo.setBoardingPoint(journeyDetails.getString("Boarding Point"));
+            statusVo.boardingPoint = journeyDetails.getString("Boarding Point");
             statusVo.setTicketClass(ticketClass);
 
             // Get the passenger details
@@ -141,20 +141,13 @@ public class PNRStatusService implements IStatusService {
                 firstPassengerStatus = dataVo.getCurrentStatus();
             }
             statusVo.setCurrentStatus(firstPassengerStatus);
-            statusVo.setPassengers(passengers);
+            statusVo.passengers = (passengers);
         } catch (Exception e) {
             throw new StatusException("Json response error", e, ErrorCodes.PARSE_ERROR);
         }
         return statusVo;
     }
 
-    /**
-     * This method is specific to responses from PNRStatus to parse json object from response string
-     *
-     * @param source
-     * @return
-     * @throws JSONException
-     */
     private JSONObject getJsonObject(String source) throws JSONException {
         StringBuilder json = new StringBuilder();
         json.append('{');
@@ -202,7 +195,7 @@ public class PNRStatusService implements IStatusService {
         }
         // Set the pnrnumber to the vo so that the ui can update the correct one in the list
         if (statusVo != null) {
-            statusVo.setPnrNumber(pnrNumber);
+            statusVo.pnrNumber = pnrNumber;
         }
         return statusVo;
     }

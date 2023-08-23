@@ -85,7 +85,7 @@ public class PnrApiService implements IStatusService {
         }
         // Set the pnrnumber to the vo so that the ui can update the correct one in the list
         if (statusVo != null) {
-            statusVo.setPnrNumber(pnrNumber);
+            statusVo.pnrNumber = pnrNumber;
         }
         return statusVo;
     }
@@ -158,16 +158,16 @@ public class PnrApiService implements IStatusService {
 
                 // Set the values for the StatusVo
                 statusVo.setTicketStatus(ticketStatus);
-                statusVo.setBoardingPoint(trainBoard);
+                statusVo.boardingPoint = trainBoard;
                 statusVo.setDestination(trainDest);
                 statusVo.setEmbarkPoint(trainEmbark);
                 statusVo.setTrainJourneyDate(trainJourney);
-                statusVo.setTrainName(trainName);
-                statusVo.setTrainNo(trainNo);
+                statusVo.trainName = trainName;
+                statusVo.trainNo = trainNo;
                 statusVo.setTicketClass(ticketClass);
                 statusVo.setCurrentStatus(firstPassengerStatus);
 
-                statusVo.setPassengers(passengers);
+                statusVo.passengers = (passengers);
             } else {
                 throw new StatusException(ticketStatus);
             }
