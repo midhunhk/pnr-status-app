@@ -12,7 +12,7 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 33
-        versionCode 203
+        versionCode 210
         versionName "4.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

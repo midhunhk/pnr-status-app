@@ -55,23 +55,23 @@ class PassengerDataVo : Serializable {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-    override fun equals(obj: Any?): Boolean {
-        if (this === obj) return true
-        if (obj == null) return false
-        if (javaClass != obj.javaClass) return false
-        val other = obj as PassengerDataVo
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null) return false
+        if (javaClass != other.javaClass) return false
+        val another = other as PassengerDataVo
         if (berthPosition == null) {
-            if (other.berthPosition != null) return false
-        } else if (berthPosition != other.berthPosition) return false
+            if (another.berthPosition != null) return false
+        } else if (berthPosition != another.berthPosition) return false
         if (bookingBerth == null) {
-            if (other.bookingBerth != null) return false
-        } else if (bookingBerth != other.bookingBerth) return false
+            if (another.bookingBerth != null) return false
+        } else if (bookingBerth != another.bookingBerth) return false
         if (currentStatus == null) {
-            if (other.currentStatus != null) return false
-        } else if (currentStatus != other.currentStatus) return false
+            if (another.currentStatus != null) return false
+        } else if (currentStatus != another.currentStatus) return false
         if (passenger == null) {
-            if (other.passenger != null) return false
-        } else if (passenger != other.passenger) return false
+            if (another.passenger != null) return false
+        } else if (passenger != another.passenger) return false
         return true
     }
 

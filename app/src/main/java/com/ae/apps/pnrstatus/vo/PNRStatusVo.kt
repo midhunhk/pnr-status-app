@@ -98,51 +98,51 @@ class PNRStatusVo : Serializable, Comparable<PNRStatusVo> {
         if (this === other) return true
         if (other == null) return false
         if (javaClass != other.javaClass) return false
-        val other = other as PNRStatusVo
+        val another = other as PNRStatusVo
         if (boardingPoint == null) {
-            if (other.boardingPoint != null) return false
-        } else if (boardingPoint != other.boardingPoint) return false
+            if (another.boardingPoint != null) return false
+        } else if (boardingPoint != another.boardingPoint) return false
         if (chartStatus == null) {
-            if (other.chartStatus != null) return false
-        } else if (chartStatus != other.chartStatus) return false
+            if (another.chartStatus != null) return false
+        } else if (chartStatus != another.chartStatus) return false
         if (currentStatus == null) {
-            if (other.currentStatus != null) return false
-        } else if (currentStatus != other.currentStatus) return false
+            if (another.currentStatus != null) return false
+        } else if (currentStatus != another.currentStatus) return false
         if (dateOfJourneyText == null) {
-            if (other.dateOfJourneyText != null) return false
-        } else if (dateOfJourneyText != other.dateOfJourneyText) return false
+            if (another.dateOfJourneyText != null) return false
+        } else if (dateOfJourneyText != another.dateOfJourneyText) return false
         if (firstPassengerData == null) {
-            if (other.firstPassengerData != null) return false
-        } else if (firstPassengerData != other.firstPassengerData) return false
+            if (another.firstPassengerData != null) return false
+        } else if (firstPassengerData != another.firstPassengerData) return false
         if (trainJourneyDate == null) {
-            if (other.trainJourneyDate != null) return false
-        } else if (trainJourneyDate != other.trainJourneyDate) return false
-        if (journeyDateTimeStamp != other.journeyDateTimeStamp) return false
+            if (another.trainJourneyDate != null) return false
+        } else if (trainJourneyDate != another.trainJourneyDate) return false
+        if (journeyDateTimeStamp != another.journeyDateTimeStamp) return false
         if (passengers == null) {
-            if (other.passengers != null) return false
-        } else if (passengers != other.passengers) return false
+            if (another.passengers != null) return false
+        } else if (passengers != another.passengers) return false
         if (pnrNumber == null) {
-            if (other.pnrNumber != null) return false
-        } else if (pnrNumber != other.pnrNumber) return false
-        if (rowId != other.rowId) return false
+            if (another.pnrNumber != null) return false
+        } else if (pnrNumber != another.pnrNumber) return false
+        if (rowId != another.rowId) return false
         if (ticketClass == null) {
-            if (other.ticketClass != null) return false
-        } else if (ticketClass != other.ticketClass) return false
+            if (another.ticketClass != null) return false
+        } else if (ticketClass != another.ticketClass) return false
         if (ticketStatus == null) {
-            if (other.ticketStatus != null) return false
-        } else if (ticketStatus != other.ticketStatus) return false
+            if (another.ticketStatus != null) return false
+        } else if (ticketStatus != another.ticketStatus) return false
         if (destination == null) {
-            if (other.destination != null) return false
-        } else if (destination != other.destination) return false
+            if (another.destination != null) return false
+        } else if (destination != another.destination) return false
         if (embarkPoint == null) {
-            if (other.embarkPoint != null) return false
-        } else if (embarkPoint != other.embarkPoint) return false
+            if (another.embarkPoint != null) return false
+        } else if (embarkPoint != another.embarkPoint) return false
         if (trainName == null) {
-            if (other.trainName != null) return false
-        } else if (trainName != other.trainName) return false
+            if (another.trainName != null) return false
+        } else if (trainName != another.trainName) return false
         if (trainNo == null) {
-            if (other.trainNo != null) return false
-        } else if (trainNo != other.trainNo) return false
+            if (another.trainNo != null) return false
+        } else if (trainNo != another.trainNo) return false
         return true
     }
 

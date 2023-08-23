@@ -58,26 +58,26 @@ class MessageVo : Serializable {
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-    override fun equals(obj: Any?): Boolean {
-        if (this === obj) return true
-        if (obj == null) return false
-        if (javaClass != obj.javaClass) return false
-        val other = obj as MessageVo
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null) return false
+        if (javaClass != other.javaClass) return false
+        val another = other as MessageVo
         if (address == null) {
-            if (other.address != null) return false
-        } else if (address != other.address) return false
+            if (another.address != null) return false
+        } else if (address != another.address) return false
         if (date == null) {
-            if (other.date != null) return false
-        } else if (date != other.date) return false
+            if (another.date != null) return false
+        } else if (date != another.date) return false
         if (message == null) {
-            if (other.message != null) return false
-        } else if (message != other.message) return false
+            if (another.message != null) return false
+        } else if (message != another.message) return false
         if (name == null) {
-            if (other.name != null) return false
-        } else if (name != other.name) return false
+            if (another.name != null) return false
+        } else if (name != another.name) return false
         if (type == null) {
-            if (other.type != null) return false
-        } else if (type != other.type) return false
+            if (another.type != null) return false
+        } else if (type != another.type) return false
         return true
     }
 
