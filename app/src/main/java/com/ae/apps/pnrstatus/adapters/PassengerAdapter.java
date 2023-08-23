@@ -24,8 +24,6 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -34,8 +32,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ae.apps.pnrstatus.v3.R;
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import java.util.List;
 
 public class PassengerAdapter extends BaseAdapter {
 

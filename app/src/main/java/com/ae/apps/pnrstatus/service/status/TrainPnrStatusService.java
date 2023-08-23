@@ -24,6 +24,8 @@
 
 package com.ae.apps.pnrstatus.service.status;
 
+import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
+
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.service.IStatusService;
 import com.ae.apps.pnrstatus.service.NetworkService;
@@ -36,8 +38,6 @@ import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.ae.apps.pnrstatus.utils.AppConstants.TAG;
 
 public class TrainPnrStatusService implements IStatusService {
 
@@ -107,7 +107,7 @@ public class TrainPnrStatusService implements IStatusService {
             pnrStatusVo = getResponse(pnrNumber);
         }
         if (pnrStatusVo != null) {
-            pnrStatusVo.setPnrNumber(pnrNumber);
+            pnrStatusVo.pnrNumber = pnrNumber;
         }
         return pnrStatusVo;
     }
@@ -128,14 +128,14 @@ public class TrainPnrStatusService implements IStatusService {
         if (elements.size() > infoDataCount) {
             // Seems to be a valid ticket data
             String ticketClass = elements.get(3).trim();
-            pnrStatusVo.setTrainNo(PNRUtils.getTrainNo(elements.get(0)));
-            pnrStatusVo.setTrainName(elements.get(1));
+            pnrStatusVo.trainNo = PNRUtils.getTrainNo(elements.get(0));
+            pnrStatusVo.trainName = elements.get(1);
             pnrStatusVo.setTrainJourneyDate(elements.get(2));
             // FromStation, ToStation, ReservedUpTo,BoardingPoint
 
             pnrStatusVo.setDestination(elements.get(5));
             pnrStatusVo.setEmbarkPoint(elements.get(6));
-            pnrStatusVo.setBoardingPoint(elements.get(7));
+            pnrStatusVo.boardingPoint = elements.get(7);
             pnrStatusVo.setTicketClass(ticketClass);
 
             int passengersCount = (elements.size() - infoDataCount - 1) / 3;
@@ -175,7 +175,7 @@ public class TrainPnrStatusService implements IStatusService {
             }
             String chartStatus = elements.get(elements.size() - 1);
             pnrStatusVo.setChartStatus(chartStatus);
-            pnrStatusVo.setPassengers(passengersList);
+            pnrStatusVo.passengers = (passengersList);
         } else {
             throw new StatusException("Empty response from server", StatusException.ErrorCodes.EMPTY_RESPONSE);
         }

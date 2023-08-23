@@ -30,6 +30,8 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 
+import com.ae.apps.pnrstatus.R;
+
 /**
  * Settings Activity
  * 

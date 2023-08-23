@@ -24,6 +24,12 @@
 
 package com.ae.apps.pnrstatus.utils;
 
+import android.util.Log;
+
+import com.ae.apps.pnrstatus.vo.MessageVo;
+import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,12 +40,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
-import android.util.Log;
-
-import com.ae.apps.pnrstatus.vo.MessageVo;
-import com.ae.apps.pnrstatus.vo.PNRStatusVo;
-import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 /**
  * Utility methods that deal with PNR Numbers and related scenarios
@@ -301,13 +301,13 @@ public class PNRUtils {
 			List<String> journeyDetailsList = getCellDataAsItems(journeyDetails);
 			
 			if(journeyDetailsList.size() > 7){
-				pnrStatusVo.setTrainNo(getTrainNo(journeyDetailsList.get(0)));
-				pnrStatusVo.setTrainName(journeyDetailsList.get(1));
-				pnrStatusVo.setDateOfJourneyText(journeyDetailsList.get(2));
+				pnrStatusVo.trainNo = getTrainNo(journeyDetailsList.get(0));
+				pnrStatusVo.trainName = journeyDetailsList.get(1);
+				pnrStatusVo.dateOfJourneyText = journeyDetailsList.get(2);
 				pnrStatusVo.setTrainJourneyDate(journeyDetailsList.get(2));
 				pnrStatusVo.setDestination(journeyDetailsList.get(4));
 				pnrStatusVo.setEmbarkPoint(journeyDetailsList.get(5));
-				pnrStatusVo.setBoardingPoint(journeyDetailsList.get(6));
+				pnrStatusVo.boardingPoint = journeyDetailsList.get(6);
 				pnrStatusVo.setTicketClass(journeyDetailsList.get(7));
 			}
 			
@@ -325,7 +325,7 @@ public class PNRUtils {
 			List<String> passengerDetailsList = null;
 			
 			List<PassengerDataVo> passengers = new ArrayList<PassengerDataVo>();
-			pnrStatusVo.setPassengers(passengers);
+			pnrStatusVo.passengers = (passengers);
 			PassengerDataVo passengerDataVo = null;
 			while(passengerStartIndex > -1){
 				passengerEndIndex = passengerDetails.indexOf("</tr>", passengerStartIndex);
@@ -384,8 +384,8 @@ public class PNRUtils {
 	 */
 	public static PNRStatusVo parsePNRStatus(MessageVo messageVo) {
 		PNRStatusVo pnrStatusVo = null;
-		if (messageVo != null && messageVo.getMessage() != null) {
-			String message = messageVo.getMessage();
+		if (messageVo != null && messageVo.message != null) {
+			String message = messageVo.message;
 			message = message.toUpperCase(Locale.getDefault());
 
 			if (message.startsWith(PNR)) {
@@ -399,11 +399,11 @@ public class PNRUtils {
 					c.setTimeInMillis(timeStamp);
 
 					pnrStatusVo = new PNRStatusVo();
-					pnrStatusVo.setPnrNumber(contents[1].split(",")[0]);
-					pnrStatusVo.setTrainNo(contents[2].split(",")[0]);
+					pnrStatusVo.pnrNumber = contents[1].split(",")[0];
+					pnrStatusVo.trainNo = contents[2].split(",")[0];
 					pnrStatusVo.setTrainJourneyDate(trainJourney);
-					pnrStatusVo.setDateOfJourneyText(dateWithMonthText + " (" + Utils.getDayName(trainJourney) + ")");
-					pnrStatusVo.setJourneyDateTimeStamp(timeStamp);
+					pnrStatusVo.dateOfJourneyText = dateWithMonthText + " (" + Utils.getDayName(trainJourney) + ")";
+					pnrStatusVo.journeyDateTimeStamp = timeStamp;
 
 					String[] tempData = contents[5].split(",");
 					String[] tempData3 = contents[3].split(",");
@@ -417,7 +417,7 @@ public class PNRUtils {
 					pnrStatusVo.setCurrentStatus(ticketStatus);
 					pnrStatusVo.setTicketClass(ticketClass);
 					pnrStatusVo.setTicketStatus(ticketStatus);
-					pnrStatusVo.setBoardingPoint(tempData3[2]);
+					pnrStatusVo.boardingPoint = tempData3[2];
 
 					// Create a PassengerDataVo
 					PassengerDataVo passengerDataVo = new PassengerDataVo();
@@ -430,7 +430,7 @@ public class PNRUtils {
 					passengersList.add(passengerDataVo);
 
 					pnrStatusVo.setFirstPassengerData(passengerDataVo);
-					pnrStatusVo.setPassengers(passengersList);
+					pnrStatusVo.passengers =(passengersList);
 				} catch (Exception exception) {
 					return null;
 				}
@@ -442,8 +442,6 @@ public class PNRUtils {
 	/**
 	 * Beautifies the PNRNumber string with additional spacing for readability
 	 * 
-	 * @param boringNum
-	 * @return
 	 */
 	public static String formatPNRString(String boringNum) {
 		if (boringNum != null && boringNum.length() == 10) {
@@ -461,7 +459,7 @@ public class PNRUtils {
 		PNRStatusVo statusVo = new PNRStatusVo();
 		statusVo.setCurrentStatus("");
 		statusVo.setFirstPassengerData(null);
-		statusVo.setPassengers(null);
+		statusVo.passengers =(null);
 
 		return statusVo;
 	}

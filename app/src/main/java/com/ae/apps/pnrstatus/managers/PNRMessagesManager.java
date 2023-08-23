@@ -87,7 +87,7 @@ public class PNRMessagesManager {
 						calendar.get(Calendar.DATE) - 1);
 				long now = calendar.getTimeInMillis();
 				for (PNRStatusVo statusVo : list) {
-					if (statusVo.getJourneyDateTimeStamp() > now) {
+					if (statusVo.journeyDateTimeStamp > now) {
 						pnrNumbers.add(statusVo);
 					}
 				}

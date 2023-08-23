@@ -28,14 +28,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.ae.apps.pnrstatus.utils.DialogUtils;
-import com.ae.apps.pnrstatus.v3.R;
+import com.ae.apps.pnrstatus.R;
 
 /**
  * Fragment for the About application page

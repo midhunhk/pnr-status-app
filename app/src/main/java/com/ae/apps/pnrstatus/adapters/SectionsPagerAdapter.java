@@ -25,20 +25,21 @@
 package com.ae.apps.pnrstatus.adapters;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.fragments.AboutFragment;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
-import com.ae.apps.pnrstatus.v3.R;
 
 import java.util.Locale;
 
 /**
  * A FragmentPagerAdapter that returns a fragment corresponding to one of the primary sections of the app.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private final Context	context;
 	// Removing MessagesFragment

@@ -21,42 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.ae.apps.pnrstatus.service
 
-package com.ae.apps.pnrstatus.service;
+import com.ae.apps.pnrstatus.exceptions.StatusException
+import com.ae.apps.pnrstatus.vo.PNRStatusVo
 
-import java.io.IOException;
+interface IStatusService {
+    /**
+     * Returns the name of the service.
+     *
+     * @return
+     */
+	val serviceName: String?
 
-import org.json.JSONException;
+    /**
+     * Returns a PNRStatusVo object after parsing the JSON response
+     *
+     * @param pnrNumber
+     * @return
+     */
+    @Throws(StatusException::class)
+    fun getResponse(pnrNumber: String?): PNRStatusVo?
 
-import com.ae.apps.pnrstatus.exceptions.StatusException;
-import com.ae.apps.pnrstatus.vo.PNRStatusVo;
-
-public interface IStatusService {
-
-	/**
-	 * Returns the name of the service.
-	 * 
-	 * @return
-	 */
-	String getServiceName();
-
-	/**
-	 * Returns a PNRStatusVo object after parsing the JSON response
-	 * 
-	 * @param pnrNumber
-	 * @return
-	 */
-	PNRStatusVo getResponse(String pnrNumber) throws StatusException;
-
-	/**
-	 * Returns a PNRStatusVo object based on the value for stubResponse
-	 * 
-	 * @param pnrNumber
-	 * @param stubResponse
-	 * @return
-	 * @throws JSONException
-	 * @throws StatusException
-	 * @throws IOException
-	 */
-	PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException;
+    /**
+     * Returns a PNRStatusVo object based on the value for stubResponse
+     *
+     * @param pnrNumber
+     * @param stubResponse
+     * @return
+     * @throws JSONException
+     * @throws StatusException
+     * @throws IOException
+     */
+    @Throws(StatusException::class)
+    fun getResponse(pnrNumber: String?, stubResponse: Boolean?): PNRStatusVo?
 }

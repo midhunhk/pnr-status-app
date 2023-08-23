@@ -24,15 +24,6 @@
 
 package com.ae.apps.pnrstatus.service.status;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import android.util.Log;
 
 import com.ae.apps.pnrstatus.exceptions.StatusException;
@@ -41,6 +32,15 @@ import com.ae.apps.pnrstatus.utils.AppConstants;
 import com.ae.apps.pnrstatus.utils.PNRUtils;
 import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IxigoService implements IStatusService {
 
@@ -152,16 +152,16 @@ public class IxigoService implements IStatusService {
 			}
 
 			// Set the values for the StatusVo
-			statusVo.setBoardingPoint(trainBoard);
+			statusVo.boardingPoint = trainBoard;
 			statusVo.setDestination(trainDest);
 			statusVo.setEmbarkPoint(trainEmbark);
 			statusVo.setTrainJourneyDate(trainJourney);
-			statusVo.setTrainName(trainName);
-			statusVo.setTrainNo(trainNo);
+			statusVo.trainName = trainName;
+			statusVo.trainNo = trainNo;
 			statusVo.setTicketClass(ticketClass);
 			statusVo.setCurrentStatus(firstPassengerStatus);
 
-			statusVo.setPassengers(passengers);
+			statusVo.passengers = passengers;
 		} catch (JSONException exception) {
 			throw new StatusException("Json Exception");
 		}

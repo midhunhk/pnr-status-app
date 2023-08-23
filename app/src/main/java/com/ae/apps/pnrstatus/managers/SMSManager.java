@@ -74,11 +74,11 @@ public class SMSManager {
 			MessageVo messageVo = null;
 			while (cursor.moveToNext()) {
 				messageVo = new MessageVo();
-				messageVo.setAddress(cursor.getString(cursor.getColumnIndex(columns[0])));
-				messageVo.setName(cursor.getString(cursor.getColumnIndex(columns[1])));
-				messageVo.setDate(cursor.getString(cursor.getColumnIndex(columns[2])));
-				messageVo.setMessage(cursor.getString(cursor.getColumnIndex(columns[3])));
-				messageVo.setType(cursor.getString(cursor.getColumnIndex(columns[4])));
+				messageVo.address = cursor.getString(cursor.getColumnIndex(columns[0]));
+				messageVo.name = cursor.getString(cursor.getColumnIndex(columns[1]));
+				messageVo.date = cursor.getString(cursor.getColumnIndex(columns[2]));
+				messageVo.message = cursor.getString(cursor.getColumnIndex(columns[3]));
+				messageVo.type = cursor.getString(cursor.getColumnIndex(columns[4]));
 				list.add(messageVo);
 			}
 		}
@@ -100,8 +100,8 @@ public class SMSManager {
 			Iterator<MessageVo> iterator = messagesList.iterator();
 			while (iterator.hasNext()) {
 				messageVo = iterator.next();
-				if (messageVo != null && messageVo.getAddress() != null) {
-					if (messageVo.getAddress().contains(address)) {
+				if (messageVo != null && messageVo.address != null) {
+					if (messageVo.address.contains(address)) {
 						list.add(messageVo);
 					}
 				}
@@ -124,7 +124,7 @@ public class SMSManager {
 			Iterator<MessageVo> iterator = collection.iterator();
 			while (iterator.hasNext()) {
 				messageVo = iterator.next();
-				list.add(messageVo.getDate());
+				list.add(messageVo.date);
 			}
 		}
 		return list;
@@ -144,7 +144,7 @@ public class SMSManager {
 			Iterator<MessageVo> iterator = collection.iterator();
 			while (iterator.hasNext()) {
 				messageVo = iterator.next();
-				list.add(messageVo.getMessage());
+				list.add(messageVo.message);
 			}
 		}
 		return list;
