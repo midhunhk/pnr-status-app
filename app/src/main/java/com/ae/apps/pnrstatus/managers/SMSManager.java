@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -61,7 +62,8 @@ public class SMSManager {
 		messagesList = fetchAllMessages();
 	}
 
-	public List<MessageVo> fetchAllMessages() {
+	@SuppressLint("Range")
+    public List<MessageVo> fetchAllMessages() {
 		List<MessageVo> list = new ArrayList<MessageVo>();
 		// get the uri and cursor
 		Uri mSmsinboxQueryUri = Uri.parse(SMS_INBOX_URI);
@@ -70,7 +72,8 @@ public class SMSManager {
 		// Project the required columns
 		String[] columns = new String[] { "address", "person", "date", "body", "type" };
 
-		if (cursor.getCount() > 0) {
+        assert cursor != null;
+        if (cursor.getCount() > 0) {
 			MessageVo messageVo = null;
 			while (cursor.moveToNext()) {
 				messageVo = new MessageVo();
@@ -95,17 +98,16 @@ public class SMSManager {
 	 */
 	public List<MessageVo> fetchMessagesByAddress(String address) {
 		List<MessageVo> list = new ArrayList<MessageVo>();
-		if (messagesList != null && messagesList.size() > 0) {
+		if (messagesList != null && !messagesList.isEmpty()) {
 			MessageVo messageVo;
-			Iterator<MessageVo> iterator = messagesList.iterator();
-			while (iterator.hasNext()) {
-				messageVo = iterator.next();
-				if (messageVo != null && messageVo.address != null) {
-					if (messageVo.address.contains(address)) {
-						list.add(messageVo);
-					}
-				}
-			}
+            for (MessageVo vo : messagesList) {
+                messageVo = vo;
+                if (messageVo != null && messageVo.address != null) {
+                    if (messageVo.address.contains(address)) {
+                        list.add(messageVo);
+                    }
+                }
+            }
 		}
 		return list;
 	}
@@ -118,14 +120,13 @@ public class SMSManager {
 	 */
 	public List<String> toDateStringList(List<MessageVo> collection) {
 		List<String> list = null;
-		if (collection != null && collection.size() > 0) {
+		if (collection != null && !collection.isEmpty()) {
 			MessageVo messageVo;
 			list = new ArrayList<String>();
-			Iterator<MessageVo> iterator = collection.iterator();
-			while (iterator.hasNext()) {
-				messageVo = iterator.next();
-				list.add(messageVo.date);
-			}
+            for (MessageVo vo : collection) {
+                messageVo = vo;
+                list.add(messageVo.date);
+            }
 		}
 		return list;
 	}
@@ -138,14 +139,13 @@ public class SMSManager {
 	 */
 	public List<String> toMessageStringList(List<MessageVo> collection) {
 		List<String> list = null;
-		if (collection != null && collection.size() > 0) {
+		if (collection != null && !collection.isEmpty()) {
 			MessageVo messageVo;
 			list = new ArrayList<String>();
-			Iterator<MessageVo> iterator = collection.iterator();
-			while (iterator.hasNext()) {
-				messageVo = iterator.next();
-				list.add(messageVo.message);
-			}
+            for (MessageVo vo : collection) {
+                messageVo = vo;
+                list.add(messageVo.message);
+            }
 		}
 		return list;
 	}

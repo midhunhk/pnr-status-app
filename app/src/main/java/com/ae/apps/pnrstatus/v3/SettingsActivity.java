@@ -26,8 +26,6 @@ package com.ae.apps.pnrstatus.v3;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 
 import com.ae.apps.pnrstatus.R;
@@ -54,16 +52,12 @@ public class SettingsActivity extends PreferenceActivity {
 		if(null != servicePreference.getEntry()) {
 			servicePreference.setSummary(servicePreference.getEntry().toString());
 		}
-		servicePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				// Set the value as the new value
-				servicePreference.setValue(newValue.toString());
-				// Get the entry which corresponds to the current value and set as summary
-				preference.setSummary(servicePreference.getEntry());
-				return false;
-			}
-		});
+		servicePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            // Set the value as the new value
+            servicePreference.setValue(newValue.toString());
+            // Get the entry which corresponds to the current value and set as summary
+            preference.setSummary(servicePreference.getEntry());
+            return false;
+        });
 	}
 }

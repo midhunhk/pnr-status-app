@@ -21,54 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.ae.apps.pnrstatus.exceptions;
+package com.ae.apps.pnrstatus.exceptions
 
 /**
- * Denotes an exception that occured while checking for status
- * 
- * @author midhun_harikumar
- * 
+ * This exception is thrown when an unknown Service type is requested to the ServiceFactory.
+ *
+ * @author Midhun_Harikumar
  */
-public class StatusException extends Exception {
+class InvalidServiceException : Exception {
+    constructor() : super("The requested Service name is invalid.")
 
-	private static final long	serialVersionUID	= 4678860372933762653L;
+    constructor(detailMessage: String?) : super(detailMessage)
 
-	public enum ErrorCodes {
-		PARSE_ERROR, NETWORK_ERROR, EMPTY_RESPONSE, URL_ERROR
-	}
+    constructor(throwable: Throwable?) : super(throwable)
 
-	private ErrorCodes	errorCode;
+    constructor(detailMessage: String?, throwable: Throwable?) : super(detailMessage, throwable)
 
-	public StatusException() {
-		super();
-	}
-
-	public StatusException(String detailMessage, Throwable throwable) {
-		super(detailMessage, throwable);
-	}
-
-	public StatusException(String detailMessage) {
-		super(detailMessage);
-	}
-
-	public StatusException(String message, ErrorCodes code) {
-		super(message);
-		errorCode = code;
-	}
-
-	public StatusException(Throwable throwable, ErrorCodes code) {
-		super(throwable);
-		errorCode = code;
-	}
-
-	public StatusException(String message, Throwable throwable, ErrorCodes code) {
-		super(message, throwable);
-		errorCode = code;
-	}
-
-	public ErrorCodes getErrorCode() {
-		return errorCode;
-	}
-
+    companion object {
+        private const val serialVersionUID = 7374739211962780312L
+    }
 }

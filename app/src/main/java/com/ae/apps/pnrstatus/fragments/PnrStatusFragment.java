@@ -26,7 +26,6 @@ package com.ae.apps.pnrstatus.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +39,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -78,7 +78,7 @@ public class PnrStatusFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(@NonNull Activity activity) {
 		super.onAttach(activity);
 		try {
 			mCallback = (OnCheckStatusListener) activity;
@@ -106,40 +106,31 @@ public class PnrStatusFragment extends Fragment {
 			mCallback.setPNRStatusAdapter(mCustomAdapter);
 
 			// Read the length of a valid PNR
-			final int validPNRLength = Integer.valueOf(context.getResources().getString(R.string.pnr_number_length));
-			final EditText txtPnrNumber = (EditText) layout.findViewById(R.id.new_pnr_text);
+			final int validPNRLength = Integer.parseInt(context.getResources().getString(R.string.pnr_number_length));
+			final EditText txtPnrNumber = layout.findViewById(R.id.new_pnr_text);
 
-			// Fix the textbox text color for lower android versions
-			if (android.os.Build.VERSION.SDK_INT < 11) {
-				txtPnrNumber.setTextColor(Color.GRAY);
-			}
-
-			final ImageButton btnAdd = (ImageButton) layout.findViewById(R.id.add_pnr_btn);
+            final ImageButton btnAdd = layout.findViewById(R.id.add_pnr_btn);
 			btnAdd.setFocusable(true);
-			btnAdd.setOnClickListener(new View.OnClickListener() {
+			btnAdd.setOnClickListener(v -> {
+                // Create a PNRStatusVo object
+                String pnrNumber = txtPnrNumber.getText().toString();
+                Logger.i(TAG, "Add new pnr " + pnrNumber);
+                if (pnrNumber.trim().length() == validPNRLength) {
+                    PNRStatusVo statusVo = PNRUtils.getEmptyPNRStatusObject();
+                    statusVo.pnrNumber = pnrNumber;
 
-				@Override
-				public void onClick(View v) {
-					// Create a PNRStatusVo object
-					String pnrNumber = txtPnrNumber.getText().toString();
-					Logger.i(TAG, "Add new pnr " + pnrNumber);
-					if (pnrNumber != null && pnrNumber.trim().length() == validPNRLength) {
-						PNRStatusVo statusVo = PNRUtils.getEmptyPNRStatusObject();
-						statusVo.pnrNumber = pnrNumber;
+                    // Clear the input
+                    txtPnrNumber.setText("");
+                    btnAdd.requestFocus();
 
-						// Clear the input
-						txtPnrNumber.setText("");
-						btnAdd.requestFocus();
-
-						// Add the PNRStatusVo to the list
-						mCallback.addPnr(statusVo);
-					} else {
-						String message = context.getResources().getString(R.string.str_invalid_pnr_message, pnrNumber);
-						Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-					}
-				}
-			});
-			progressBar = (ProgressBar) layout.findViewById(R.id.ProgressBar);
+                    // Add the PNRStatusVo to the list
+                    mCallback.addPnr(statusVo);
+                } else {
+                    String message = context.getResources().getString(R.string.str_invalid_pnr_message, pnrNumber);
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                }
+            });
+			progressBar = layout.findViewById(R.id.ProgressBar);
 		} catch (Exception e) {
 			Logger.e(TAG, e.getMessage());
 		}

@@ -21,33 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.ae.apps.pnrstatus.service.status
 
-package com.ae.apps.pnrstatus.exceptions;
+import com.ae.apps.pnrstatus.exceptions.InvalidServiceException
+import com.ae.apps.pnrstatus.exceptions.StatusException
+import com.ae.apps.pnrstatus.service.IStatusService
+import com.ae.apps.pnrstatus.service.StatusServiceFactory
+import com.ae.apps.pnrstatus.service.StatusServiceFactory.getService
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 
-/**
- * This exception is thrown when an unknown Service type is requested to the ServiceFactory.
- * 
- * @author Midhun_Harikumar
- * 
- */
-public class InvalidServiceException extends Exception {
+class TrainPnrStatusServiceTest {
+    private var service: IStatusService? = null
 
-	private static final long	serialVersionUID	= 7374739211962780312L;
+    @Before
+    @Throws(InvalidServiceException::class)
+    fun setUp() {
+        service = getService(StatusServiceFactory.TRAIN_PNR_STATUS_SERVICE)
+    }
 
-	public InvalidServiceException() {
-		super("The requested Service name is invalid.");
-	}
+    @Test
+    fun testCorrectServiceCreated() {
+        Assert.assertNotNull(service)
+        val trainPnrStatusService = service as TrainPnrStatusService?
+        Assert.assertNotNull(trainPnrStatusService)
+    }
 
-	public InvalidServiceException(String detailMessage) {
-		super(detailMessage);
-	}
+    @Test
+    @Throws(StatusException::class)
+    fun testGetResponse() {
+        val statusVo = service!!.getResponse(PNR_NUMBER, true)
+        Assert.assertNotNull(statusVo)
+    }
 
-	public InvalidServiceException(Throwable throwable) {
-		super(throwable);
-	}
-
-	public InvalidServiceException(String detailMessage, Throwable throwable) {
-		super(detailMessage, throwable);
-	}
-
+    companion object {
+        private const val PNR_NUMBER = "1234567890"
+    }
 }
