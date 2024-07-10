@@ -1,11 +1,18 @@
-## Version 4.1 (Od)
-PNRStatusApp 4.1.0 [TBD]
- - New Architecture
+## Version 4.2 (Paladin)
+
+PNRStatusApp 4.2.0 [July 2024]
+- [CHANGED]    Update target API and dependencies
+
+## Version 4.1 (Orbitron)
+
+PNRStatusApp 4.1.0 [August 2023]
+ - [CHANGED]    Update target API and dependencies
 
 ## Version 4.0 (Notan)
 
 PNRStatusApp 4.0.2 [March 2019]
  - [CHANGED]    Check if valid service type is selected and update preference with default
+ - [CHANGED]    Redesign Menu and About screens
 
 PNRStatusApp 4.0.1 [March 2019]
  - [CHANGED]    Use OkHttp for network calls
@@ -54,13 +61,9 @@ PNRStatusApp 3.2.10 [March 2014]
  - [CHANGED]	Using apache http client for network
  - [CHANGED]	Exception handling
  - [CHANGED]	UI Tweaks
-
-=============================
-Version 3.1 Code named Marvin
-=============================
  
 PNRStatusApp 3.1.98 [December 2013]
- - [ADDED]	Workarounds to work with indianrail
+ - [ADDED]	Workarounds to work with indian rail
 
 PNRStatusApp 3.1.97 [December 2013]
  - [CHANGED]	File organization
@@ -89,7 +92,7 @@ PNRStatusApp 3.1.86 [August 2013]
  - [ADDED]		Added utility class DialogUtils for utility methods for displaying Dialogs
  - [ADDED]		Added strings for License
  - [OPTIMIZED]	Removed unused code
- - [ADDED]		One more dialog style added with titlebar
+ - [ADDED]		One more dialog style added with title bar
  - [ADDED]		Added layout and text for License Dialog
  - [OPTIMIZED]	Improved the way of showing License Dialog
 
@@ -134,13 +137,13 @@ PNRStatusApp 3.1.22 [January 2013]
  - [CHANGED]	Localization of strings with the help of format strings
  - [CHANGED]	Code Cleanup
  - [CHANGED]	Code Optimization
- - [ADDED]		Click on the additonal details layout in Messages View to copy the PNR to clipboard
+ - [ADDED]		Click on the additional details layout in Messages View to copy the PNR to clipboard
  - [FIXED]		Code for Copy to Clipboard on earlier versions of Android
  
 PNRStatusApp 3.1.10 [January 2013]
  - [ADDED]		Application now supports Android 2.2 and up
  - [FIXED]		Null Pointer fix for Messages landscape view
- - [FIXED]		Missing divider in Messages Lansdcape View
+ - [FIXED]		Missing divider in Messages Landscape View
  - [FIXED]		Change Add PNR Text color for lesser versions of android
 
 ## Version 3.0
@@ -162,12 +165,12 @@ PNRStatusApp 3.0.28 [November 2012]
 
 PNRStatusApp 3.0.20 [September 2012]
  - [BUG]		An exception identified as NetworkOnMainThreadException encountered
- - [FIXED]		Use a Handler to do the newtork operation
- - [CHANGED]	Added an additonal layout for landscape for Messages View
+ - [FIXED]		Use a Handler to do the network operation
+ - [CHANGED]	Added an additional layout for landscape for Messages View
  - [CHANGED]	The about text
  - [ADDED]		Closed some cursors
  - [ADDED]		Better icon for facebook and the ae logo in about page
- - [FIXED]		Reservation Upto was mapped wrongly.
+ - [FIXED]		Reservation Up to was mapped wrongly.
 
 PNRStatusApp 3.0.16 [September 2012]
  - [ADDED]		Create Dialog for displaying the status details of a PNRStatus
@@ -185,7 +188,6 @@ PNRStatusApp 3.0.14 [September 2012]
  - [REWRITE]	Sending data from Custom Adapters to Activities
  - [CHANGED]	Communication between activity and fragment
 
-
 PNRStatusApp 3.0.12 [September 2012]
  - [CHANGED]	Layout changes in PnrStatusView
  - [FIXED]		Parsing Berth position correctly from messages
@@ -193,19 +195,16 @@ PNRStatusApp 3.0.12 [September 2012]
  - [ADDED]		Better Date display with month name
  - [CHANGED]	Text Alignments in Messages View
  
- 
 PNRStatusApp 3.0.11 [August 2012]
  - [ADDED]		Parse MessageVo into PNRStatusVo
  - [ADDED]		Display selected message details in the box 
  - [CHANGED]	Styles
  - [ADDED]		Sort PNRMessages based on journey date
  - [OPTIMIZED]	Code Cleanup
- 
 
 PNRStatusApp 3.0.10 [August 2012]
   - [CHANGED]	Resources 
   - [ADDED]		Managers for managing different data sets
-
 
 PNRStatusApp 3.0.6 [August 2012]
  - [ADDED]		Read messages from SMS from POC
@@ -214,4 +213,5 @@ PNRStatusApp 3.0.6 [August 2012]
  PNRStatusApp 3.0.0 [August 2012]
   - [START] 		Rewrite app for ICS / JellyBean API
   - [CHANGED]	Converted Activities to Fragments
-  
+
+Note: Versions 1.0 and 2.0 were Adobe Flex apps

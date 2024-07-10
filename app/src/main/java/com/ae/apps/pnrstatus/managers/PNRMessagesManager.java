@@ -24,14 +24,14 @@
 
 package com.ae.apps.pnrstatus.managers;
 
+import com.ae.apps.pnrstatus.utils.PNRUtils;
+import com.ae.apps.pnrstatus.vo.MessageVo;
+import com.ae.apps.pnrstatus.vo.PNRStatusVo;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-
-import com.ae.apps.pnrstatus.utils.PNRUtils;
-import com.ae.apps.pnrstatus.vo.MessageVo;
-import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 
 /**
  * Manages the messages that are valid PNR Messages
@@ -49,14 +49,13 @@ public class PNRMessagesManager {
 	 * @param messagesList
 	 */
 	public PNRMessagesManager(List<MessageVo> messagesList) {
-		list = new ArrayList<PNRStatusVo>();
+		list = new ArrayList<>();
 		initList(messagesList);
 	}
 
 	private void initList(List<MessageVo> messagesList) {
 		if (messagesList != null) {
 
-			// MessageVo messageVo = null;
 			PNRStatusVo pnrStatusVo = null;
 			for (MessageVo messageVo : messagesList) {
 				pnrStatusVo = PNRUtils.parsePNRStatus(messageVo);
@@ -74,7 +73,7 @@ public class PNRMessagesManager {
 	 * @return
 	 */
 	public List<PNRStatusVo> getMessagesList(boolean hidePastMessages) {
-		if (hidePastMessages == false) {
+		if (!hidePastMessages) {
 			return list;
 		} else {
 			// Filter the list and return only future ticket dates

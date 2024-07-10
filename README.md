@@ -1,11 +1,10 @@
 _*This project is not in active development or support*_
 
-<img alt="pnr status app" src="https://github.com/midhunhk/pnr-status-app/blob/notan/resources/v4/promotional/fg-notan-02.png"/> 
+<img alt="pnr status app" src="https://raw.githubusercontent.com/midhunhk/pnr-status-app/master/resources/v4/promotional/fg-notan-02.png"/> 
 
-[![Travis-CI](https://img.shields.io/travis/midhunhk/pnr-status-app/master.svg?label=Travis-CI)](https://travis-ci.org/midhunhk/pnr-status-app) 
 [![CircleCI](https://img.shields.io/circleci/project/github/midhunhk/pnr-status-app/master.svg?label=CircleCI)](https://circleci.com/gh/midhunhk/pnr-status-app/tree/master) 
 [![Release](https://img.shields.io/github/release/midhunhk/pnr-status-app.svg)](https://github.com/midhunhk/pnr-status-app/releases) 
-[![GitHub commits](https://img.shields.io/github/commits-since/midhunhk/pnr-status-app/v3.2.5.svg)](https://github.com/midhunhk/pnr-status-app) 
+[![GitHub commits](https://img.shields.io/github/commits-since/midhunhk/pnr-status-app/v4.1.0.svg)](https://github.com/midhunhk/pnr-status-app) 
 [![Issues](https://img.shields.io/github/issues/midhunhk/pnr-status-app.svg)](https://github.com/midhunhk/pnr-status-app/issues) 
 
 [Project Wiki](https://github.com/midhunhk/pnr-status-app/wiki) | 
@@ -44,7 +43,7 @@ Opt-in to the Beta channel by visiting the link: https://play.google.com/apps/te
 `
 MIT License
 
-Copyright (c) 2019 Midhun Harikumar
+Copyright (c) 2024 Midhun Harikumar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -66,4 +65,4 @@ SOFTWARE.
 `
 
 ### References
-First version created as Flex desktop app [PNRStatusApp-Flex](https://github.com/midhunhk/pnr-status-app-flex)
+First versions created as Flex desktop app [PNRStatusApp-Flex](https://github.com/midhunhk/pnr-status-app-flex)

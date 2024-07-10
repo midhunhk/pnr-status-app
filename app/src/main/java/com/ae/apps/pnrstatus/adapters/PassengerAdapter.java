@@ -45,7 +45,7 @@ public class PassengerAdapter extends BaseAdapter {
 
 	/**
 	 * Creates an instance of PassengerAdapter
-	 * 
+	 *
 	 * @param context the context
 	 * @param list list of passenger data
 	 */

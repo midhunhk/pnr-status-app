@@ -21,41 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.ae.apps.pnrstatus.exceptions
 
-package com.ae.apps.pnrstatus.service.status;
-
-import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
-import com.ae.apps.pnrstatus.exceptions.StatusException;
-import com.ae.apps.pnrstatus.service.IStatusService;
-import com.ae.apps.pnrstatus.service.StatusServiceFactory;
-import com.ae.apps.pnrstatus.vo.PNRStatusVo;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-public class TrainPnrStatusServiceTest {
-
-    private static final String PNR_NUMBER = "1234567890";
-
-    private IStatusService service;
-
-    @Before
-    public void setUp() throws InvalidServiceException {
-        service = StatusServiceFactory.getService(StatusServiceFactory.TRAIN_PNR_STATUS_SERVICE);
+/**
+ * Denotes an exception that occured while checking for status
+ *
+ * @author midhun_harikumar
+ */
+class StatusException : Exception {
+    enum class ErrorCodes {
+        PARSE_ERROR, NETWORK_ERROR, EMPTY_RESPONSE, URL_ERROR
     }
 
-    @Test
-    public void testCorrectServiceCreated(){
-        assertNotNull(service);
-        TrainPnrStatusService trainPnrStatusService = (TrainPnrStatusService) service;
-        assertNotNull(trainPnrStatusService);
+    var errorCode: ErrorCodes? = null
+        private set
+
+    constructor() : super()
+
+    constructor(detailMessage: String?, throwable: Throwable?) : super(detailMessage, throwable)
+
+    constructor(detailMessage: String?) : super(detailMessage)
+
+    constructor(message: String?, code: ErrorCodes?) : super(message) {
+        errorCode = code
     }
 
-    @org.junit.Test
-    public void testGetResponse() throws StatusException {
-        PNRStatusVo statusVo = service.getResponse(PNR_NUMBER, true);
-        assertNotNull(statusVo);
+    constructor(throwable: Throwable?, code: ErrorCodes?) : super(throwable) {
+        errorCode = code
+    }
+
+    constructor(message: String?, throwable: Throwable?, code: ErrorCodes?) : super(
+        message,
+        throwable
+    ) {
+        errorCode = code
+    }
+
+    companion object {
+        private const val serialVersionUID = 4678860372933762653L
     }
 }

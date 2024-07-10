@@ -51,25 +51,15 @@ public class AboutFragment extends Fragment {
         final Context context = getActivity();
 
         View license = layout.findViewById(R.id.viewLicense);
-        license.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                DialogUtils.showLicenseDialog(context);
-            }
-        });
+        license.setOnClickListener(arg0 -> DialogUtils.showLicenseDialog(context));
 
         // View the application's source
         View viewSource = layout.findViewById(R.id.viewSourceCode);
-        viewSource.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String url = getString(R.string.github_source_visible_url);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
-            }
+        viewSource.setOnClickListener(v -> {
+            String url = getString(R.string.github_source_visible_url);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         });
 
         return layout;

@@ -65,7 +65,7 @@ public class DataManager {
 	 * Reads the data from the database
 	 */
 	private void readData() {
-		dataList = new ArrayList<PNRStatusVo>();
+		dataList = new ArrayList<>();
 
 		mDbHelper = new DataHelper(activity.getApplicationContext());
 		mDbHelper.open();
@@ -106,7 +106,8 @@ public class DataManager {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
 			String pnrNumber = pnrStatusVo.pnrNumber;
 			String pnrNumber2 = statusVo.pnrNumber;
-			if (pnrNumber.equals(pnrNumber2)) {
+            assert pnrNumber != null;
+            if (pnrNumber.equals(pnrNumber2)) {
 				// Delete from the database
 				mDbHelper.deletePnrNumber(pnrStatusVo.rowId);
 				dataList.remove(i);
@@ -157,7 +158,8 @@ public class DataManager {
 			PNRStatusVo pnrStatusVo = dataList.get(i);
 			String pnrNumber = pnrStatusVo.pnrNumber;
 			String pnrNumber2 = statusVo.pnrNumber;
-			if (pnrNumber.equals(pnrNumber2)) {
+            assert pnrNumber != null;
+            if (pnrNumber.equals(pnrNumber2)) {
 				dataList.set(i, statusVo);
 				isUpdated = true;
 				// Notifiy the adapter

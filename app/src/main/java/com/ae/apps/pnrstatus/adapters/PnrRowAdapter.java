@@ -53,9 +53,9 @@ import java.util.List;
 
 /**
  * Adapter for displaying PNR Rows
- * 
+ *
  * @author midhun_harikumar
- * 
+ *
  */
 public class PnrRowAdapter extends BaseAdapter {
 
