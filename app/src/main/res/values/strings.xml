@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">PNRStatusApp</string>
-    <string name="app_version">Version 4.2.0 - Paladin (July 2024)</string>
+    <string name="app_version">Version 4.2.1 - Paladin (July 2024)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 
     <string name="title_section3">About</string>
@@ -20,7 +20,9 @@
     <string name="pnr_number_length">10</string>
 
 	<string name="app_disclaimer">DISCLAIMER: No portion of PNRStatus data retrieved is persisted by this app.
-\nThis app relies on availability of third party services which are not guaranteed
+\nThis app relies on availability of third party services which are not guaranteed.
+\nNot an official or endorsed app by Indian Rail.
+\nPlease visit the website for official information: https://www.indianrail.gov.in
 	</string>
     <string name="app_developer_info">Designed &amp; developed at ae app labs</string>
     <string name="app_tip">TIP: Tap on a PNR Number to copy it to the clipboard</string>
