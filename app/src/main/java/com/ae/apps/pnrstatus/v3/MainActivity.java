@@ -37,11 +37,12 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.ae.apps.pnrstatus.R;
-import com.ae.apps.pnrstatus.adapters.SectionsPagerAdapter;
+import com.ae.apps.pnrstatus.adapters.SectionStateAdapter;
 import com.ae.apps.pnrstatus.exceptions.InvalidServiceException;
 import com.ae.apps.pnrstatus.exceptions.StatusException;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
@@ -82,11 +83,29 @@ public class MainActivity extends AppCompatActivity
 
         mDataManager = new DataManager(this);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager2 pager = findViewById(R.id.pager);
+        // SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
 
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getBaseContext(), getSupportFragmentManager());
-        new TabLayoutMediator(tabLayout, pager, (tab, pos) -> tab.setText("Hello"));
+        // https://developer.android.com/guide/navigation/navigation-swipe-view-2
+        SectionStateAdapter sectionStateAdapter = new SectionStateAdapter(this);
+        ViewPager2 pager = findViewById(R.id.pager);
+        pager.setAdapter(sectionStateAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        TabLayoutMediator.TabConfigurationStrategy tabConfigurationStrategy = new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                if (position == 0) {
+                    tab.setText(R.string.title_section2);
+                } else {
+                    tab.setText(R.string.title_section3);
+                }
+            }
+        };
+
+        new TabLayoutMediator(
+                tabLayout, pager,
+                tabConfigurationStrategy
+        ).attach();
 
         initAds();
 
@@ -132,62 +151,46 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 // Do network operation in a new thread
-                new Thread(new Runnable() {
+                new Thread(() -> {
+                    Logger.d(AppConstants.TAG, "Check the status in a new thread");
+                    IStatusService service;
+                    try {
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-                    @Override
-                    public void run() {
-                        Logger.d(AppConstants.TAG, "Check the status in a new thread");
-                        IStatusService service;
-                        try {
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        String serviceTypePref = getServiceTypePref(preferences);
 
-                            String serviceTypePref = getServiceTypePref(preferences);
+                        // Get an instance of the service object using the factory
+                        service = StatusServiceFactory.INSTANCE.getService(Integer.parseInt(serviceTypePref));
+                        Logger.i(AppConstants.TAG, "Using service " + service.getServiceName());
 
-                            // Get an instance of the service object using the factory
-                            service = StatusServiceFactory.INSTANCE.getService(Integer.parseInt(serviceTypePref));
-                            Logger.i(AppConstants.TAG, "Using service " + service.getServiceName());
+                        boolean useStub = preferences.getBoolean(AppConstants.PREF_KEY_DEV_STUB, false);
+                        final PNRStatusVo result = service.getResponse(pnrStatusVo.pnrNumber, useStub);
 
-                            boolean useStub = preferences.getBoolean(AppConstants.PREF_KEY_DEV_STUB, false);
-                            final PNRStatusVo result = service.getResponse(pnrStatusVo.pnrNumber, useStub);
-
-                            // Update the UI from the main thread using the handler
-                            mHandler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    Log.d(AppConstants.TAG, "About to update the ui");
-                                    mDataManager.update(result);
-                                }
-                            });
-                        } catch (StatusException e) {
-                            final String exceptionMessage = e.getMessage();
-                            mHandler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    // Show a toast with the reason for the Status Exception
-                                    String message = getResources().getString(R.string.str_error_parse_error);
-                                    if (AppConstants.IS_DEV_MODE) {
-                                        message = message + " " + exceptionMessage;
-                                    }
-                                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } catch (InvalidServiceException e) {
-                            // This shouldn't occur ideally
-                            Logger.e(AppConstants.TAG, e.getMessage());
-                        } finally {
-                            // Stop the ProgressBar on the main thread using the handler
-                            mHandler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    if (progressBar != null) {
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                    }
-                                }
-                            });
-                        }
+                        // Update the UI from the main thread using the handler
+                        mHandler.post(() -> {
+                            Log.d(AppConstants.TAG, "About to update the ui");
+                            mDataManager.update(result);
+                        });
+                    } catch (StatusException e) {
+                        final String exceptionMessage = e.getMessage();
+                        mHandler.post(() -> {
+                            // Show a toast with the reason for the Status Exception
+                            String message = getResources().getString(R.string.str_error_parse_error);
+                            if (AppConstants.IS_DEV_MODE) {
+                                message = message + " " + exceptionMessage;
+                            }
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+                        });
+                    } catch (InvalidServiceException e) {
+                        // This shouldn't occur ideally
+                        Logger.e(AppConstants.TAG, e.getMessage());
+                    } finally {
+                        // Stop the ProgressBar on the main thread using the handler
+                        mHandler.post(() -> {
+                            if (progressBar != null) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
                     }
                 }).start();
             } catch (Exception e) {

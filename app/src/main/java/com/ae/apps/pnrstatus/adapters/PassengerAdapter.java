@@ -94,7 +94,7 @@ public class PassengerAdapter extends BaseAdapter {
 		if (null != dataVo) {
 			// Show the strings with the help of localization
 			Resources resources = context.getResources();
-			holder.txtLine1.setText(resources.getString(R.string.str_passengner_name, dataVo.getPassenger()));
+			holder.txtLine1.setText(resources.getString(R.string.str_passenger_name, dataVo.getPassenger()));
 			holder.txtLine2.setText(resources.getString(R.string.str_booking_status, dataVo.getBookingBerth()));
 			holder.txtLine3.setText(resources.getString(R.string.str_current_status, dataVo.getCurrentStatus()));
 			holder.txtLine4.setText(resources.getString(R.string.str_berth_position, dataVo.getBerthPosition()));

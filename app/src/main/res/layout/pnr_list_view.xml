@@ -38,6 +38,7 @@
             android:layout_gravity="bottom"
             android:layout_margin="2dip"
             android:layout_weight="1"
+            android:autofillHints=""
             android:gravity="center"
             android:hint="@string/add_pnr_hint"
             android:imeOptions="actionNext|flagNoEnterAction"
@@ -46,7 +47,7 @@
             android:textColor="@color/white">
         </EditText>
 
-        <android.support.v7.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/add_pnr_btn"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"

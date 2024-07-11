@@ -62,6 +62,14 @@ public class AboutFragment extends Fragment {
             startActivity(intent);
         });
 
+        View privacyPolicy = layout.findViewById(R.id.viewPrivacyPolicy);
+        privacyPolicy.setOnClickListener(v -> {
+            String url = getString(R.string.privacy_policy_url);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        });
+
         return layout;
     }
 }
