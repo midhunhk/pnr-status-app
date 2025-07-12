@@ -88,18 +88,16 @@ public class DataManager {
 
 	/**
 	 * Returns the list of data
-	 * 
-	 * @return
-	 */
+	 *
+     */
 	public ArrayList<PNRStatusVo> getDataList() {
 		return dataList;
 	}
 
 	/**
-	 * Removes a pnrVo from the list and notfies the adapter
-	 * 
-	 * @param statusVo
-	 */
+	 * Removes a pnrVo from the list and notifies the adapter
+	 *
+     */
 	public boolean remove(PNRStatusVo statusVo) {
 		boolean removed = false;
 		for (int i = 0; i < dataList.size(); i++) {
@@ -125,9 +123,8 @@ public class DataManager {
 
 	/**
 	 * Adds a pnrVo to the list and notifies the adapter
-	 * 
-	 * @param statusVo
-	 */
+	 *
+     */
 	public boolean add(PNRStatusVo statusVo) {
 		// Add a new PNR Number, note that we are not checking for duplicates
 		long result = mDbHelper.addPnrNumber(statusVo.pnrNumber);
@@ -149,9 +146,8 @@ public class DataManager {
 
 	/**
 	 * Updates the statusVo in the list
-	 * 
-	 * @param statusVo
-	 */
+	 *
+     */
 	public boolean update(PNRStatusVo statusVo) {
 		boolean isUpdated = false;
 		for (int i = 0; i < dataList.size(); i++) {
@@ -162,7 +158,7 @@ public class DataManager {
             if (pnrNumber.equals(pnrNumber2)) {
 				dataList.set(i, statusVo);
 				isUpdated = true;
-				// Notifiy the adapter
+				// Notify the adapter
 				if (adapter != null) {
 					adapter.notifyDataSetChanged();
 				}
