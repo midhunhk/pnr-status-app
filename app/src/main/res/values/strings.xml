@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">PNRStatusApp</string>
-    <string name="app_version">Version 4.2.1 - Paladin (July 2024)</string>
+    <string name="app_version">Version 4.3.0 - Quantum (July 2025)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 
     <string name="title_section3">About</string>
@@ -13,7 +13,7 @@
 
     <!-- No need to translate these -->
     <string name="empty_text"></string>
-    <string name="line1">line1</string>
+    <string name="line1" tools:ignore="Typos">line1</string>
     <string name="line2">line2</string>
     <string name="line3">line3</string>
     <string name="line4">line4</string>
@@ -41,7 +41,7 @@
     <string name="passenger_info_title">PASSENGER DETAILS</string>
 
     <!-- Localization Strings -->
-    <string name="str_passengner_name">Passenger : %s</string>
+    <string name="str_passenger_name">Passenger : %s</string>
     <string name="str_invalid_pnr_message">Sorry, %s doesn\'t look like a valid PNR Number</string>
     <string name="str_train_name_no">Train : %1$s ( %2$s )</string>
     <string name="str_journey_date">Journey Date : %s</string>

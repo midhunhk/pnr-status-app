@@ -135,7 +135,7 @@ public class PNRStatusService implements IStatusService {
             }
             // Get the first passenger status
             String firstPassengerStatus = null;
-            if (passengers.size() > 0) {
+            if (!passengers.isEmpty()) {
                 PassengerDataVo dataVo = (passengers.get(0));
                 statusVo.setFirstPassengerData(dataVo);
                 firstPassengerStatus = dataVo.getCurrentStatus();
@@ -178,22 +178,21 @@ public class PNRStatusService implements IStatusService {
         json.append('}');
 
         // Create a JSONObject from the converted text
-        JSONTokener tokener = new JSONTokener(json.toString());
-        JSONObject object = (JSONObject) tokener.nextValue();
-        return object;
+        JSONTokener tokenizer = new JSONTokener(json.toString());
+        return (JSONObject) tokenizer.nextValue();
     }
 
     @Override
     public PNRStatusVo getResponse(String pnrNumber, Boolean stubResponse) throws StatusException {
         PNRStatusVo statusVo;
-        if (stubResponse) {
+        if (Boolean.TRUE.equals(stubResponse)) {
             // Return from the stub response
             statusVo = parseResponse(getStubResponse());
         } else {
             // Get the response from the server
             statusVo = getResponse(pnrNumber);
         }
-        // Set the pnrnumber to the vo so that the ui can update the correct one in the list
+        // Set the pnr number to the vo so that the ui can update the correct one in the list
         if (statusVo != null) {
             statusVo.pnrNumber = pnrNumber;
         }
@@ -201,16 +200,26 @@ public class PNRStatusService implements IStatusService {
     }
 
     private static String getStubResponse() {
-        return "{'Journey':[['Train Number','16670'],['Train Name','YERCAUD EXP'],['Boarding Date','23-03-2014'],"
-                + "['From','SGE'],['To','MAS'],['Reserved Upto','MAS'],['Boarding Point','SGE'],['Class','SL']],"
-                + "'Status':[['S. No.','Booking Status(Coach No , Berth No., Quota)','Current Status (Coach No , Berth No.)'],"
-                + "['Passenger 1','S13 , 66,GN','CNF'],['Passenger 2','S13 , 69,GN','CNF']],'Legend':"
-                + "{'CAN / MOD':'Cancelled or Modified Passenger','CNF / Confirmed':"
-                + "'Confirmed (Coach/Berth number will be available after chart preparation)',"
-                + "'RAC':'Reservation Against Cancellation','WL #':'Waiting List Number',"
-                + "'RLWL':'Remote Location Wait List','GNWL':'General Wait List','PQWL':'Pooled Quota Wait List',"
-                + "'REGRET/WL':'No More Booking Permitted','RELEASED':'Ticket Not Cancelled but Alternative Accommodation Provided'"
-                + ",'R# #':'RAC Coach Number Berth Number'},'Charting':'CHART NOT PREPARED'}";
+        return "{"
+                + "\"Journey\":[[\"Train Number\",\"16670\"],[\"Train Name\",\"YERCAUD EXP\"],[\"Boarding Date\",\"23-03-2014\"],"
+                + "[\"From\",\"SGE\"],[\"To\",\"MAS\"],[\"Reserved Upto\",\"MAS\"],[\"Boarding Point\",\"SGE\"],[\"Class\",\"SL\"]],"
+                + "\"Status\":[[\"S. No.\",\"Booking Status(Coach No , Berth No., Quota)\",\"Current Status (Coach No , Berth No.)\"],"
+                + "[\"Passenger 1\",\"S13 , 66,GN\",\"CNF\"],[\"Passenger 2\",\"S13 , 69,GN\",\"CNF\"]],"
+                + "\"Legend\":{"
+                + "\"CAN / MOD\":\"Cancelled or Modified Passenger\","
+                + "\"CNF / Confirmed\":\"Confirmed (Coach/Berth number will be available after chart preparation)\","
+                + "\"RAC\":\"Reservation Against Cancellation\","
+                + "\"WL #\":\"Waiting List Number\","
+                + "\"RLWL\":\"Remote Location Wait List\","
+                + "\"GNWL\":\"General Wait List\","
+                + "\"PQWL\":\"Pooled Quota Wait List\","
+                + "\"REGRET/WL\":\"No More Booking Permitted\","
+                + "\"RELEASED\":\"Ticket Not Cancelled but Alternative Accommodation Provided\","
+                + "\"R# #\":\"RAC Coach Number Berth Number\""
+                + "},"
+                + "\"Charting\":\"CHART NOT PREPARED\""
+                + "}";
     }
+
 
 }

@@ -153,10 +153,8 @@ public class DataHelper {
 		Cursor mCursor = mDatabase.query(true, TABLE_PNR, new String[] { KEY_ID, KEY_DATA1, KEY_DATA2 }, KEY_ID + "="
 				+ rowId, null, null, null, null, null);
 
-		if (mCursor != null) {
-			mCursor.moveToFirst();
-		}
-		return mCursor;
+        mCursor.moveToFirst();
+        return mCursor;
 
 	}
 

@@ -49,9 +49,7 @@ interface IStatusService {
      * @param pnrNumber
      * @param stubResponse
      * @return
-     * @throws JSONException
      * @throws StatusException
-     * @throws IOException
      */
     @Throws(StatusException::class)
     fun getResponse(pnrNumber: String?, stubResponse: Boolean?): PNRStatusVo?
