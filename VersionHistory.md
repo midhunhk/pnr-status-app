@@ -1,5 +1,12 @@
+## Version 4.3 (Quantum)
+PNRStatusApp 4.3.0 [July 2025]
+- [CHANGED]    Update target API and dependencies
+
 ## Version 4.2 (Paladin)
 
+PNRStatusApp 4.2.1 [July 2024]
+- [CHANGED]    Update target API and dependencies
+  
 PNRStatusApp 4.2.0 [July 2024]
 - [CHANGED]    Update target API and dependencies
 
