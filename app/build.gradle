@@ -12,21 +12,30 @@ android {
         minSdk 24
         targetSdk 36
 
-        versionCode 215
-        versionName "4.3.0"
+        versionCode 217
+        versionName "4.3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources true
+        }
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
 }
 
@@ -36,15 +45,20 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.8.8'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation "androidx.viewpager2:viewpager2:1.1.0"
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.android.gms:play-services-ads:24.4.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
 
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
 
-    testImplementation 'junit:junit:4.13.2'
+    // JUnit 5 Jupiter API and Engine for unit tests
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
     testImplementation 'org.mockito:mockito-core:5.12.0'
     testImplementation 'org.robolectric:robolectric:4.13'
-
+    testImplementation 'androidx.test:core-ktx:1.6.1'
+    testImplementation 'androidx.test.ext:junit-ktx:1.2.1'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }

@@ -24,64 +24,48 @@
 
 package com.ae.apps.pnrstatus.adapters;
 
-import android.content.Context;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
 
 import com.ae.apps.pnrstatus.R;
 import com.ae.apps.pnrstatus.fragments.AboutFragment;
 import com.ae.apps.pnrstatus.fragments.PnrStatusFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * A FragmentPagerAdapter that returns a fragment corresponding to one of the primary sections of the app.
  */
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends androidx.viewpager2.adapter.FragmentStateAdapter {
 
-	private final Context	context;
-	// Removing MessagesFragment
-	// private final Fragment	mMessagesFragment;
-	private final Fragment	mPnrStatusFragment;
-	private final Fragment	mAboutFragment;
+	private final List<Fragment> fragments = new ArrayList<>();
+	private final List<String> fragmentTitles = new ArrayList<>();
 
-	public SectionsPagerAdapter(Context context, FragmentManager fm) {
-		super(fm);
-		this.context = context;
-		mPnrStatusFragment = new PnrStatusFragment();
-		mAboutFragment = new AboutFragment();
+	public SectionsPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+		super(fragmentActivity);
+
+		fragments.add(new PnrStatusFragment());
+		fragmentTitles.add(fragmentActivity.getString(R.string.title_section2).toUpperCase(Locale.getDefault()));
+
+		fragments.add(new AboutFragment());
+		fragmentTitles.add(fragmentActivity.getString(R.string.title_section3).toUpperCase(Locale.getDefault()));
 	}
 
+	@NonNull
 	@Override
-	public Fragment getItem(int i) {
-		Fragment fragment;
-		if (i == 0) {
-			fragment = mPnrStatusFragment;
-		} else if (i == 1) {
-			fragment = mAboutFragment;
-		} else {
-			fragment = mAboutFragment;
-		}
-		return fragment;
+	public Fragment createFragment(int position) {
+		return fragments.get(position);
 	}
 
-	@Override
-	public int getCount() {
-		return 2;
-	}
-
-	@Override
 	public CharSequence getPageTitle(int position) {
-		switch (position) {
-		case 0:
-			return context.getString(R.string.title_section2).toUpperCase(Locale.getDefault());
-		case 1:
-			return context.getString(R.string.title_section3).toUpperCase(Locale.getDefault());
-
-		}
-		return null;
+		return fragmentTitles.get(position);
 	}
 
+	@Override
+	public int getItemCount() {
+		return fragments.size();
+	}
 }

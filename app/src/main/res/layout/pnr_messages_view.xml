@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top" >
+    android:gravity="top">
 
     <LinearLayout
         android:id="@+id/listViewHolder"
@@ -21,16 +22,16 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="5dip"
-        android:visibility="invisible" >
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dip"
-            android:drawableBottom="@drawable/message_icon"
             android:drawablePadding="8dip"
-            android:text="@string/empty_messages" />
+            android:text="@string/empty_messages"
+            app:drawableBottomCompat="@drawable/message_icon" />
         
     </LinearLayout>
 
@@ -55,31 +56,31 @@
             android:id="@+id/detailsPassengerName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/detailsTravelDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/detailsCurrentStatus"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/detailsBerthType"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/detailsTrain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:gravity="start" />
     </LinearLayout>
 
 </RelativeLayout>
