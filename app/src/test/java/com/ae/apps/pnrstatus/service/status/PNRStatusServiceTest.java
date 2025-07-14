@@ -11,8 +11,8 @@ import com.ae.apps.pnrstatus.vo.PNRStatusVo;
 import com.ae.apps.pnrstatus.vo.PassengerDataVo;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -40,7 +40,7 @@ public class PNRStatusServiceTest {
             "'Legend':{}" + // Simplified legend for this test
             "}";
 
-    @Before
+    @BeforeEach
     public void setUp() {
         pnrStatusService = new PNRStatusService();
         // We need to mock the static getInstance() method of NetworkService
@@ -48,12 +48,12 @@ public class PNRStatusServiceTest {
         mockNetworkService = mock(NetworkService.class);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void getServiceName_shouldReturnCorrectName() {
         Assert.assertEquals("PNRStatus", pnrStatusService.getServiceName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void getResponse_successfulFetchAndParse_shouldReturnPopulatedVo() throws Exception {
         // Arrange
         String pnr = "1234567890";

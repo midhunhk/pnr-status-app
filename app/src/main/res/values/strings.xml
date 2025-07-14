@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">PNRStatusApp</string>
-    <string name="app_version">Version 4.3.0 - Quantum (July 2025)</string>
+    <string name="app_version">Version 4.3.2 - Quantum (July 2025)</string>
     <string name="app_desc">You can use this free app to check the status of a valid train PNR Number in India</string>
 
     <string name="title_section3">About</string>

@@ -62,15 +62,12 @@ public class PnrStatusFragment extends Fragment {
 	private static final String		TAG	= "PnrStatusFragment";
 
 	private Context					context;
-	private PnrRowAdapter			mCustomAdapter;
-	private FragmentActivity		activity;
-	private OnCheckStatusListener	mCallback;
-	private AbsListView				listView;
-	private ProgressBar				progressBar;
+    private OnCheckStatusListener	mCallback;
+    private ProgressBar				progressBar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		activity = super.getActivity();
+        FragmentActivity activity = super.getActivity();
 		View layout = inflater.inflate(R.layout.pnr_list_view, null);
 		context = activity.getApplicationContext();
 		initActivity(layout);
@@ -94,10 +91,10 @@ public class PnrStatusFragment extends Fragment {
 		try {
 			// Get the data list from the db and set the data adapter
 			List<PNRStatusVo> pnrList = mCallback.getListData();
-			mCustomAdapter = new PnrRowAdapter(context, this, pnrList);
+            PnrRowAdapter mCustomAdapter = new PnrRowAdapter(context, this, pnrList);
 
 			// set the adapter for the list and the data manager. setAdapter for AbsListView was introduced in API 11
-			listView = (AbsListView) layout.findViewById(R.id.pnrListView);
+            AbsListView listView = (AbsListView) layout.findViewById(R.id.pnrListView);
 			if (listView instanceof ListView) {
 				((ListView) listView).setAdapter(mCustomAdapter);
 			} else {
@@ -157,43 +154,31 @@ public class PnrStatusFragment extends Fragment {
 	public interface OnCheckStatusListener {
 		/**
 		 * Returns a list of PNRStatusVos
-		 * 
-		 * @return
 		 */
 		List<PNRStatusVo> getListData();
 
 		/**
 		 * Adds a PNRNumber to the list, and notify the adapter if needed
-		 * 
-		 * @param pnrStatusVo
 		 */
 		void addPnr(PNRStatusVo pnrStatusVo);
 
 		/**
 		 * Removes a PNRNumber from the list
-		 * 
-		 * @param pnrStatusVo
 		 */
 		void removePnr(PNRStatusVo pnrStatusVo);
 
 		/**
 		 * Checks the status of a PNR Number
-		 * 
-		 * @param pnrStatusVo
 		 */
 		void checkStatus(PNRStatusVo pnrStatusVo, ProgressBar progressBar);
 
 		/**
 		 * Set an adapter to the list
-		 * 
-		 * @param adapter
 		 */
 		void setPNRStatusAdapter(BaseAdapter adapter);
 
 		/**
-		 * Show the PNRStatus information indetail
-		 * 
-		 * @param pnrStatusVo
+		 * Show the PNRStatus information in detail
 		 */
 		void showPNRStatusInfo(PNRStatusVo pnrStatusVo);
 	}

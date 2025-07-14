@@ -12,15 +12,15 @@ android {
         minSdk 24
         targetSdk 36
 
-        versionCode 216
-        versionName "4.3.1"
+        versionCode 217
+        versionName "4.3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,9 +36,10 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.8.8'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation "androidx.viewpager2:viewpager2:1.1.0"
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.android.gms:play-services-ads:24.4.0'
-
+    implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
 
     testImplementation 'junit:junit:4.13.2'

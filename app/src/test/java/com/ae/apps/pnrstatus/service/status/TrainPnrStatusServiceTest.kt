@@ -29,26 +29,26 @@ import com.ae.apps.pnrstatus.service.IStatusService
 import com.ae.apps.pnrstatus.service.StatusServiceFactory
 import com.ae.apps.pnrstatus.service.StatusServiceFactory.getService
 import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class TrainPnrStatusServiceTest {
     private var service: IStatusService? = null
 
-    @Before
+    @BeforeEach
     @Throws(InvalidServiceException::class)
     fun setUp() {
         service = getService(StatusServiceFactory.TRAIN_PNR_STATUS_SERVICE)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun testCorrectServiceCreated() {
         Assert.assertNotNull(service)
         val trainPnrStatusService = service as TrainPnrStatusService?
         Assert.assertNotNull(trainPnrStatusService)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     @Throws(StatusException::class)
     fun testGetResponse() {
         val statusVo = service!!.getResponse(PNR_NUMBER, true)
